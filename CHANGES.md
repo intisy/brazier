@@ -35,7 +35,7 @@ Brazier publishes can collide with, or be mistaken for, TeaVM.
 | plugin id `org.teavm` | `io.github.intisy.brazier` |
 | plugin id `org.teavm.library` | `io.github.intisy.brazier.library` |
 | property `teavm.project.version` | `brazier.project.version` |
-| version `0.15.0-SNAPSHOT` | `1.0.0-SNAPSHOT` |
+| version `0.15.0-SNAPSHOT` | Brazier's own line, `0.1.0` released |
 
 Brazier versions on its own line rather than tracking TeaVM's, because it is its own project. Which
 upstream release it derives from is recorded by the `upstream-0.15.0` tag and by this file, not by
