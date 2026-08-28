@@ -17,9 +17,11 @@ jobs:
       # Upstream requires every backend flag to be passed explicitly, because a local Gradle config
       # may otherwise set them. Only the JS backend is enabled: it is the one Brazier changes, and
       # the C and Wasm GC suites cost most of the runtime.
+      # jvmargs is quoted because the shared workflow interpolates this straight into a bash command
+      # line, and unquoted it splits on the space: gradle then reads -XX as its own unknown option.
       gradle_args: >-
         -Pteavm.tests.js=true
         -Pteavm.tests.c=false
         -Pteavm.tests.wasm-gc=false
         -Pteavm.localNodeJS=true
-        -Dorg.gradle.jvmargs=-Xmx2g -XX:MaxMetaspaceSize=512m
+        -Dorg.gradle.jvmargs="-Xmx2g -XX:MaxMetaspaceSize=512m"
