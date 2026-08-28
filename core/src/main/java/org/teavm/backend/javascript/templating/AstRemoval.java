@@ -13,11 +13,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.backend.javascript.templating;
 
 import java.util.Set;
 import org.mozilla.javascript.ast.AstNode;
 import org.mozilla.javascript.ast.ExpressionStatement;
+import org.mozilla.javascript.ast.FunctionNode;
 import org.mozilla.javascript.ast.VariableDeclaration;
 import org.teavm.backend.javascript.ast.AstVisitor;
 
@@ -26,6 +28,20 @@ public class AstRemoval extends AstVisitor {
 
     public AstRemoval(Set<AstNode> nodes) {
         this.nodes = nodes;
+    }
+
+    /**
+     * @implNote Only a top-level function DECLARATION ever reaches the removal set, because that is
+     *     all {@link RemovablePartsFinder} records under a function's own name, so a nested or
+     *     anonymous function never matches.
+     */
+    @Override
+    public void visit(FunctionNode node) {
+        if (nodes.contains(node)) {
+            replaceWith(null);
+        } else {
+            super.visit(node);
+        }
     }
 
     @Override
