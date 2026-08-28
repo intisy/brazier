@@ -33,11 +33,11 @@ Brazier changes.
 
 The library plugin is `io.github.intisy.brazier.library`.
 
-## Where the artifacts come from
+## Usage
 
-Brazier serves itself as a static Maven repository, because a Gradle plugin marker has to be
-resolvable through `pluginManagement` and no release-asset resolver can do that. Add it in
-`settings.gradle.kts`:
+Brazier is not on the Gradle Plugin Portal. It serves itself as a static Maven repository, because a
+plugin marker has to be resolvable through `pluginManagement` and no release-asset resolver can do
+that. Declare the repository in `settings.gradle.kts`:
 
 ```kotlin
 pluginManagement {
@@ -55,8 +55,24 @@ dependencyResolutionManagement {
 }
 ```
 
-Only tagged releases are published there. For local work, `./gradlew publishToMavenLocal` and
-`mavenLocal()` is the shorter route.
+Then apply it:
+
+```kotlin
+plugins {
+    java
+    id("io.github.intisy.brazier") version "0.1.0"
+}
+
+teavm.js {
+    mainClass = "demo.Main"
+    targetFileName = "demo.js"
+}
+```
+
+`./gradlew generateJavaScript` writes the bundle to `build/generated/teavm/js`.
+
+Only tagged releases are published to that repository. For local work on Brazier itself,
+`./gradlew publishToMavenLocal` and `mavenLocal()` is the shorter route.
 
 ## Building
 
