@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.gradle.api;
 
 import groovy.lang.Closure;
@@ -35,6 +36,8 @@ public interface TeaVMJSConfiguration extends TeaVMWebConfiguration {
     Property<SourceFilePolicy> getSourceFilePolicy();
 
     Property<Integer> getMaxTopLevelNames();
+
+    Property<Boolean> getDeterministicNames();
 
     @Nested
     TeaVMJSDevServerConfiguration getDevServer();

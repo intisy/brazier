@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.tooling;
 
 import java.io.BufferedOutputStream;
@@ -84,6 +85,7 @@ public class TeaVMTool {
     private JSModuleType jsModuleType = JSModuleType.UMD;
     private boolean strict;
     private int maxTopLevelNames = 80_000;
+    private boolean deterministicNames;
     private String mainClass;
     private String entryPointName = "main";
     private Properties properties = new Properties();
@@ -140,6 +142,10 @@ public class TeaVMTool {
 
     public void setObfuscated(boolean obfuscated) {
         this.obfuscated = obfuscated;
+    }
+
+    public void setDeterministicNames(boolean deterministicNames) {
+        this.deterministicNames = deterministicNames;
     }
 
     public void setJsModuleType(JSModuleType jsModuleType) {
@@ -370,6 +376,7 @@ public class TeaVMTool {
         javaScriptTarget.setObfuscated(obfuscated);
         javaScriptTarget.setStrict(strict);
         javaScriptTarget.setMaxTopLevelNames(maxTopLevelNames);
+        javaScriptTarget.setDeterministicNames(deterministicNames);
 
         debugEmitter = debugInformationGenerated || sourceMapsFileGenerated
                 ? new DebugInformationBuilder(referenceCache) : null;

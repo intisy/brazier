@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.tooling.builder;
 
 import java.rmi.RemoteException;
@@ -152,6 +153,11 @@ public class RemoteBuildStrategy implements BuildStrategy {
     @Override
     public void setMaxTopLevelNames(int maxTopLevelNames) {
         request.maxTopLevelNames = maxTopLevelNames;
+    }
+
+    @Override
+    public void setDeterministicNames(boolean deterministicNames) {
+        request.deterministicNames = deterministicNames;
     }
 
     @Override

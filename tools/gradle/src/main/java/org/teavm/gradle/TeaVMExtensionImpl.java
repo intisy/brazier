@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.gradle;
 
 import groovy.lang.Closure;
@@ -66,6 +67,8 @@ class TeaVMExtensionImpl extends TeaVMBaseExtensionImpl implements TeaVMExtensio
         js.getStrict().convention(property("js.strict").map(Boolean::parseBoolean).orElse(false));
         js.getModuleType().convention(property("js.moduleType").map(JSModuleType::valueOf).orElse(JSModuleType.UMD));
         js.getEntryPointName().convention("main");
+        js.getDeterministicNames().convention(property("js.deterministicNames").map(Boolean::parseBoolean)
+                .orElse(false));
         js.getTargetFileName().convention(project.provider(() -> project.getName() + ".js"));
         js.getAddedToWebApp().convention(property("js.addedToWebApp").map(Boolean::parseBoolean).orElse(false));
         js.getOptimization().convention(property("js.optimization").map(OptimizationLevel::valueOf)

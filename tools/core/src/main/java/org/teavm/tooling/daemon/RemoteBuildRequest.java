@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.tooling.daemon;
 
 import java.io.Serializable;
@@ -47,6 +48,7 @@ public class RemoteBuildRequest implements Serializable {
     public boolean strict;
     public JSModuleType jsModuleType;
     public int maxTopLevelNames = 80_000;
+    public boolean deterministicNames;
     public Properties properties;
     public TeaVMOptimizationLevel optimizationLevel;
     public boolean fastDependencyAnalysis;

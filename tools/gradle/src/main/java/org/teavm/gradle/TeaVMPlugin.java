@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.gradle;
 
 import java.io.File;
@@ -148,6 +149,7 @@ public class TeaVMPlugin implements Plugin<Project> {
             task.getEntryPointName().convention(js.getEntryPointName());
             task.getSourceFilePolicy().convention(js.getSourceFilePolicy());
             task.getMaxTopLevelNames().convention(js.getMaxTopLevelNames());
+            task.getDeterministicNames().convention(js.getDeterministicNames());
 
             setupSources(task.getSourceFiles(), project);
         });
