@@ -1,5 +1,6 @@
 /*
  *  Copyright 2023 Alexey Andreev.
+ *  Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -49,5 +50,5 @@ tasks.withType<Jar>().configureEach {
 }
 
 teavmPublish {
-    artifactId = "teavm-devserver"
+    artifactId = "brazier-devserver"
 }

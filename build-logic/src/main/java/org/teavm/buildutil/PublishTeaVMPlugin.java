@@ -1,5 +1,6 @@
 /*
  *  Copyright 2023 Alexey Andreev.
+ *  Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -48,19 +49,19 @@ public abstract class PublishTeaVMPlugin implements Plugin<Project> {
                 customizePublication(target, (MavenPublication) pluginMavenPublication, extension, false);
             }
             publishing.repositories(repositories -> {
-                var url = target.getProviders().gradleProperty("teavm.publish.url");
+                var url = target.getProviders().gradleProperty("brazier.publish.url");
                 if (url.isPresent()) {
                     repositories.maven(repository -> {
-                        repository.setName("teavm");
+                        repository.setName("brazier");
                         repository.setUrl(url.get());
                         repository.getCredentials().setUsername(target.getProviders().gradleProperty(
-                                "teavm.publish.username").get());
+                                "brazier.publish.username").get());
                         repository.getCredentials().setPassword(target.getProviders().gradleProperty(
-                                "teavm.publish.password").get());
+                                "brazier.publish.password").get());
                     });
                 } else {
                     repositories.maven(repository -> {
-                        repository.setName("teavm");
+                        repository.setName("brazier");
                         repository.setUrl(target.getRootProject().getLayout().getBuildDirectory()
                                 .dir("staging-deploy"));
                     });
@@ -81,7 +82,7 @@ public abstract class PublishTeaVMPlugin implements Plugin<Project> {
 
     private void customizePublication(Project project, MavenPublication publication, ExtensionImpl extension,
             boolean includeComponent) {
-        publication.setGroupId("org.teavm");
+        publication.setGroupId("io.github.intisy.brazier");
         if (extension.getArtifactId() != null) {
             publication.setArtifactId(extension.getArtifactId());
         }

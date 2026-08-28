@@ -1,0 +1,4 @@
+kind: gradle-plugin
+description: Brazier is a Java-to-JavaScript ahead-of-time compiler derived from TeaVM, adding a shared runtime so separate bundles stop each carrying their own copy of the Java class library
+plugin_id: io.github.intisy.brazier
+maven_group: io.github.intisy.brazier

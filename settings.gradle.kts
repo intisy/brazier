@@ -1,5 +1,6 @@
 /*
  *  Copyright 2023 Alexey Andreev.
+ *  Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,7 +26,7 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-rootProject.name = "teavm"
+rootProject.name = "brazier"
 
 include("core")
 include("interop:core")
@@ -56,7 +57,7 @@ include("tools:wasm-disassembly")
 include("tests")
 include("extras-slf4j")
 
-val teavmVersion = providers.gradleProperty("teavm.project.version").get()
+val teavmVersion = providers.gradleProperty("brazier.project.version").get()
 
 gradle.allprojects {
     repositories {
@@ -118,12 +119,17 @@ fun MavenPom.setupPom(project: Project) {
             email = "konsoletyper@gmail.com"
             timezone = "Europe/Berlin"
         }
+        developer {
+            id = "intisy"
+            name = "Finn Birich"
+            email = "finn@birich.de"
+        }
     }
     scm {
-        url = "https://github.com/konsoletyper/teavm"
-        connection = "scm:git:git@github.com:konsoletyper/teavm.git"
+        url = "https://github.com/intisy/brazier"
+        connection = "scm:git:git@github.com:intisy/brazier.git"
     }
-    url = "https://teavm.org"
+    url = "https://github.com/intisy/brazier"
 }
 
 dependencyRelocation {
