@@ -1,5 +1,6 @@
 /*
  *  Copyright 2026 Alexey Andreev.
+ *  Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,5 +23,5 @@ plugins {
 description = "Annotation processor for easier registration of SPI"
 
 teavmPublish {
-    artifactId = "teavm-extension-annotation-processor"
+    artifactId = "brazier-extension-annotation-processor"
 }

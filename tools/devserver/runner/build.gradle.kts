@@ -1,5 +1,6 @@
 /*
  *  Copyright 2023 Alexey Andreev.
+ *  Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ dependencies {
 }
 
 teavmPublish {
-    artifactId = "teavm-devserver-runner"
+    artifactId = "brazier-devserver-runner"
 }
 
 val depsFile = layout.buildDirectory.file("dependencies.txt")
@@ -69,7 +70,7 @@ publishing.publications {
     create<MavenPublication>("depsList") {
         artifact(generateDependenciesList) {
             group = "org.teavm"
-            artifactId = "teavm-devserver-runner"
+            artifactId = "brazier-devserver-runner"
             classifier = "dependencies"
             extension = "txt"
         }

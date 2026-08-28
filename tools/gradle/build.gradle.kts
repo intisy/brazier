@@ -1,5 +1,6 @@
 /*
  *  Copyright 2023 Alexey Andreev.
+ *  Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,7 +22,7 @@ plugins {
     alias(libs.plugins.pluginPublish)
 }
 
-description = "TeaVM Gradle plugin"
+description = "Brazier Gradle plugin"
 
 dependencies {
     implementation(project(":core"))
@@ -31,22 +32,22 @@ dependencies {
 }
 
 gradlePlugin {
-    website = "https://teavm.org"
-    vcsUrl = "https://github.com/konsoletyper/teavm"
+    website = "https://github.com/intisy/brazier"
+    vcsUrl = "https://github.com/intisy/brazier"
     plugins {
         create("TeaVMPlugin") {
-            id = "org.teavm"
+            id = "io.github.intisy.brazier"
             implementationClass = "org.teavm.gradle.TeaVMPlugin"
-            displayName = "TeaVM application plugin"
-            description = "Installs TeaVM compilation tasks, configurations and source sets"
-            tags = listOf("teavm", "javascript", "webassembly", "compiler", "aot-compiler")
+            displayName = "Brazier application plugin"
+            description = "Installs Brazier compilation tasks, configurations and source sets"
+            tags = listOf("brazier", "teavm", "javascript", "webassembly", "compiler", "aot-compiler")
         }
         create("TeaVMLibraryPlugin") {
-            id = "org.teavm.library"
+            id = "io.github.intisy.brazier.library"
             implementationClass = "org.teavm.gradle.TeaVMLibraryPlugin"
-            displayName = "TeaVM library plugin"
-            description = "Installs TeaVM DSL for consuming TeaVM libraries and running tests in a browser"
-            tags = listOf("teavm", "javascript", "webassembly", "compiler", "aot-compiler")
+            displayName = "Brazier library plugin"
+            description = "Installs Brazier DSL for consuming Brazier libraries and running tests in a browser"
+            tags = listOf("brazier", "teavm", "javascript", "webassembly", "compiler", "aot-compiler")
         }
     }
 }
@@ -127,7 +128,7 @@ publishing {
     publications {
         create<MavenPublication>("pluginMaven") {
             groupId = "org.teavm"
-            artifactId = "teavm-gradle-plugin"
+            artifactId = "brazier-gradle-plugin"
         }
     }
 }

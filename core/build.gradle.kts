@@ -2,6 +2,7 @@ import com.github.gradle.node.npm.task.NpmTask
 
 /*
  *  Copyright 2023 Alexey Andreev.
+ *  Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -102,5 +103,5 @@ registerRuntimeTasks("Simple", "simple-wrapper", "wasm-gc-runtime", "iife", modu
 registerRuntimeTasks("Module", "module-wrapper", "wasm-gc-module-runtime", "esm", module = true)
 
 teavmPublish {
-    artifactId = "teavm-core"
+    artifactId = "brazier-core"
 }

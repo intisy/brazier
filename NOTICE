@@ -1,3 +1,28 @@
+Brazier
+Copyright 2026 Finn Birich
+
+This product is a modified derivative of TeaVM (https://teavm.org), licensed
+under the Apache License, Version 2.0.
+
+Brazier is NOT TeaVM, and is renamed so that no consumer can confuse the two:
+its Maven group, artifact names, Gradle plugin ids and project name all differ.
+Java package names are deliberately left as org.teavm.*, because renaming them
+would conflict on every file in every future merge from upstream, and a package
+name is not the mark being separated.
+
+Every file Brazier changes relative to upstream carries a modification notice,
+and CHANGES.md lists the complete set. A gate in CI fails the build if any file
+differs from upstream without being declared there, so that list cannot quietly
+fall out of date.
+
+Bugs found in Brazier are reported to Brazier. Do not report them upstream
+unless they reproduce against unmodified TeaVM.
+
+=============================================================================
+= The upstream project's NOTICE file follows, retained in full as required   =
+= by section 4 of the Apache License, Version 2.0.                           =
+=============================================================================
+
 This product includes software developed by Alexey Andreev
 (http://teavm.org).
 
