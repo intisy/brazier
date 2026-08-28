@@ -1,4 +1,6 @@
-kind: gradle-plugin
+# Deliberately `generic` rather than `gradle-plugin`. That kind renders a plugin-usage block pointing
+# at the Gradle Plugin Portal and a release-archive line, and Brazier is published to neither: it
+# serves itself as a static Maven repository, which is the whole reason it needs one. The usage in
+# CONTENT.md is the accurate version.
+kind: generic
 description: Brazier is a Java-to-JavaScript ahead-of-time compiler derived from TeaVM, adding a shared runtime so separate bundles stop each carrying their own copy of the Java class library
-plugin_id: io.github.intisy.brazier
-maven_group: io.github.intisy.brazier
