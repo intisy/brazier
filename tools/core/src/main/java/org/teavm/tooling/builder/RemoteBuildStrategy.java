@@ -18,6 +18,7 @@ package org.teavm.tooling.builder;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import org.teavm.backend.javascript.JSModuleType;
@@ -158,6 +159,16 @@ public class RemoteBuildStrategy implements BuildStrategy {
     @Override
     public void setDeterministicNames(boolean deterministicNames) {
         request.deterministicNames = deterministicNames;
+    }
+
+    @Override
+    public void setSharedRuntimeClasses(List<String> classNames) {
+        request.sharedRuntimeClasses = new ArrayList<>(classNames);
+    }
+
+    @Override
+    public void setSharedRuntimeManifestFile(String path) {
+        request.sharedRuntimeManifestFile = path;
     }
 
     @Override

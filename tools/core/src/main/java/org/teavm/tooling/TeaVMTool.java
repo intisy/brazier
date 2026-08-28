@@ -39,6 +39,7 @@ import org.teavm.backend.c.generate.ShorteningFileNameProvider;
 import org.teavm.backend.c.generate.SimpleFileNameProvider;
 import org.teavm.backend.javascript.JSModuleType;
 import org.teavm.backend.javascript.JavaScriptTarget;
+import org.teavm.backend.javascript.sharedruntime.SharedRuntimeManifest;
 import org.teavm.backend.wasm.WasmDebugInfoLevel;
 import org.teavm.backend.wasm.WasmDebugInfoLocation;
 import org.teavm.backend.wasm.WasmGCTarget;
@@ -86,6 +87,8 @@ public class TeaVMTool {
     private boolean strict;
     private int maxTopLevelNames = 80_000;
     private boolean deterministicNames;
+    private List<String> sharedRuntimeClasses = new ArrayList<>();
+    private File sharedRuntimeManifestFile;
     private String mainClass;
     private String entryPointName = "main";
     private Properties properties = new Properties();
@@ -146,6 +149,14 @@ public class TeaVMTool {
 
     public void setDeterministicNames(boolean deterministicNames) {
         this.deterministicNames = deterministicNames;
+    }
+
+    public void setSharedRuntimeClasses(List<String> sharedRuntimeClasses) {
+        this.sharedRuntimeClasses = new ArrayList<>(sharedRuntimeClasses);
+    }
+
+    public void setSharedRuntimeManifestFile(File sharedRuntimeManifestFile) {
+        this.sharedRuntimeManifestFile = sharedRuntimeManifestFile;
     }
 
     public void setJsModuleType(JSModuleType jsModuleType) {
@@ -377,6 +388,8 @@ public class TeaVMTool {
         javaScriptTarget.setStrict(strict);
         javaScriptTarget.setMaxTopLevelNames(maxTopLevelNames);
         javaScriptTarget.setDeterministicNames(deterministicNames);
+        javaScriptTarget.setSharedRuntimeClasses(sharedRuntimeClasses);
+        javaScriptTarget.checkSharedRuntimeOptimizationLevel(optimizationLevel);
 
         debugEmitter = debugInformationGenerated || sourceMapsFileGenerated
                 ? new DebugInformationBuilder(referenceCache) : null;
@@ -493,6 +506,9 @@ public class TeaVMTool {
             for (String className : classesToPreserve) {
                 vm.preserveType(className);
             }
+            for (String className : sharedRuntimeClasses) {
+                vm.preserveTypeWholly(className);
+            }
 
             if (!targetDirectory.exists() && !targetDirectory.mkdirs()) {
                 log.error("Target directory could not be created");
@@ -519,6 +535,10 @@ public class TeaVMTool {
 
             File outputFile = new File(targetDirectory, outputName);
             generatedFiles.add(outputFile);
+
+            if (sharedRuntimeManifestFile != null) {
+                writeSharedRuntimeManifest();
+            }
 
             if (targetType == TeaVMTargetType.JAVASCRIPT) {
                 try (OutputStream output = new FileOutputStream(outputFile, true);
@@ -567,6 +587,22 @@ public class TeaVMTool {
             }
         }
         return targetFileName;
+    }
+
+    private void writeSharedRuntimeManifest() throws IOException {
+        String version = TeaVMTool.class.getPackage().getImplementationVersion();
+        SharedRuntimeManifest manifest = new SharedRuntimeManifest(version != null ? version : "unknown",
+                sharedRuntimeClasses, new ArrayList<>(javaScriptTarget.getEmittedTopLevelAliases()));
+        File parent = sharedRuntimeManifestFile.getParentFile();
+        if (parent != null && !parent.exists() && !parent.mkdirs()) {
+            throw new IOException("Could not create " + parent);
+        }
+        try (OutputStream output = new FileOutputStream(sharedRuntimeManifestFile);
+                Writer writer = new OutputStreamWriter(output, StandardCharsets.UTF_8)) {
+            manifest.write(writer);
+        }
+        generatedFiles.add(sharedRuntimeManifestFile);
+        log.info("Shared runtime manifest written to " + sharedRuntimeManifestFile);
     }
 
     private void additionalJavaScriptOutput(Writer writer) throws IOException {

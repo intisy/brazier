@@ -518,7 +518,9 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
         declarations.replay(runtimeRenderer.sink, RememberedSource.FILTER_REF);
         metadata.replay(runtimeRenderer.sink, RememberedSource.FILTER_REF);
         epilogue.replay(runtimeRenderer.sink, RememberedSource.FILTER_REF);
-        runtimeRenderer.removeUnusedParts();
+        if (sharedRuntimeClasses.isEmpty()) {
+            runtimeRenderer.removeUnusedParts();
+        }
         runtimeRenderer.renderRuntime();
         var runtime = rememberingWriter.save();
         rememberingWriter.clear();
@@ -541,6 +543,16 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
         metadata.replay(frequencyEstimator, RememberedSource.FILTER_REF);
         epilogue.replay(frequencyEstimator, RememberedSource.FILTER_REF);
         frequencyEstimator.apply(naming);
+
+        // Every alias exists only once the frequency estimator has minted it, so a shared runtime
+        // can only know what it declares from here on.
+        if (!sharedRuntimeClasses.isEmpty()) {
+            emittedTopLevelAliases.addAll(((DeterministicAliasProvider) aliasProvider).getDeclaredTopLevelAliases());
+            emittedTopLevelAliases.addAll(runtimeRenderer.getTopLevelNames());
+            for (var alias : emittedTopLevelAliases) {
+                exports.add(new ExportedDeclaration(w -> w.append(alias), n -> { }, alias));
+            }
+        }
 
         var sourceWriter = builder.build(writer);
         sourceWriter.setDebugInformationEmitter(debugEmitterToUse);

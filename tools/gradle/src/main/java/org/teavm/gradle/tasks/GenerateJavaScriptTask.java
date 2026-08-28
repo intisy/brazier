@@ -16,6 +16,10 @@
 // Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.gradle.tasks;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import org.gradle.api.GradleException;
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
@@ -72,11 +76,29 @@ public abstract class GenerateJavaScriptTask extends TeaVMTask {
     @Optional
     public abstract Property<Boolean> getDeterministicNames();
 
+    @Input
+    @Optional
+    public abstract Property<String> getSharedRuntimeClassesFile();
+
+    @Input
+    @Optional
+    public abstract Property<String> getSharedRuntimeManifest();
+
     @Override
     protected void setupBuilder(BuildStrategy builder) {
         builder.setTargetType(TeaVMTargetType.JAVASCRIPT);
         builder.setObfuscated(getObfuscated().get());
         builder.setDeterministicNames(getDeterministicNames().get());
+        if (getSharedRuntimeClassesFile().isPresent()) {
+            try {
+                builder.setSharedRuntimeClasses(Files.readAllLines(Paths.get(getSharedRuntimeClassesFile().get())));
+            } catch (IOException e) {
+                throw new GradleException("Could not read the shared-runtime class list", e);
+            }
+        }
+        if (getSharedRuntimeManifest().isPresent()) {
+            builder.setSharedRuntimeManifestFile(getSharedRuntimeManifest().get());
+        }
         builder.setStrict(getStrict().get());
         if (getMaxTopLevelNames().isPresent()) {
             builder.setMaxTopLevelNames(getMaxTopLevelNames().get());

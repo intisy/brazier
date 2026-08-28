@@ -18,8 +18,11 @@ package org.teavm.backend.javascript.codegen;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 import org.teavm.model.FieldReference;
 import org.teavm.model.MethodDescriptor;
 import org.teavm.model.MethodReference;
@@ -44,6 +47,7 @@ public class DeterministicAliasProvider implements AliasProvider {
     private final int maxTopLevelNames;
     private final Map<String, String> topLevelOwners = new HashMap<>();
     private final Map<String, String> instanceOwners = new HashMap<>();
+    private final Set<String> declaredTopLevel = new LinkedHashSet<>();
 
     public DeterministicAliasProvider(int maxTopLevelNames) {
         this.maxTopLevelNames = maxTopLevelNames;
@@ -140,7 +144,19 @@ public class DeterministicAliasProvider implements AliasProvider {
                     + maxTopLevelNames + ". Scope splitting is unavailable here, because the point at which it "
                     + "starts depends on how many names were minted before it.");
         }
-        return new ScopedName(claim(topLevelOwners, prefix, owner), false);
+        var alias = claim(topLevelOwners, prefix, owner);
+        declaredTopLevel.add(alias);
+        return new ScopedName(alias, false);
+    }
+
+    /**
+     * {@return every top-level alias derived from a member, in the order they were minted}
+     *
+     * @implNote Names claimed verbatim are excluded. A reserved global or a runtime function is not
+     *     something this module declares, so exporting it would export what it does not own.
+     */
+    public Set<String> getDeclaredTopLevelAliases() {
+        return Collections.unmodifiableSet(declaredTopLevel);
     }
 
     private String instance(String prefix, String owner) {

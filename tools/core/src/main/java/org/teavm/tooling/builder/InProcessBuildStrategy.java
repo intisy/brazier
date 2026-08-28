@@ -60,6 +60,8 @@ public class InProcessBuildStrategy implements BuildStrategy {
     private boolean strict;
     private int maxTopLevelNames = 80_000;
     private boolean deterministicNames;
+    private List<String> sharedRuntimeClasses = new ArrayList<>();
+    private String sharedRuntimeManifestFile;
     private boolean sourceMapsFileGenerated;
     private boolean debugInformationGenerated;
     private TeaVMSourceFilePolicy sourceMapsSourcePolicy;
@@ -175,6 +177,16 @@ public class InProcessBuildStrategy implements BuildStrategy {
     @Override
     public void setDeterministicNames(boolean deterministicNames) {
         this.deterministicNames = deterministicNames;
+    }
+
+    @Override
+    public void setSharedRuntimeClasses(List<String> classNames) {
+        this.sharedRuntimeClasses = new ArrayList<>(classNames);
+    }
+
+    @Override
+    public void setSharedRuntimeManifestFile(String path) {
+        this.sharedRuntimeManifestFile = path;
     }
 
     @Override
@@ -297,6 +309,9 @@ public class InProcessBuildStrategy implements BuildStrategy {
         tool.setStrict(strict);
         tool.setMaxTopLevelNames(maxTopLevelNames);
         tool.setDeterministicNames(deterministicNames);
+        tool.setSharedRuntimeClasses(sharedRuntimeClasses);
+        tool.setSharedRuntimeManifestFile(sharedRuntimeManifestFile != null
+                ? new File(sharedRuntimeManifestFile) : null);
         tool.setIncremental(incremental);
         tool.getTransformers().addAll(Arrays.asList(transformers));
         tool.getClassesToPreserve().addAll(Arrays.asList(classesToPreserve));

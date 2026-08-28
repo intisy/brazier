@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.vm;
 
 import java.io.File;
@@ -370,6 +371,28 @@ public class TeaVM implements TeaVMHost, ServiceRepository {
             dependencyAnalyzer.linkClass(className).initClass(null);
         });
         preservedClasses.add(className);
+    }
+
+    /**
+     * Preserves a class and every method it declares, so it is emitted whole rather than as
+     * reachability pruned it.
+     *
+     * @param className the class to preserve entirely
+     * @implNote A shared runtime's consumers are compiled separately and can call any method of a
+     *     class the runtime provides. A class present but pruned is worse than one absent, because
+     *     a consumer cannot emit the missing half without creating a second class.
+     */
+    public void preserveTypeWholly(String className) {
+        preserveType(className);
+        dependencyAnalyzer.defer(() -> {
+            var cls = dependencyAnalyzer.getClassSource().get(className);
+            if (cls == null) {
+                return;
+            }
+            for (var method : cls.getMethods()) {
+                dependencyAnalyzer.linkMethod(method.getReference()).use();
+            }
+        });
     }
 
     public ClassReaderSource getDependencyClassSource() {
