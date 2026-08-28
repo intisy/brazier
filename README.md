@@ -1,39 +1,6 @@
 # brazier
 
-Archives containing JAR files are available as [releases](https://github.com/intisy/brazier/releases).
-
-## What is brazier?
-
 Brazier is a Java-to-JavaScript ahead-of-time compiler derived from TeaVM, adding a shared runtime so separate bundles stop each carrying their own copy of the Java class library
-
-## Usage
-
-Using the plugins DSL:
-
-```groovy
-plugins {
-    id "io.github.intisy.brazier" version "1.0.0"
-}
-```
-
-Using legacy plugin application:
-
-```groovy
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "io.github.intisy.brazier:1.0.0"
-    }
-}
-
-apply plugin: "io.github.intisy.brazier"
-```
-
-Once you have the plugin installed you can use it like so:
 
 **Brazier is not TeaVM.** If you want TeaVM, use [TeaVM](https://github.com/konsoletyper/teavm).
 Brazier is a derivative of its 0.15.0 release, renamed so that neither project can be mistaken for
@@ -70,11 +37,11 @@ Brazier changes.
 
 The library plugin is `io.github.intisy.brazier.library`.
 
-## Where the artifacts come from
+## Usage
 
-Brazier serves itself as a static Maven repository, because a Gradle plugin marker has to be
-resolvable through `pluginManagement` and no release-asset resolver can do that. Add it in
-`settings.gradle.kts`:
+Brazier is not on the Gradle Plugin Portal. It serves itself as a static Maven repository, because a
+plugin marker has to be resolvable through `pluginManagement` and no release-asset resolver can do
+that. Declare the repository in `settings.gradle.kts`:
 
 ```kotlin
 pluginManagement {
@@ -92,8 +59,24 @@ dependencyResolutionManagement {
 }
 ```
 
-Only tagged releases are published there. For local work, `./gradlew publishToMavenLocal` and
-`mavenLocal()` is the shorter route.
+Then apply it:
+
+```kotlin
+plugins {
+    java
+    id("io.github.intisy.brazier") version "0.1.0"
+}
+
+teavm.js {
+    mainClass = "demo.Main"
+    targetFileName = "demo.js"
+}
+```
+
+`./gradlew generateJavaScript` writes the bundle to `build/generated/teavm/js`.
+
+Only tagged releases are published to that repository. For local work on Brazier itself,
+`./gradlew publishToMavenLocal` and `mavenLocal()` is the shorter route.
 
 ## Building
 
