@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.backend.javascript.templating;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import org.teavm.backend.javascript.ast.AstVisitor;
 
 public class RemovablePartsFinder extends AstVisitor {
     private Map<String, List<AstNode>> removableDeclarations = new HashMap<>();
+    private Map<String, List<AstNode>> allDeclarations = new HashMap<>();
     private Set<Scope> removableDeclarationScopes = new HashSet<>();
     private Map<String, Set<String>> dependencies = new HashMap<>();
     private String insideDeclaration;
@@ -43,7 +45,7 @@ public class RemovablePartsFinder extends AstVisitor {
     public void visit(FunctionNode node) {
         if (topLevel) {
             if (node.getName() != null && !node.getName().isEmpty()) {
-                removableDeclarations.computeIfAbsent(node.getName(), k -> new ArrayList<>()).add(node);
+                record(node.getName(), node);
             }
             topLevel = false;
             insideDeclaration = node.getName();
@@ -61,8 +63,7 @@ public class RemovablePartsFinder extends AstVisitor {
             for (var initializer : node.getVariables()) {
                 var name = extractName(initializer.getTarget());
                 if (name != null) {
-                    removableDeclarations.computeIfAbsent(name.getIdentifier(), k -> new ArrayList<>())
-                            .add(initializer);
+                    record(name.getIdentifier(), initializer);
                     if (initializer.getInitializer() != null) {
                         topLevel = false;
                         insideDeclaration = name.getIdentifier();
@@ -82,8 +83,7 @@ public class RemovablePartsFinder extends AstVisitor {
         if (topLevel && node.getExpression() instanceof Assignment) {
             var assign = (Assignment) node.getExpression();
             var name = extractName(assign.getLeft());
-            removableDeclarations.computeIfAbsent(name.getIdentifier(), k -> new ArrayList<>())
-                    .add(node.getExpression());
+            record(name.getIdentifier(), node.getExpression());
             if (name != null) {
                 topLevel = false;
                 insideDeclaration = name.getIdentifier();
@@ -139,6 +139,28 @@ public class RemovablePartsFinder extends AstVisitor {
             nodes.addAll(parts);
         }
         return nodes;
+    }
+
+    /**
+     * {@return every top-level declaration whose name is outside {@code namesToKeep}}
+     *
+     * @implNote Unlike {@link #getAllRemovableParts()} this answers from the full set of
+     *     declarations rather than the ones still unused, so a caller can narrow a runtime down to a
+     *     chosen few names after usage marking has already run.
+     */
+    public Set<AstNode> getPartsExcept(Set<String> namesToKeep) {
+        var nodes = new HashSet<AstNode>();
+        for (var entry : allDeclarations.entrySet()) {
+            if (!namesToKeep.contains(entry.getKey())) {
+                nodes.addAll(entry.getValue());
+            }
+        }
+        return nodes;
+    }
+
+    private void record(String name, AstNode node) {
+        removableDeclarations.computeIfAbsent(name, k -> new ArrayList<>()).add(node);
+        allDeclarations.computeIfAbsent(name, k -> new ArrayList<>()).add(node);
     }
 
     @Override

@@ -528,6 +528,9 @@ public class TeaVMTool {
             for (String className : sharedRuntimeClasses) {
                 vm.preserveTypeWholly(className);
             }
+            if (!sharedRuntimeClasses.isEmpty()) {
+                vm.preserveEveryReachableTypeWholly();
+            }
 
             if (!targetDirectory.exists() && !targetDirectory.mkdirs()) {
                 log.error("Target directory could not be created");

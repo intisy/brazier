@@ -151,6 +151,7 @@ public class TeaVM implements TeaVMHost, ServiceRepository {
     private String entryPoint;
     private String entryPointName = "main";
     private final Set<String> preservedClasses = new HashSet<>();
+    private final Set<String> whollyPreservedTypes = new HashSet<>();
     private final Set<String> readonlyPreservedClasses = Collections.unmodifiableSet(preservedClasses);
     private final Map<Class<?>, Object> services = new HashMap<>();
     private final Properties properties = new Properties();
@@ -386,17 +387,79 @@ public class TeaVM implements TeaVMHost, ServiceRepository {
      */
     public void preserveTypeWholly(String className) {
         preserveType(className);
-        dependencyAnalyzer.defer(() -> {
-            var cls = dependencyAnalyzer.getClassSource().get(className);
-            if (cls == null) {
-                return;
+        dependencyAnalyzer.defer(() -> preserveWholly(className));
+    }
+
+    /**
+     * Extends {@link #preserveTypeWholly(String)} to every class the build turns out to reach, and
+     * keeps extending it until reaching nothing new.
+     *
+     * @implNote Naming a class drags in the classes it touches, and those arrive pruned to what the
+     *     naming class happened to call. A consumer that reaches one of them through an API the
+     *     runtime does offer gets a half-emitted class: {@code System.out} is a
+     *     {@code JSStdoutPrintStream}, whose {@code print(String)} the runtime never called, so
+     *     {@code println} recursed into its own superclass until the string ran out of memory.
+     *     Excluding such a class from the manifest cannot fix it, because the consumer reaches the
+     *     RUNTIME's instance of it rather than one of its own.
+     */
+    public void preserveEveryReachableTypeWholly() {
+        dependencyAnalyzer.defer(this::preserveReachableTypesWholly);
+    }
+
+    private void preserveReachableTypesWholly() {
+        var fresh = new ArrayList<String>();
+        for (var className : dependencyAnalyzer.getReachableClasses()) {
+            if (!whollyPreservedTypes.contains(className)) {
+                fresh.add(className);
             }
-            for (var method : cls.getMethods()) {
-                if (isReachableByAConsumer(method)) {
-                    dependencyAnalyzer.linkMethod(method.getReference()).use();
-                }
+        }
+        if (fresh.isEmpty()) {
+            return;
+        }
+        for (var className : fresh) {
+            preserveOverrides(className);
+        }
+        dependencyAnalyzer.defer(this::preserveReachableTypesWholly);
+    }
+
+    private void preserveWholly(String className) {
+        preserve(className, method -> true);
+    }
+
+    /**
+     * @implNote A class the build merely passed through is preserved narrowly, because preserving
+     *     every method of every such class takes the runtime from 2.2 MB to 6.4 MB and the closure
+     *     never settles. An OVERRIDE is the case that must not be pruned: a missing one leaves the
+     *     inherited method in the table and the object behaves as its own superclass, silently. A
+     *     method that overrides nothing is missing loudly instead, as an alias the consumer cannot
+     *     import.
+     */
+    private void preserveOverrides(String className) {
+        preserve(className, method -> overridesAnAncestor(className, method));
+    }
+
+    private void preserve(String className, Predicate<MethodReader> extraCondition) {
+        if (!whollyPreservedTypes.add(className)) {
+            return;
+        }
+        var cls = dependencyAnalyzer.getClassSource().get(className);
+        if (cls == null) {
+            return;
+        }
+        for (var method : cls.getMethods()) {
+            if (isReachableByAConsumer(method) && extraCondition.test(method)) {
+                dependencyAnalyzer.linkMethod(method.getReference()).use();
             }
-        });
+        }
+    }
+
+    private boolean overridesAnAncestor(String className, MethodReader method) {
+        if (method.hasModifier(ElementModifier.STATIC) || method.getName().equals("<init>")) {
+            return false;
+        }
+        return dependencyAnalyzer.getClassSource().getAncestors(className)
+                .anyMatch(ancestor -> !ancestor.getName().equals(className)
+                        && ancestor.getMethod(method.getDescriptor()) != null);
     }
 
     /**

@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ast.AstNode;
 import org.mozilla.javascript.ast.AstRoot;
 import org.teavm.backend.javascript.codegen.SourceWriter;
 import org.teavm.backend.javascript.codegen.SourceWriterSink;
@@ -40,6 +41,26 @@ import org.teavm.model.analysis.ClassInitializerInfo;
 import org.teavm.vm.RenderingException;
 
 public class RuntimeRenderer {
+    /**
+     * The top-level runtime declarations that hold state belonging to ONE module, which a shared
+     * runtime therefore keeps to itself and every consumer renders for itself.
+     *
+     * @implNote Sharing any of these silently corrupts state. The string pool and the package table
+     *     are each a setter every module calls with its own data, plus the reader that indexes it;
+     *     {@code $rt_proxyMethods} is keyed by a counter that restarts in every module, so two
+     *     modules mint the same key for different methods. Every other runtime declaration is either
+     *     pure, or state that is deliberately shared (the identity-hash seed, the class registry,
+     *     the intern table, the current thread, the metadata symbols).
+     */
+    public static final Set<String> PER_MODULE_NAMES = Set.of(
+            "$rt_stringPool_instance",
+            "$rt_stringPool",
+            "$rt_s",
+            "$rt_packageData",
+            "$rt_packages",
+            "$rt_metadata",
+            "$rt_proxyMethods");
+
     private final List<AstRoot> runtimeAstParts = new ArrayList<>();
     private final List<AstRoot> epilogueAstParts = new ArrayList<>();
     private final RemovablePartsFinder removablePartsFinder = new RemovablePartsFinder();
@@ -134,7 +155,19 @@ public class RuntimeRenderer {
     };
 
     public void removeUnusedParts() {
-        var removal = new AstRemoval(removablePartsFinder.getAllRemovableParts());
+        removeParts(removablePartsFinder.getAllRemovableParts());
+    }
+
+    /**
+     * Drops every runtime declaration outside {@link #PER_MODULE_NAMES}, leaving a consumer with
+     * only the state it must own and importing the rest from the shared runtime.
+     */
+    public void retainPerModuleParts() {
+        removeParts(removablePartsFinder.getPartsExcept(PER_MODULE_NAMES));
+    }
+
+    private void removeParts(Set<AstNode> parts) {
+        var removal = new AstRemoval(parts);
         for (var part : runtimeAstParts) {
             removal.visit(part);
         }

@@ -565,14 +565,13 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
         if (sharedRuntimeClasses.isEmpty()) {
             runtimeRenderer.removeUnusedParts();
         }
-        if (importedRuntime == null) {
-            runtimeRenderer.renderRuntime();
+        if (importedRuntime != null) {
+            runtimeRenderer.retainPerModuleParts();
         }
+        runtimeRenderer.renderRuntime();
         var runtime = rememberingWriter.save();
         rememberingWriter.clear();
-        if (importedRuntime == null) {
-            runtimeRenderer.renderEpilogue();
-        }
+        runtimeRenderer.renderEpilogue();
         var runtimeEpilogue = rememberingWriter.save();
         rememberingWriter.clear();
 
@@ -597,9 +596,9 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
         if (importedRuntime != null) {
             var exported = new HashSet<>(importedRuntime.getAliases());
             // The runtime module owns the $rt_* functions as well as the classes, and this module
-            // renders none of them, so every one it can reach has to be imported too.
+            // renders only the per-module ones, so every other one it can reach has to be imported.
             for (var name : runtimeRenderer.getTopLevelNames()) {
-                if (exported.contains(name)) {
+                if (exported.contains(name) && !RuntimeRenderer.PER_MODULE_NAMES.contains(name)) {
                     importedAliases.add(name);
                 }
             }
@@ -622,9 +621,13 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
             epilogue.replay(collector, RememberedSource.FILTER_ALL);
             emittedClassNames.addAll(classes.getClassNames());
             emittedTopLevelAliases.addAll(collector.getDeclared());
-            // The hand-written runtime parts are raw text, so the collector cannot see them. In this
-            // mode removeUnusedParts is skipped, so every name they declare is present.
+            // In this mode removeUnusedParts is skipped, so every name the hand-written parts
+            // declare is present whether or not the collector saw its declaration marker.
             emittedTopLevelAliases.addAll(runtimeRenderer.getTopLevelNames());
+            // The per-module names are declared but withheld: a consumer renders its own, and
+            // leaving them out of the manifest is what makes importing one a gate failure rather
+            // than silent state corruption.
+            emittedTopLevelAliases.removeAll(RuntimeRenderer.PER_MODULE_NAMES);
             for (var alias : emittedTopLevelAliases) {
                 exports.add(new ExportedDeclaration(w -> w.append(alias), n -> { }, alias));
             }
