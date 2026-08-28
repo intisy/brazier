@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.vm;
 
 import java.io.File;
@@ -50,6 +51,8 @@ import org.teavm.diagnostics.AccumulationDiagnostics;
 import org.teavm.diagnostics.Diagnostics;
 import org.teavm.diagnostics.ProblemProvider;
 import org.teavm.extension.ExtensionEnvironment;
+import org.teavm.interop.Unmanaged;
+import org.teavm.model.AccessLevel;
 import org.teavm.model.BasicBlock;
 import org.teavm.model.ClassHierarchy;
 import org.teavm.model.ClassHolder;
@@ -370,6 +373,45 @@ public class TeaVM implements TeaVMHost, ServiceRepository {
             dependencyAnalyzer.linkClass(className).initClass(null);
         });
         preservedClasses.add(className);
+    }
+
+    /**
+     * Preserves a class and every method it declares, so it is emitted whole rather than as
+     * reachability pruned it.
+     *
+     * @param className the class to preserve entirely
+     * @implNote A shared runtime's consumers are compiled separately and can call any method of a
+     *     class the runtime provides. A class present but pruned is worse than one absent, because
+     *     a consumer cannot emit the missing half without creating a second class.
+     */
+    public void preserveTypeWholly(String className) {
+        preserveType(className);
+        dependencyAnalyzer.defer(() -> {
+            var cls = dependencyAnalyzer.getClassSource().get(className);
+            if (cls == null) {
+                return;
+            }
+            for (var method : cls.getMethods()) {
+                if (isReachableByAConsumer(method)) {
+                    dependencyAnalyzer.linkMethod(method.getReference()).use();
+                }
+            }
+        });
+    }
+
+    /**
+     * @param method a method of a preserved class
+     * @return whether a separately compiled program could call it
+     * @implNote A private method cannot be called from outside its class, so preserving one buys a
+     *     consumer nothing. It can cost a great deal: the low-level backends' delegates are private,
+     *     and linking one drags in a garbage collector the JavaScript backend never uses and cannot
+     *     implement. An unmanaged method is that same low-level world named explicitly. A native
+     *     method is likewise supplied by a generator when it is reached, not by being preserved.
+     */
+    private static boolean isReachableByAConsumer(MethodReader method) {
+        return !method.hasModifier(ElementModifier.NATIVE)
+                && method.getLevel() != AccessLevel.PRIVATE
+                && method.getAnnotations().get(Unmanaged.class.getName()) == null;
     }
 
     public ClassReaderSource getDependencyClassSource() {

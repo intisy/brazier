@@ -15,13 +15,15 @@
  */
 // Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.tooling;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -39,6 +41,7 @@ import org.teavm.backend.c.generate.ShorteningFileNameProvider;
 import org.teavm.backend.c.generate.SimpleFileNameProvider;
 import org.teavm.backend.javascript.JSModuleType;
 import org.teavm.backend.javascript.JavaScriptTarget;
+import org.teavm.backend.javascript.sharedruntime.SharedRuntimeManifest;
 import org.teavm.backend.wasm.WasmDebugInfoLevel;
 import org.teavm.backend.wasm.WasmDebugInfoLocation;
 import org.teavm.backend.wasm.WasmGCTarget;
@@ -76,7 +79,6 @@ import org.teavm.vm.TeaVMBuilder;
 import org.teavm.vm.TeaVMOptimizationLevel;
 import org.teavm.vm.TeaVMProgressListener;
 import org.teavm.vm.TeaVMTarget;
-
 public class TeaVMTool {
     private File targetDirectory = new File(".");
     private TeaVMTargetType targetType = TeaVMTargetType.JAVASCRIPT;
@@ -86,6 +88,10 @@ public class TeaVMTool {
     private boolean strict;
     private int maxTopLevelNames = 80_000;
     private boolean deterministicNames;
+    private List<String> sharedRuntimeClasses = new ArrayList<>();
+    private File sharedRuntimeManifestFile;
+    private File importedRuntimeManifestFile;
+    private String importedRuntimeModule;
     private String mainClass;
     private String entryPointName = "main";
     private Properties properties = new Properties();
@@ -127,7 +133,6 @@ public class TeaVMTool {
     private boolean shortFileNames;
     private boolean assertionsRemoved;
     private SourceMapBuilder wasmSourceMapWriter;
-
     public File getTargetDirectory() {
         return targetDirectory;
     }
@@ -146,6 +151,22 @@ public class TeaVMTool {
 
     public void setDeterministicNames(boolean deterministicNames) {
         this.deterministicNames = deterministicNames;
+    }
+
+    public void setSharedRuntimeClasses(List<String> sharedRuntimeClasses) {
+        this.sharedRuntimeClasses = new ArrayList<>(sharedRuntimeClasses);
+    }
+
+    public void setSharedRuntimeManifestFile(File sharedRuntimeManifestFile) {
+        this.sharedRuntimeManifestFile = sharedRuntimeManifestFile;
+    }
+
+    public void setImportedRuntimeManifestFile(File importedRuntimeManifestFile) {
+        this.importedRuntimeManifestFile = importedRuntimeManifestFile;
+    }
+
+    public void setImportedRuntimeModule(String importedRuntimeModule) {
+        this.importedRuntimeModule = importedRuntimeModule;
     }
 
     public void setJsModuleType(JSModuleType jsModuleType) {
@@ -377,6 +398,17 @@ public class TeaVMTool {
         javaScriptTarget.setStrict(strict);
         javaScriptTarget.setMaxTopLevelNames(maxTopLevelNames);
         javaScriptTarget.setDeterministicNames(deterministicNames);
+        javaScriptTarget.setSharedRuntimeClasses(sharedRuntimeClasses);
+        javaScriptTarget.checkSharedRuntimeOptimizationLevel(optimizationLevel);
+        if (importedRuntimeManifestFile != null) {
+            try (Reader reader = new InputStreamReader(new FileInputStream(importedRuntimeManifestFile),
+                    StandardCharsets.UTF_8)) {
+                javaScriptTarget.setImportedRuntime(SharedRuntimeManifest.read(reader),
+                        importedRuntimeModule != null ? importedRuntimeModule : "./runtime.js");
+            } catch (IOException e) {
+                throw new IllegalStateException("Could not read the imported runtime's manifest", e);
+            }
+        }
 
         debugEmitter = debugInformationGenerated || sourceMapsFileGenerated
                 ? new DebugInformationBuilder(referenceCache) : null;
@@ -493,6 +525,9 @@ public class TeaVMTool {
             for (String className : classesToPreserve) {
                 vm.preserveType(className);
             }
+            for (String className : sharedRuntimeClasses) {
+                vm.preserveTypeWholly(className);
+            }
 
             if (!targetDirectory.exists() && !targetDirectory.mkdirs()) {
                 log.error("Target directory could not be created");
@@ -519,6 +554,10 @@ public class TeaVMTool {
 
             File outputFile = new File(targetDirectory, outputName);
             generatedFiles.add(outputFile);
+
+            if (sharedRuntimeManifestFile != null) {
+                writeSharedRuntimeManifest();
+            }
 
             if (targetType == TeaVMTargetType.JAVASCRIPT) {
                 try (OutputStream output = new FileOutputStream(outputFile, true);
@@ -567,6 +606,23 @@ public class TeaVMTool {
             }
         }
         return targetFileName;
+    }
+
+    private void writeSharedRuntimeManifest() throws IOException {
+        String version = TeaVMTool.class.getPackage().getImplementationVersion();
+        SharedRuntimeManifest manifest = new SharedRuntimeManifest(version != null ? version : "unknown",
+                new ArrayList<>(javaScriptTarget.getEmittedClassNames()),
+                new ArrayList<>(javaScriptTarget.getEmittedTopLevelAliases()));
+        File parent = sharedRuntimeManifestFile.getParentFile();
+        if (parent != null && !parent.exists() && !parent.mkdirs()) {
+            throw new IOException("Could not create " + parent);
+        }
+        try (OutputStream output = new FileOutputStream(sharedRuntimeManifestFile);
+                Writer writer = new OutputStreamWriter(output, StandardCharsets.UTF_8)) {
+            manifest.write(writer);
+        }
+        generatedFiles.add(sharedRuntimeManifestFile);
+        log.info("Shared runtime manifest written to " + sharedRuntimeManifestFile);
     }
 
     private void additionalJavaScriptOutput(Writer writer) throws IOException {
@@ -683,3 +739,6 @@ public class TeaVMTool {
         return transformerInstances;
     }
 }
+
+
+

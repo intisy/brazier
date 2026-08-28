@@ -70,6 +70,14 @@ public interface BuildStrategy {
 
     void setDeterministicNames(boolean deterministicNames);
 
+    void setSharedRuntimeClasses(List<String> classNames);
+
+    void setSharedRuntimeManifestFile(String path);
+
+    void setImportedRuntimeManifestFile(String path);
+
+    void setImportedRuntimeModule(String moduleSpecifier);
+
     void setProperties(Properties properties);
 
     void setTransformers(String[] transformers);

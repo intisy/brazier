@@ -29,11 +29,13 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -61,6 +63,8 @@ import org.teavm.backend.javascript.rendering.Renderer;
 import org.teavm.backend.javascript.rendering.RenderingContext;
 import org.teavm.backend.javascript.rendering.RenderingUtil;
 import org.teavm.backend.javascript.rendering.RuntimeRenderer;
+import org.teavm.backend.javascript.sharedruntime.DeclarationCollector;
+import org.teavm.backend.javascript.sharedruntime.SharedRuntimeManifest;
 import org.teavm.backend.javascript.spi.GeneratedBy;
 import org.teavm.backend.javascript.spi.Generator;
 import org.teavm.backend.javascript.spi.InjectedBy;
@@ -112,6 +116,7 @@ import org.teavm.runtime.reflect.ClassInfo;
 import org.teavm.vm.BuildTarget;
 import org.teavm.vm.RenderingException;
 import org.teavm.vm.TeaVM;
+import org.teavm.vm.TeaVMOptimizationLevel;
 import org.teavm.vm.TeaVMTarget;
 import org.teavm.vm.TeaVMTargetController;
 import org.teavm.vm.spi.RendererListener;
@@ -145,6 +150,14 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
     private List<ExportedDeclaration> exports = new ArrayList<>();
     private int maxTopLevelNames = 80_000;
     private boolean deterministicNames;
+    private static final String BOTH_MODES =
+            "A module cannot both emit and import a shared runtime.";
+    private final Set<String> sharedRuntimeClasses = new LinkedHashSet<>();
+    private final Set<String> emittedTopLevelAliases = new LinkedHashSet<>();
+    private final Set<String> emittedClassNames = new LinkedHashSet<>();
+    private final Set<String> importedAliases = new LinkedHashSet<>();
+    private SharedRuntimeManifest importedRuntime;
+    private String importedRuntimeModule;
 
     private ReflectionDependencyListener reflection;
 
@@ -259,6 +272,75 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
      */
     public void setDeterministicNames(boolean deterministicNames) {
         this.deterministicNames = deterministicNames;
+    }
+
+    /**
+     * Emits these classes whole, keeps every runtime part, and exports every top-level declaration,
+     * so other programs can import from this module instead of emitting the same classes themselves.
+     *
+     * @param classNames the classes the runtime is to contain; empty leaves the target in its
+     *     ordinary mode
+     */
+    public void setSharedRuntimeClasses(Collection<String> classNames) {
+        if (importedRuntime != null && !classNames.isEmpty()) {
+            throw new IllegalStateException(BOTH_MODES);
+        }
+        sharedRuntimeClasses.clear();
+        sharedRuntimeClasses.addAll(classNames);
+    }
+
+    /**
+     * Imports every class this manifest names instead of emitting it.
+     *
+     * @param manifest what the runtime contains
+     * @param moduleSpecifier the module to import from, written into the generated import verbatim
+     */
+    public void setImportedRuntime(SharedRuntimeManifest manifest, String moduleSpecifier) {
+        if (!sharedRuntimeClasses.isEmpty()) {
+            throw new IllegalStateException(BOTH_MODES);
+        }
+        importedRuntime = manifest;
+        importedRuntimeModule = moduleSpecifier;
+    }
+
+    /** {@return the classes this module emits as a shared runtime, empty when it emits none} */
+    public Set<String> getSharedRuntimeClasses() {
+        return Collections.unmodifiableSet(sharedRuntimeClasses);
+    }
+
+    /** {@return every top-level alias this module declared, which is what its manifest records} */
+    public Set<String> getEmittedTopLevelAliases() {
+        return Collections.unmodifiableSet(emittedTopLevelAliases);
+    }
+
+    /**
+     * {@return every class this module emitted}
+     *
+     * @implNote The manifest records these rather than the classes the build was ASKED to preserve.
+     *     Preserving a class pulls in whatever it reaches, so a runtime emits far more than it was
+     *     given, and a consumer told only about the requested ones would import an alias of an
+     *     unlisted class while emitting that class itself, declaring the same name twice.
+     */
+    public Set<String> getEmittedClassNames() {
+        return Collections.unmodifiableSet(emittedClassNames);
+    }
+
+    /**
+     * Refuses a shared-runtime build that would optimise against a world its consumers are not
+     * part of.
+     *
+     * @param level the level this build would run at
+     * @implNote Above SIMPLE the compiler devirtualises against the closed world, and that decides
+     *     whether a method gets a prototype slot at all. A consumer subclassing a runtime class
+     *     would then have nothing to override, and nothing would fail to link. See TeaVM's guarded
+     *     call to devirtualize.
+     */
+    public void checkSharedRuntimeOptimizationLevel(TeaVMOptimizationLevel level) {
+        if (!sharedRuntimeClasses.isEmpty() && level != TeaVMOptimizationLevel.SIMPLE) {
+            throw new IllegalStateException("A shared runtime must be compiled at SIMPLE, not " + level
+                    + ": a higher level devirtualises against a closed world that its consumers are "
+                    + "not part of.");
+        }
     }
 
     @Override
@@ -416,6 +498,13 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
             public String importModule(String name) {
                 return JavaScriptTarget.this.importModule(name);
             }
+
+            @Override
+            public Set<String> getImportedClasses() {
+                return importedRuntime != null
+                        ? new HashSet<>(importedRuntime.getClassNames())
+                        : Collections.emptySet();
+            }
         };
         renderingContext.setMinifying(obfuscated);
         new ReflectionIntrinsics(methodInjectors, methodGenerators, injectorProviders, classes, reflection,
@@ -473,11 +562,17 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
         declarations.replay(runtimeRenderer.sink, RememberedSource.FILTER_REF);
         metadata.replay(runtimeRenderer.sink, RememberedSource.FILTER_REF);
         epilogue.replay(runtimeRenderer.sink, RememberedSource.FILTER_REF);
-        runtimeRenderer.removeUnusedParts();
-        runtimeRenderer.renderRuntime();
+        if (sharedRuntimeClasses.isEmpty()) {
+            runtimeRenderer.removeUnusedParts();
+        }
+        if (importedRuntime == null) {
+            runtimeRenderer.renderRuntime();
+        }
         var runtime = rememberingWriter.save();
         rememberingWriter.clear();
-        runtimeRenderer.renderEpilogue();
+        if (importedRuntime == null) {
+            runtimeRenderer.renderEpilogue();
+        }
         var runtimeEpilogue = rememberingWriter.save();
         rememberingWriter.clear();
 
@@ -496,6 +591,44 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
         metadata.replay(frequencyEstimator, RememberedSource.FILTER_REF);
         epilogue.replay(frequencyEstimator, RememberedSource.FILTER_REF);
         frequencyEstimator.apply(naming);
+
+        // Every alias exists only once the frequency estimator has minted it, so neither mode can
+        // know its own list before this point.
+        if (importedRuntime != null) {
+            var exported = new HashSet<>(importedRuntime.getAliases());
+            // The runtime module owns the $rt_* functions as well as the classes, and this module
+            // renders none of them, so every one it can reach has to be imported too.
+            for (var name : runtimeRenderer.getTopLevelNames()) {
+                if (exported.contains(name)) {
+                    importedAliases.add(name);
+                }
+            }
+            for (var alias : ((DeterministicAliasProvider) aliasProvider).getDeclaredTopLevelAliases()) {
+                if (exported.contains(alias)) {
+                    importedAliases.add(alias);
+                }
+            }
+        }
+        // Every alias exists only once the frequency estimator has minted it, so a shared runtime
+        // can only know what it declares from here on.
+        if (!sharedRuntimeClasses.isEmpty()) {
+            // FILTER_ALL, not FILTER_REF: the declaration markers are not references, and filtering
+            // them out leaves the collector unable to tell a declaration from a use.
+            var collector = new DeclarationCollector(naming);
+            runtime.replay(collector, RememberedSource.FILTER_ALL);
+            declarations.replay(collector, RememberedSource.FILTER_ALL);
+            metadata.replay(collector, RememberedSource.FILTER_ALL);
+            runtimeEpilogue.replay(collector, RememberedSource.FILTER_ALL);
+            epilogue.replay(collector, RememberedSource.FILTER_ALL);
+            emittedClassNames.addAll(classes.getClassNames());
+            emittedTopLevelAliases.addAll(collector.getDeclared());
+            // The hand-written runtime parts are raw text, so the collector cannot see them. In this
+            // mode removeUnusedParts is skipped, so every name they declare is present.
+            emittedTopLevelAliases.addAll(runtimeRenderer.getTopLevelNames());
+            for (var alias : emittedTopLevelAliases) {
+                exports.add(new ExportedDeclaration(w -> w.append(alias), n -> { }, alias));
+            }
+        }
 
         var sourceWriter = builder.build(writer);
         sourceWriter.setDebugInformationEmitter(debugEmitterToUse);
@@ -653,6 +786,20 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
     }
 
     private void printES2015Start(SourceWriter writer) {
+        if (importedRuntime != null) {
+            writer.append("import").ws().append("{").ws();
+            var first = true;
+            for (var alias : importedAliases) {
+                if (!first) {
+                    writer.append(",").ws();
+                }
+                first = false;
+                writer.append(alias);
+            }
+            writer.ws().append("}").ws().append("from").ws().append("\"")
+                    .append(RenderingUtil.escapeString(importedRuntimeModule)).append("\";")
+                    .softNewLine();
+        }
         for (var entry : importedModules.entrySet()) {
             var moduleName = entry.getKey();
             var alias = entry.getValue();

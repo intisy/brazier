@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.backend.javascript.rendering;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -67,6 +69,16 @@ public class RuntimeRenderer {
         runtimeAstParts.add(prepareAstPart("metadata.js"));
         runtimeAstParts.add(prepareAstPart(threadLibraryUsed ? "thread.js" : "simpleThread.js"));
         epilogueAstParts.add(prepareAstPart("types.js"));
+    }
+
+    /**
+     * {@return every name the hand-written runtime parts declare at the top level}
+     *
+     * @implNote A shared runtime exports these alongside the class declarations, because a consumer
+     *     that emits none of the runtime parts still calls into them.
+     */
+    public Set<String> getTopLevelNames() {
+        return Collections.unmodifiableSet(topLevelNames);
     }
 
     public void renderRuntime() {

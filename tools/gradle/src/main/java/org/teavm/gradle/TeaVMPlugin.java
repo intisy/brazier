@@ -150,6 +150,10 @@ public class TeaVMPlugin implements Plugin<Project> {
             task.getSourceFilePolicy().convention(js.getSourceFilePolicy());
             task.getMaxTopLevelNames().convention(js.getMaxTopLevelNames());
             task.getDeterministicNames().convention(js.getDeterministicNames());
+            task.getSharedRuntimeClassesFile().convention(js.getSharedRuntimeClassesFile());
+            task.getSharedRuntimeManifest().convention(js.getSharedRuntimeManifest());
+            task.getImportedRuntimeManifest().convention(js.getImportedRuntimeManifest());
+            task.getImportedRuntimeModule().convention(js.getImportedRuntimeModule());
 
             setupSources(task.getSourceFiles(), project);
         });
