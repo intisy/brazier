@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.backend.javascript.codegen;
 
 import java.util.HashSet;
@@ -48,6 +49,11 @@ public class MinifyingAliasProvider implements AliasProvider {
 
     @Override
     public ScopedName getStaticMethodAlias(MethodReference method) {
+        return createTopLevelName();
+    }
+
+    @Override
+    public ScopedName getInitializerAlias(MethodReference method) {
         return createTopLevelName();
     }
 

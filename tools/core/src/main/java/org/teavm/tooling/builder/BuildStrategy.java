@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.tooling.builder;
 
 import java.util.List;
@@ -66,6 +67,8 @@ public interface BuildStrategy {
     void setJsModuleType(JSModuleType jsModuleType);
 
     void setMaxTopLevelNames(int maxTopLevelNames);
+
+    void setDeterministicNames(boolean deterministicNames);
 
     void setProperties(Properties properties);
 

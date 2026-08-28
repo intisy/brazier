@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.backend.javascript.codegen;
 
 import com.carrotsearch.hppc.ObjectIntHashMap;
@@ -40,7 +41,7 @@ public class DefaultAliasProvider implements AliasProvider {
         return makeUnique(suggestAliasForClass(cls));
     }
 
-    private static String suggestAliasForClass(String cls) {
+    static String suggestAliasForClass(String cls) {
         StringBuilder alias = new StringBuilder();
         int lastIndex = 0;
         while (true) {
@@ -92,6 +93,15 @@ public class DefaultAliasProvider implements AliasProvider {
 
     @Override
     public ScopedName getStaticMethodAlias(MethodReference method) {
+        return makeTopLevelMethodAlias(method);
+    }
+
+    @Override
+    public ScopedName getInitializerAlias(MethodReference method) {
+        return makeTopLevelMethodAlias(method);
+    }
+
+    private ScopedName makeTopLevelMethodAlias(MethodReference method) {
         String suggested = method.getDescriptor().getName();
         switch (suggested) {
             case "<init>":
@@ -153,7 +163,7 @@ public class DefaultAliasProvider implements AliasProvider {
         return new ScopedName(alias, additionalScopeStarted);
     }
 
-    private String sanitize(String s) {
+    static String sanitize(String s) {
         if (s.isEmpty()) {
             return "_";
         }

@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.tooling.daemon;
 
 import java.io.BufferedReader;
@@ -164,6 +165,7 @@ public class BuildDaemon extends UnicastRemoteObject implements RemoteBuildServi
         tool.setObfuscated(request.obfuscated);
         tool.setJsModuleType(request.jsModuleType);
         tool.setMaxTopLevelNames(request.maxTopLevelNames);
+        tool.setDeterministicNames(request.deterministicNames);
         tool.setStrict(request.strict);
         tool.setWasmVersion(request.wasmVersion);
         tool.setWasmDebugInfoLocation(request.wasmDebugInfoLocation);

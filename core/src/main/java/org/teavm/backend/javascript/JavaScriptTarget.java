@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.backend.javascript;
 
 import com.carrotsearch.hppc.ObjectIntHashMap;
@@ -39,8 +40,10 @@ import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.function.Function;
 import org.teavm.ast.ControlFlowEntry;
+import org.teavm.backend.javascript.codegen.AliasProvider;
 import org.teavm.backend.javascript.codegen.DefaultAliasProvider;
 import org.teavm.backend.javascript.codegen.DefaultNamingStrategy;
+import org.teavm.backend.javascript.codegen.DeterministicAliasProvider;
 import org.teavm.backend.javascript.codegen.MinifyingAliasProvider;
 import org.teavm.backend.javascript.codegen.OutputSourceWriter;
 import org.teavm.backend.javascript.codegen.OutputSourceWriterBuilder;
@@ -141,6 +144,7 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
     private JSModuleType moduleType = JSModuleType.UMD;
     private List<ExportedDeclaration> exports = new ArrayList<>();
     private int maxTopLevelNames = 80_000;
+    private boolean deterministicNames;
 
     private ReflectionDependencyListener reflection;
 
@@ -244,6 +248,17 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
 
     public void setMaxTopLevelNames(int maxTopLevelNames) {
         this.maxTopLevelNames = maxTopLevelNames;
+    }
+
+    /**
+     * Names every member from its identity alone, so independently compiled programs agree on the
+     * name of a member they both reach. Takes precedence over {@link #setObfuscated}, whose short
+     * names are minted in encounter order and cannot be shared.
+     *
+     * @param deterministicNames whether to use deterministic naming
+     */
+    public void setDeterministicNames(boolean deterministicNames) {
+        this.deterministicNames = deterministicNames;
     }
 
     @Override
@@ -374,9 +389,14 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
     }
 
     private void emit(ListableClassHolderSource classes, Writer writer, BuildTarget target) {
-        var aliasProvider = obfuscated
-                ? new MinifyingAliasProvider(maxTopLevelNames)
-                : new DefaultAliasProvider(maxTopLevelNames);
+        AliasProvider aliasProvider;
+        if (deterministicNames) {
+            aliasProvider = new DeterministicAliasProvider(maxTopLevelNames);
+        } else if (obfuscated) {
+            aliasProvider = new MinifyingAliasProvider(maxTopLevelNames);
+        } else {
+            aliasProvider = new DefaultAliasProvider(maxTopLevelNames);
+        }
         DefaultNamingStrategy naming = new DefaultNamingStrategy(aliasProvider, controller.getUnprocessedClassSource());
         DebugInformationEmitter debugEmitterToUse = debugEmitter;
         if (debugEmitterToUse == null) {

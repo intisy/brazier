@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.gradle.tasks;
 
 import org.gradle.api.file.ConfigurableFileCollection;
@@ -33,6 +34,7 @@ public abstract class GenerateJavaScriptTask extends TeaVMTask {
         getSourceMap().convention(false);
         getSourceFilePolicy().convention(SourceFilePolicy.LINK_LOCAL_FILES);
         getEntryPointName().convention("main");
+        getDeterministicNames().convention(false);
     }
 
     @Input
@@ -66,10 +68,15 @@ public abstract class GenerateJavaScriptTask extends TeaVMTask {
     @Optional
     public abstract Property<Integer> getMaxTopLevelNames();
 
+    @Input
+    @Optional
+    public abstract Property<Boolean> getDeterministicNames();
+
     @Override
     protected void setupBuilder(BuildStrategy builder) {
         builder.setTargetType(TeaVMTargetType.JAVASCRIPT);
         builder.setObfuscated(getObfuscated().get());
+        builder.setDeterministicNames(getDeterministicNames().get());
         builder.setStrict(getStrict().get());
         if (getMaxTopLevelNames().isPresent()) {
             builder.setMaxTopLevelNames(getMaxTopLevelNames().get());

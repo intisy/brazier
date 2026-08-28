@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.tooling.builder;
 
 import java.io.File;
@@ -58,6 +59,7 @@ public class InProcessBuildStrategy implements BuildStrategy {
     private JSModuleType jsModuleType;
     private boolean strict;
     private int maxTopLevelNames = 80_000;
+    private boolean deterministicNames;
     private boolean sourceMapsFileGenerated;
     private boolean debugInformationGenerated;
     private TeaVMSourceFilePolicy sourceMapsSourcePolicy;
@@ -168,6 +170,11 @@ public class InProcessBuildStrategy implements BuildStrategy {
     @Override
     public void setObfuscated(boolean obfuscated) {
         this.obfuscated = obfuscated;
+    }
+
+    @Override
+    public void setDeterministicNames(boolean deterministicNames) {
+        this.deterministicNames = deterministicNames;
     }
 
     @Override
@@ -289,6 +296,7 @@ public class InProcessBuildStrategy implements BuildStrategy {
         tool.setJsModuleType(jsModuleType);
         tool.setStrict(strict);
         tool.setMaxTopLevelNames(maxTopLevelNames);
+        tool.setDeterministicNames(deterministicNames);
         tool.setIncremental(incremental);
         tool.getTransformers().addAll(Arrays.asList(transformers));
         tool.getClassesToPreserve().addAll(Arrays.asList(classesToPreserve));
