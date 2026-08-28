@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.backend.javascript.codegen;
 
 import com.carrotsearch.hppc.ObjectIntHashMap;
@@ -92,6 +93,15 @@ public class DefaultAliasProvider implements AliasProvider {
 
     @Override
     public ScopedName getStaticMethodAlias(MethodReference method) {
+        return makeTopLevelMethodAlias(method);
+    }
+
+    @Override
+    public ScopedName getInitializerAlias(MethodReference method) {
+        return makeTopLevelMethodAlias(method);
+    }
+
+    private ScopedName makeTopLevelMethodAlias(MethodReference method) {
         String suggested = method.getDescriptor().getName();
         switch (suggested) {
             case "<init>":

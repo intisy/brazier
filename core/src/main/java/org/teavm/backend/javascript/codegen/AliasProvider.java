@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.backend.javascript.codegen;
 
 import org.teavm.model.FieldReference;
@@ -25,6 +26,16 @@ public interface AliasProvider {
     ScopedName getStaticFieldAlias(FieldReference field);
 
     ScopedName getStaticMethodAlias(MethodReference method);
+
+    /**
+     * Names the initializer half of a constructor, which shares its {@link MethodReference} with the
+     * body named by {@link #getStaticMethodAlias}. Without this split the two are indistinguishable
+     * to a provider, and an implementation that is a pure function of the reference would merge them.
+     *
+     * @param method the constructor whose initializer is being named
+     * @return the alias for the initializer
+     */
+    ScopedName getInitializerAlias(MethodReference method);
 
     String getMethodAlias(MethodDescriptor method);
 

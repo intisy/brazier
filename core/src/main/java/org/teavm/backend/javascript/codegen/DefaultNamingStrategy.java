@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.backend.javascript.codegen;
 
 import java.util.HashMap;
@@ -79,7 +80,9 @@ public class DefaultNamingStrategy implements NamingStrategy {
         }
 
         return privateAliases.computeIfAbsent(new Key(classifier, method),
-                key -> aliasProvider.getStaticMethodAlias(key.data));
+                key -> key.classifier == INIT_CLASSIFIER
+                        ? aliasProvider.getInitializerAlias(key.data)
+                        : aliasProvider.getStaticMethodAlias(key.data));
     }
 
     @Override
