@@ -417,12 +417,28 @@ public class TeaVM implements TeaVMHost, ServiceRepository {
             return;
         }
         for (var className : fresh) {
-            preserveWholly(className);
+            preserveOverrides(className);
         }
         dependencyAnalyzer.defer(this::preserveReachableTypesWholly);
     }
 
     private void preserveWholly(String className) {
+        preserve(className, method -> true);
+    }
+
+    /**
+     * @implNote A class the build merely passed through is preserved narrowly, because preserving
+     *     every method of every such class takes the runtime from 2.2 MB to 6.4 MB and the closure
+     *     never settles. An OVERRIDE is the case that must not be pruned: a missing one leaves the
+     *     inherited method in the table and the object behaves as its own superclass, silently. A
+     *     method that overrides nothing is missing loudly instead, as an alias the consumer cannot
+     *     import.
+     */
+    private void preserveOverrides(String className) {
+        preserve(className, method -> overridesAnAncestor(className, method));
+    }
+
+    private void preserve(String className, Predicate<MethodReader> extraCondition) {
         if (!whollyPreservedTypes.add(className)) {
             return;
         }
@@ -431,10 +447,19 @@ public class TeaVM implements TeaVMHost, ServiceRepository {
             return;
         }
         for (var method : cls.getMethods()) {
-            if (isReachableByAConsumer(method)) {
+            if (isReachableByAConsumer(method) && extraCondition.test(method)) {
                 dependencyAnalyzer.linkMethod(method.getReference()).use();
             }
         }
+    }
+
+    private boolean overridesAnAncestor(String className, MethodReader method) {
+        if (method.hasModifier(ElementModifier.STATIC) || method.getName().equals("<init>")) {
+            return false;
+        }
+        return dependencyAnalyzer.getClassSource().getAncestors(className)
+                .anyMatch(ancestor -> !ancestor.getName().equals(className)
+                        && ancestor.getMethod(method.getDescriptor()) != null);
     }
 
     /**
