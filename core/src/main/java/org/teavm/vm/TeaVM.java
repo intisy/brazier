@@ -58,6 +58,8 @@ import org.teavm.model.ClassHolderSource;
 import org.teavm.model.ClassHolderTransformer;
 import org.teavm.model.ClassReader;
 import org.teavm.model.ClassReaderSource;
+import org.teavm.interop.Unmanaged;
+import org.teavm.model.AccessLevel;
 import org.teavm.model.ElementModifier;
 import org.teavm.model.FieldHolder;
 import org.teavm.model.FieldReference;
@@ -390,9 +392,26 @@ public class TeaVM implements TeaVMHost, ServiceRepository {
                 return;
             }
             for (var method : cls.getMethods()) {
-                dependencyAnalyzer.linkMethod(method.getReference()).use();
+                if (isReachableByAConsumer(method)) {
+                    dependencyAnalyzer.linkMethod(method.getReference()).use();
+                }
             }
         });
+    }
+
+    /**
+     * @param method a method of a preserved class
+     * @return whether a separately compiled program could call it
+     * @implNote A private method cannot be called from outside its class, so preserving one buys a
+     *     consumer nothing. It can cost a great deal: the low-level backends' delegates are private,
+     *     and linking one drags in a garbage collector the JavaScript backend never uses and cannot
+     *     implement. An unmanaged method is that same low-level world named explicitly. A native
+     *     method is likewise supplied by a generator when it is reached, not by being preserved.
+     */
+    private static boolean isReachableByAConsumer(MethodReader method) {
+        return !method.hasModifier(ElementModifier.NATIVE)
+                && method.getLevel() != AccessLevel.PRIVATE
+                && method.getAnnotations().get(Unmanaged.class.getName()) == null;
     }
 
     public ClassReaderSource getDependencyClassSource() {
