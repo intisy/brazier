@@ -124,7 +124,11 @@ logic of its own.
   a `v*` tag. That form is forced rather than chosen: a Gradle plugin marker resolves through
   `pluginManagement` repositories, so no release-asset resolver can serve one.
 
-**Files (3), all added.**
+- **`.github/workflows/merge.yml`** promotes `development` into `main` and declares `README.md` a
+  generated path, so the merge does not carry development's deletion of it across and undo the
+  generator.
+
+**Files (4), all added.**
 
 ## 5. Publishing
 
