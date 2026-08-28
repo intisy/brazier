@@ -29,11 +29,13 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -112,6 +114,7 @@ import org.teavm.runtime.reflect.ClassInfo;
 import org.teavm.vm.BuildTarget;
 import org.teavm.vm.RenderingException;
 import org.teavm.vm.TeaVM;
+import org.teavm.vm.TeaVMOptimizationLevel;
 import org.teavm.vm.TeaVMTarget;
 import org.teavm.vm.TeaVMTargetController;
 import org.teavm.vm.spi.RendererListener;
@@ -145,6 +148,8 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
     private List<ExportedDeclaration> exports = new ArrayList<>();
     private int maxTopLevelNames = 80_000;
     private boolean deterministicNames;
+    private final Set<String> sharedRuntimeClasses = new LinkedHashSet<>();
+    private final Set<String> emittedTopLevelAliases = new LinkedHashSet<>();
 
     private ReflectionDependencyListener reflection;
 
@@ -259,6 +264,46 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
      */
     public void setDeterministicNames(boolean deterministicNames) {
         this.deterministicNames = deterministicNames;
+    }
+
+    /**
+     * Emits these classes whole, keeps every runtime part, and exports every top-level declaration,
+     * so other programs can import from this module instead of emitting the same classes themselves.
+     *
+     * @param classNames the classes the runtime is to contain; empty leaves the target in its
+     *     ordinary mode
+     */
+    public void setSharedRuntimeClasses(Collection<String> classNames) {
+        sharedRuntimeClasses.clear();
+        sharedRuntimeClasses.addAll(classNames);
+    }
+
+    /** {@return the classes this module emits as a shared runtime, empty when it emits none} */
+    public Set<String> getSharedRuntimeClasses() {
+        return Collections.unmodifiableSet(sharedRuntimeClasses);
+    }
+
+    /** {@return every top-level alias this module declared, which is what its manifest records} */
+    public Set<String> getEmittedTopLevelAliases() {
+        return Collections.unmodifiableSet(emittedTopLevelAliases);
+    }
+
+    /**
+     * Refuses a shared-runtime build that would optimise against a world its consumers are not
+     * part of.
+     *
+     * @param level the level this build would run at
+     * @implNote Above SIMPLE the compiler devirtualises against the closed world, and that decides
+     *     whether a method gets a prototype slot at all. A consumer subclassing a runtime class
+     *     would then have nothing to override, and nothing would fail to link. See TeaVM's guarded
+     *     call to devirtualize.
+     */
+    public void checkSharedRuntimeOptimizationLevel(TeaVMOptimizationLevel level) {
+        if (!sharedRuntimeClasses.isEmpty() && level != TeaVMOptimizationLevel.SIMPLE) {
+            throw new IllegalStateException("A shared runtime must be compiled at SIMPLE, not " + level
+                    + ": a higher level devirtualises against a closed world that its consumers are "
+                    + "not part of.");
+        }
     }
 
     @Override
