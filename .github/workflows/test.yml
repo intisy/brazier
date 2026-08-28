@@ -1,0 +1,25 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, development]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    uses: intisy/workflows/.github/workflows/test.yml@main
+    with:
+      # Upstream's own suite, unchanged, so a compiler change that breaks TeaVM breaks this build.
+      java_version: '25'
+      submodules: 'false'
+      timeout_minutes: 90
+      # Upstream requires every backend flag to be passed explicitly, because a local Gradle config
+      # may otherwise set them. Only the JS backend is enabled: it is the one Brazier changes, and
+      # the C and Wasm GC suites cost most of the runtime.
+      gradle_args: >-
+        -Pteavm.tests.js=true
+        -Pteavm.tests.c=false
+        -Pteavm.tests.wasm-gc=false
+        -Pteavm.localNodeJS=true
+        -Dorg.gradle.jvmargs=-Xmx2g -XX:MaxMetaspaceSize=512m

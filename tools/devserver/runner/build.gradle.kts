@@ -51,7 +51,7 @@ val generateDependenciesList by tasks.registering {
         }
     }
     doLast {
-        val fullList = deps.get() + "org.teavm:teavm-devserver-runner:$version"
+        val fullList = deps.get() + "io.github.intisy.brazier:brazier-devserver-runner:$version"
         depsFile.get().asFile.writeText(fullList.joinToString("\n"))
     }
 }
@@ -69,7 +69,7 @@ fun findArtifactCoordinates(path: String): String? {
 publishing.publications {
     create<MavenPublication>("depsList") {
         artifact(generateDependenciesList) {
-            group = "org.teavm"
+            group = "io.github.intisy.brazier"
             artifactId = "brazier-devserver-runner"
             classifier = "dependencies"
             extension = "txt"

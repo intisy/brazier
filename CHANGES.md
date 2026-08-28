@@ -41,11 +41,16 @@ Brazier versions on its own line rather than tracking TeaVM's, because it is its
 upstream release it derives from is recorded by the `upstream-0.15.0` tag and by this file, not by
 the version number.
 
-**The group is declared in two places, and both must change.** `build.gradle.kts` sets
+**The group is declared in THREE places, and all three must change.** `build.gradle.kts` sets
 `project.group`, but publications do not use it: `PublishTeaVMPlugin` calls `setGroupId` with a
-literal. Changing only the build script publishes `brazier-*` artifacts under `org.teavm`, which was
-caught by publishing one module locally and looking at where the file landed. Upstream carries the
-same value twice; Brazier changes the same two literals rather than restructuring.
+literal, and `tools/devserver/runner` declares a second publication with its own `group` and embeds
+the coordinate again in a generated dependency list.
+
+Neither extra site is discoverable by reading the root build script, and both were found the same
+way: publish, then look at where the files actually landed under `~/.m2`. The first leak put every
+`brazier-*` artifact under `org.teavm`; the second survived that fix and put exactly one artifact
+there. Anyone re-doing this rename should publish and check the paths rather than trust a grep for
+`group =`.
 
 **Published pom metadata points at Brazier, and authorship still credits upstream.** `scm` and `url`
 in `settings.gradle.kts` named upstream's repository and site, which would have sent anyone following
@@ -58,6 +63,8 @@ stays listed as a developer, with Brazier's maintainer added beside him.
 - `build-logic/src/main/java/org/teavm/buildutil/PublishTeaVMPlugin.java`, the publication groupId
 - `tools/gradle/build.gradle.kts`, which also carries the plugin ids, display names, website and
   vcsUrl
+- `tools/devserver/runner/build.gradle.kts`, the second publication's own group and its deps-list
+  coordinate
 - the 26 remaining module build scripts that declare an `artifactId`: `classlib`, `core`,
   `extension/apis`, `extension/processor`, `extension/spi`, `extension/spi-util`, `extras-slf4j`,
   `interop/core`, `jso/apis`, `jso/core`, `jso/impl`, `metaprogramming/api`, `metaprogramming/impl`,
@@ -95,3 +102,22 @@ modified one, and why editing `README.md` directly would be reverted by the next
 
 **Files (6):** `NOTICE` (modified), `README.md` (deleted), and four added: `CHANGES.md`,
 `CONTENT.md`, `.github/docs-config.yml`, `.github/workflows/readme.yml`.
+
+## 4. CI
+
+Upstream's `.github/workflows/ci.yml` triggers on `master` and never runs here, so it is left exactly
+as it is: dead on these branches and therefore not worth a modification notice. Brazier adds its own,
+both thin callers into `intisy/workflows` because no repository in this organisation carries workflow
+logic of its own.
+
+- **`.github/workflows/test.yml`** runs upstream's own suite through the shared `test.yml`. Only the
+  JS backend is enabled: it is the one Brazier changes, and C and Wasm GC cost most of the runtime.
+  Every backend flag is passed explicitly, as upstream's own instructions require, because a local
+  Gradle config can otherwise set them.
+- **`.github/workflows/fork-diff.yml`** is the gate that keeps this file honest. The modification
+  notices are the declaration, so there is no list here for the gate to read and fall out of step
+  with: a file that differs from `upstream-0.15.0` must carry the marker, and a vendored file
+  carrying the marker must actually differ. Deletions cannot carry a notice, so they are the one
+  thing declared by hand, and `README.md` is the only one.
+
+**Files (2), both added.**
