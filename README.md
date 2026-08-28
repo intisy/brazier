@@ -1,64 +1,134 @@
-# TeaVM
+# brazier
 
-[![.github/workflows/ci.yml](https://github.com/konsoletyper/teavm/actions/workflows/ci.yml/badge.svg)](https://github.com/konsoletyper/teavm/actions/workflows/ci.yml)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.teavm/teavm-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.teavm/teavm-maven-plugin) 
-[![Download](https://teavm.org/maven/latestBadge.svg)](https://teavm.org/maven/_latest)
-[![Discord](https://img.shields.io/discord/1368634309849911386
-)](https://discord.gg/QvcBHmdE5J)
+Archives containing JAR files are available as [releases](https://github.com/intisy/brazier/releases).
 
-See documentation at the [project web site](https://teavm.org/).
+## What is brazier?
 
-Useful links:
+Brazier is a Java-to-JavaScript ahead-of-time compiler derived from TeaVM, adding a shared runtime so separate bundles stop each carrying their own copy of the Java class library
 
-* [Getting started](https://teavm.org/docs/intro/getting-started.html)
-* [Gallery](https://teavm.org/gallery.html)
-* [Site source code repository](https://github.com/konsoletyper/teavm-site)
-* [Discussion on Google Groups](https://groups.google.com/forum/#!forum/teavm)
+## Usage
 
+Using the plugins DSL:
 
-## Building TeaVM
+```groovy
+plugins {
+    id "io.github.intisy.brazier" version "1.0.0"
+}
+```
 
-Simply clone source code (`git clone https://github.com/konsoletyper/teavm.git`)
-and run Gradle build (`./gradlew publishToMavenLocal` or `gradlew.bat publishToMavenLocal`).
-You should build samples separately, as described in [corresponding readme file](samples/README.md).
+Using legacy plugin application:
 
+```groovy
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "io.github.intisy.brazier:1.0.0"
+    }
+}
 
-### Useful Gradle tasks
+apply plugin: "io.github.intisy.brazier"
+```
 
-* `:tools:classlib-comparison-gen:build` &ndash; build Java class library compatibility report.
-  result is available at: `tools/classlib-comparison-gen/build/jcl-support`
+Once you have the plugin installed you can use it like so:
 
+**Brazier is not TeaVM.** If you want TeaVM, use [TeaVM](https://github.com/konsoletyper/teavm).
+Brazier is a derivative of its 0.15.0 release, renamed so that neither project can be mistaken for
+the other, and it exists to change two things upstream cannot change without breaking its own
+compatibility promises.
 
-## Embedding TeaVM
+## Why it exists
 
-If you are not satisfied with Maven, you can embed TeaVM in your program 
-or even create your own plugin for any build tool, like Ant or Gradle.
-The starting point for you may be `org.teavm.tooling.TeaVMTool` class from `teavm-tooling` artifact. 
-You may want to go deeper and use `org.teavm.vm.TeaVM` from `teavm-core` artifact, learn how `TeaVMTool` initializes it. 
-To learn how to use `TeaVMTool` class itself, find its usages across project source code. 
-You most likely encounter Maven and IDEA plugins.
-  
-Please, notice that these APIs for embedding are still unstable and may change between versions.
+**A shared runtime.** TeaVM compiles whole-program: every bundle statically links its own copy of the
+Java class library, and nothing in its configuration surface lets one bundle reference another's
+classes. Measured across nine bundles of one real project, that cost **6552 KB, of which 4754 KB was
+the same class library emitted nine times**. The union of those nine copies is 897 KB, a duplication
+factor of 5.3x, and that union barely grew as bundles were added: the library slice is saturated, so
+a shared runtime sized for today would serve further bundles almost free.
 
+**A Java 8 floor.** TeaVM 0.15.0's published artifacts declare a minimum JVM version of 11 to 17, so
+a project compiling against them cannot enforce `--release 8` on the modules that use them, even
+where the code involved touches no post-8 API at all.
+
+Both need compiler and build changes rather than configuration, which is what Brazier is for.
+
+## Status
+
+Early. The rename is complete and the build publishes under Brazier's own coordinates. Neither the
+shared runtime nor the Java 8 floor is implemented yet.
+
+## Your Java sources need no changes
+
+Brazier deliberately keeps upstream's `org.teavm.*` package names, so `@JSBody`, `@JSExport` and
+`@JSFunctor` keep their imports and a project moving from TeaVM edits only its build coordinates.
+Renaming the packages would conflict on every file in every future merge from upstream, and a package
+name is not the mark being separated. See [CHANGES.md](CHANGES.md) for that and for everything else
+Brazier changes.
+
+The library plugin is `io.github.intisy.brazier.library`.
+
+## Where the artifacts come from
+
+Brazier serves itself as a static Maven repository, because a Gradle plugin marker has to be
+resolvable through `pluginManagement` and no release-asset resolver can do that. Add it in
+`settings.gradle.kts`:
+
+```kotlin
+pluginManagement {
+    repositories {
+        maven("https://intisy.github.io/brazier/maven")
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        maven("https://intisy.github.io/brazier/maven")
+        mavenCentral()
+    }
+}
+```
+
+Only tagged releases are published there. For local work, `./gradlew publishToMavenLocal` and
+`mavenLocal()` is the shorter route.
+
+## Building
+
+```
+./gradlew publishToMavenLocal
+```
+
+Samples build separately, as described in [their readme](samples/README.md).
+
+## Relationship to upstream
+
+Brazier tracks `konsoletyper/teavm` as a git remote so upstream fixes can be merged. Nothing is
+pushed back: Brazier is not a contribution route and its changes are not offered upstream.
+
+The baseline is the `upstream-0.15.0` tag in this repository. Every file Brazier changes carries a
+modification notice, [CHANGES.md](CHANGES.md) lists them all, and CI fails if the tree and that list
+disagree, so the list cannot quietly rot.
+
+**Report Brazier bugs here.** Do not report them to TeaVM unless they reproduce against unmodified
+TeaVM.
 
 ## License
- 
-TeaVM is distributed under [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
-TeaVM does not rely on OpenJDK or code or other (L)GPL code.
-TeaVM has its own reimplementation of Java class library, which is either implemented from scratch or
-based on non-(L)GPL projects:
+
+Apache License 2.0, the same as upstream, with `LICENSE` byte-identical to TeaVM's. Attribution is in
+[NOTICE](NOTICE).
+
+TeaVM relies on no OpenJDK or other (L)GPL code, and neither does Brazier. The Java class library
+here is TeaVM's own reimplementation, written from scratch or based on non-(L)GPL projects:
 
 * [Apache Harmony](https://harmony.apache.org/) (Apache 2.0)
 * [Joda-Time](https://github.com/JodaOrg/joda-time) (Apache 2.0)
 * [jzlib](https://github.com/ymnk/jzlib) (BSD style license)
 
-If you want to contribute code to implementation of Java class library, 
-please make sure it's not based on OpenJDK or other code licensed under (L)GPL.
+Contributions to the class library must not be based on OpenJDK or other (L)GPL-licensed code.
 
+## License
 
-## Feedback
-
-More information is available at the official site: https://teavm.org.
-
-Ask your questions by email: info@teavm.org. Also, you can report issues on a project's
-[issue tracker](https://github.com/konsoletyper/teavm/issues).
+[![Apache License 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
