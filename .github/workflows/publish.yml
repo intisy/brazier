@@ -1,0 +1,23 @@
+name: Publish
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish, with or without a leading v'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    uses: intisy/workflows/.github/workflows/publish-maven-repo.yml@main
+    with:
+      # Upstream already stages a Maven layout when no publish URL is set, so the build needed no
+      # change for this: the repository is renamed, its destination is not.
+      gradle_task: publishAllPublicationsToBrazierRepository
+      version: ${{ inputs.version || github.ref_name }}
+      version_property: brazier.project.version
+      java_version: '17'
+      timeout_minutes: 90

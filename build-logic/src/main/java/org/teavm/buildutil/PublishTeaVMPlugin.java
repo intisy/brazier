@@ -49,19 +49,19 @@ public abstract class PublishTeaVMPlugin implements Plugin<Project> {
                 customizePublication(target, (MavenPublication) pluginMavenPublication, extension, false);
             }
             publishing.repositories(repositories -> {
-                var url = target.getProviders().gradleProperty("teavm.publish.url");
+                var url = target.getProviders().gradleProperty("brazier.publish.url");
                 if (url.isPresent()) {
                     repositories.maven(repository -> {
-                        repository.setName("teavm");
+                        repository.setName("brazier");
                         repository.setUrl(url.get());
                         repository.getCredentials().setUsername(target.getProviders().gradleProperty(
-                                "teavm.publish.username").get());
+                                "brazier.publish.username").get());
                         repository.getCredentials().setPassword(target.getProviders().gradleProperty(
-                                "teavm.publish.password").get());
+                                "brazier.publish.password").get());
                     });
                 } else {
                     repositories.maven(repository -> {
-                        repository.setName("teavm");
+                        repository.setName("brazier");
                         repository.setUrl(target.getRootProject().getLayout().getBuildDirectory()
                                 .dir("staging-deploy"));
                     });

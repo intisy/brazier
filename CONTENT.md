@@ -33,6 +33,31 @@ Brazier changes.
 
 The library plugin is `io.github.intisy.brazier.library`.
 
+## Where the artifacts come from
+
+Brazier serves itself as a static Maven repository, because a Gradle plugin marker has to be
+resolvable through `pluginManagement` and no release-asset resolver can do that. Add it in
+`settings.gradle.kts`:
+
+```kotlin
+pluginManagement {
+    repositories {
+        maven("https://intisy.github.io/brazier/maven")
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        maven("https://intisy.github.io/brazier/maven")
+        mavenCentral()
+    }
+}
+```
+
+Only tagged releases are published there. For local work, `./gradlew publishToMavenLocal` and
+`mavenLocal()` is the shorter route.
+
 ## Building
 
 ```

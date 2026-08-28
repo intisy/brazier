@@ -120,4 +120,31 @@ logic of its own.
   carrying the marker must actually differ. Deletions cannot carry a notice, so they are the one
   thing declared by hand, and `README.md` is the only one.
 
-**Files (2), both added.**
+- **`.github/workflows/publish.yml`** publishes a static Maven repository to the `gh-pages` branch on
+  a `v*` tag. That form is forced rather than chosen: a Gradle plugin marker resolves through
+  `pluginManagement` repositories, so no release-asset resolver can serve one.
+
+**Files (3), all added.**
+
+## 5. Publishing
+
+The build needed no change for this. Upstream's `PublishTeaVMPlugin` already publishes to a Maven
+layout under `build/staging-deploy` whenever no publish URL is set, which is exactly what a static
+repository is, so only the destination is new.
+
+What did change is the name a human types: the publishing repository and its Gradle properties are
+renamed, making the task `publishAllPublicationsToBrazierRepository` and the properties
+`brazier.publish.url` / `.username` / `.password`. This is the one exception to leaving build-internal
+names alone, because a task name is typed rather than merely resolved.
+
+Both Gradle plugin markers, `io.github.intisy.brazier.gradle.plugin` and
+`io.github.intisy.brazier.library.gradle.plugin`, are produced automatically by `java-gradle-plugin`
+and verified present in the staged layout.
+
+**Releases only, never snapshots.** Each snapshot publish writes a fresh timestamped artifact set, so
+publishing snapshots would grow the served repository without bound. A full stage is 1270 files and
+66 MB, which is also why the `gh-pages` branch is rewritten as a single orphan commit each run after
+merging in what it already held: every version stays resolvable and the branch keeps no history.
+
+**Files (1):** `build-logic/src/main/java/org/teavm/buildutil/PublishTeaVMPlugin.java`, already listed
+in section 1 for the groupId.
