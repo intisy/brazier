@@ -15,13 +15,15 @@
  */
 // Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.tooling;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -77,7 +79,6 @@ import org.teavm.vm.TeaVMBuilder;
 import org.teavm.vm.TeaVMOptimizationLevel;
 import org.teavm.vm.TeaVMProgressListener;
 import org.teavm.vm.TeaVMTarget;
-
 public class TeaVMTool {
     private File targetDirectory = new File(".");
     private TeaVMTargetType targetType = TeaVMTargetType.JAVASCRIPT;
@@ -89,6 +90,8 @@ public class TeaVMTool {
     private boolean deterministicNames;
     private List<String> sharedRuntimeClasses = new ArrayList<>();
     private File sharedRuntimeManifestFile;
+    private File importedRuntimeManifestFile;
+    private String importedRuntimeModule;
     private String mainClass;
     private String entryPointName = "main";
     private Properties properties = new Properties();
@@ -130,7 +133,6 @@ public class TeaVMTool {
     private boolean shortFileNames;
     private boolean assertionsRemoved;
     private SourceMapBuilder wasmSourceMapWriter;
-
     public File getTargetDirectory() {
         return targetDirectory;
     }
@@ -157,6 +159,14 @@ public class TeaVMTool {
 
     public void setSharedRuntimeManifestFile(File sharedRuntimeManifestFile) {
         this.sharedRuntimeManifestFile = sharedRuntimeManifestFile;
+    }
+
+    public void setImportedRuntimeManifestFile(File importedRuntimeManifestFile) {
+        this.importedRuntimeManifestFile = importedRuntimeManifestFile;
+    }
+
+    public void setImportedRuntimeModule(String importedRuntimeModule) {
+        this.importedRuntimeModule = importedRuntimeModule;
     }
 
     public void setJsModuleType(JSModuleType jsModuleType) {
@@ -390,6 +400,15 @@ public class TeaVMTool {
         javaScriptTarget.setDeterministicNames(deterministicNames);
         javaScriptTarget.setSharedRuntimeClasses(sharedRuntimeClasses);
         javaScriptTarget.checkSharedRuntimeOptimizationLevel(optimizationLevel);
+        if (importedRuntimeManifestFile != null) {
+            try (Reader reader = new InputStreamReader(new FileInputStream(importedRuntimeManifestFile),
+                    StandardCharsets.UTF_8)) {
+                javaScriptTarget.setImportedRuntime(SharedRuntimeManifest.read(reader),
+                        importedRuntimeModule != null ? importedRuntimeModule : "./runtime.js");
+            } catch (IOException e) {
+                throw new IllegalStateException("Could not read the imported runtime's manifest", e);
+            }
+        }
 
         debugEmitter = debugInformationGenerated || sourceMapsFileGenerated
                 ? new DebugInformationBuilder(referenceCache) : null;
@@ -719,3 +738,6 @@ public class TeaVMTool {
         return transformerInstances;
     }
 }
+
+
+

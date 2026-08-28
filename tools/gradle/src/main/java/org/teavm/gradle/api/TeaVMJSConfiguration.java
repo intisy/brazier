@@ -43,6 +43,10 @@ public interface TeaVMJSConfiguration extends TeaVMWebConfiguration {
 
     Property<String> getSharedRuntimeManifest();
 
+    Property<String> getImportedRuntimeManifest();
+
+    Property<String> getImportedRuntimeModule();
+
     @Nested
     TeaVMJSDevServerConfiguration getDevServer();
 

@@ -169,6 +169,9 @@ public class BuildDaemon extends UnicastRemoteObject implements RemoteBuildServi
         tool.setSharedRuntimeClasses(request.sharedRuntimeClasses);
         tool.setSharedRuntimeManifestFile(request.sharedRuntimeManifestFile != null
                 ? new File(request.sharedRuntimeManifestFile) : null);
+        tool.setImportedRuntimeManifestFile(request.importedRuntimeManifestFile != null
+                ? new File(request.importedRuntimeManifestFile) : null);
+        tool.setImportedRuntimeModule(request.importedRuntimeModule);
         tool.setStrict(request.strict);
         tool.setWasmVersion(request.wasmVersion);
         tool.setWasmDebugInfoLocation(request.wasmDebugInfoLocation);

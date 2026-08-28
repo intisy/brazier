@@ -84,6 +84,14 @@ public abstract class GenerateJavaScriptTask extends TeaVMTask {
     @Optional
     public abstract Property<String> getSharedRuntimeManifest();
 
+    @Input
+    @Optional
+    public abstract Property<String> getImportedRuntimeManifest();
+
+    @Input
+    @Optional
+    public abstract Property<String> getImportedRuntimeModule();
+
     @Override
     protected void setupBuilder(BuildStrategy builder) {
         builder.setTargetType(TeaVMTargetType.JAVASCRIPT);
@@ -98,6 +106,12 @@ public abstract class GenerateJavaScriptTask extends TeaVMTask {
         }
         if (getSharedRuntimeManifest().isPresent()) {
             builder.setSharedRuntimeManifestFile(getSharedRuntimeManifest().get());
+        }
+        if (getImportedRuntimeManifest().isPresent()) {
+            builder.setImportedRuntimeManifestFile(getImportedRuntimeManifest().get());
+        }
+        if (getImportedRuntimeModule().isPresent()) {
+            builder.setImportedRuntimeModule(getImportedRuntimeModule().get());
         }
         builder.setStrict(getStrict().get());
         if (getMaxTopLevelNames().isPresent()) {

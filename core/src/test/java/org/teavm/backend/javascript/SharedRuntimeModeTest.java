@@ -21,6 +21,7 @@ import static org.junit.Assert.fail;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Test;
+import org.teavm.backend.javascript.sharedruntime.SharedRuntimeManifest;
 import org.teavm.vm.TeaVMOptimizationLevel;
 
 public class SharedRuntimeModeTest {
@@ -47,6 +48,32 @@ public class SharedRuntimeModeTest {
     public void leavesAnOrdinaryBuildAlone() {
         JavaScriptTarget target = new JavaScriptTarget();
         target.checkSharedRuntimeOptimizationLevel(TeaVMOptimizationLevel.FULL);
+    }
+
+    @Test
+    public void refusesToBothEmitAndImportARuntime() {
+        JavaScriptTarget target = new JavaScriptTarget();
+        target.setSharedRuntimeClasses(Arrays.asList("java.lang.Object"));
+        try {
+            target.setImportedRuntime(new SharedRuntimeManifest("1",
+                    Arrays.asList("java.lang.Object"), Arrays.asList("jl_Object_a")), "./runtime.js");
+            fail("expected a rejection");
+        } catch (IllegalStateException e) {
+            assertTrue(e.getMessage().contains("both"));
+        }
+    }
+
+    @Test
+    public void refusesToEmitARuntimeItAlreadyImports() {
+        JavaScriptTarget target = new JavaScriptTarget();
+        target.setImportedRuntime(new SharedRuntimeManifest("1",
+                Arrays.asList("java.lang.Object"), Arrays.asList("jl_Object_a")), "./runtime.js");
+        try {
+            target.setSharedRuntimeClasses(Arrays.asList("java.lang.Object"));
+            fail("expected a rejection");
+        } catch (IllegalStateException e) {
+            assertTrue(e.getMessage().contains("both"));
+        }
     }
 
     @Test

@@ -172,6 +172,16 @@ public class RemoteBuildStrategy implements BuildStrategy {
     }
 
     @Override
+    public void setImportedRuntimeManifestFile(String path) {
+        request.importedRuntimeManifestFile = path;
+    }
+
+    @Override
+    public void setImportedRuntimeModule(String moduleSpecifier) {
+        request.importedRuntimeModule = moduleSpecifier;
+    }
+
+    @Override
     public void setTransformers(String[] transformers) {
         request.transformers = transformers.clone();
     }

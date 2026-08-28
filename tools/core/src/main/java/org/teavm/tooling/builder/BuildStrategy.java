@@ -74,6 +74,10 @@ public interface BuildStrategy {
 
     void setSharedRuntimeManifestFile(String path);
 
+    void setImportedRuntimeManifestFile(String path);
+
+    void setImportedRuntimeModule(String moduleSpecifier);
+
     void setProperties(Properties properties);
 
     void setTransformers(String[] transformers);
