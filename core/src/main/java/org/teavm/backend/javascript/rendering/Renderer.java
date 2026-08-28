@@ -259,10 +259,12 @@ public class Renderer implements RenderingManager {
         var decompiler = new Decompiler(classes, splitMethods, isFriendlyToDebugger);
 
         int index = 0;
+        var rendered = new ArrayList<ClassHolder>();
         for (var cls : sequence) {
             if (context.getImportedClasses().contains(cls.getName())) {
                 continue;
             }
+            rendered.add(cls);
             writer.markClassStart(cls.getName());
             renderDeclaration(cls);
             renderMethodBodies(cls, decompiler);
@@ -271,7 +273,9 @@ public class Renderer implements RenderingManager {
                 return false;
             }
         }
-        renderClassMetadata(sequence);
+        // Metadata for an imported class belongs to the module that declares it, and naming a
+        // method it does not define is a reference to nothing.
+        renderClassMetadata(rendered);
         return true;
     }
 

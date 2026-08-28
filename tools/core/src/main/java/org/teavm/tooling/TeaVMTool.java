@@ -611,7 +611,8 @@ public class TeaVMTool {
     private void writeSharedRuntimeManifest() throws IOException {
         String version = TeaVMTool.class.getPackage().getImplementationVersion();
         SharedRuntimeManifest manifest = new SharedRuntimeManifest(version != null ? version : "unknown",
-                sharedRuntimeClasses, new ArrayList<>(javaScriptTarget.getEmittedTopLevelAliases()));
+                new ArrayList<>(javaScriptTarget.getEmittedClassNames()),
+                new ArrayList<>(javaScriptTarget.getEmittedTopLevelAliases()));
         File parent = sharedRuntimeManifestFile.getParentFile();
         if (parent != null && !parent.exists() && !parent.mkdirs()) {
             throw new IOException("Could not create " + parent);

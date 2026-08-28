@@ -63,6 +63,7 @@ import org.teavm.backend.javascript.rendering.Renderer;
 import org.teavm.backend.javascript.rendering.RenderingContext;
 import org.teavm.backend.javascript.rendering.RenderingUtil;
 import org.teavm.backend.javascript.rendering.RuntimeRenderer;
+import org.teavm.backend.javascript.sharedruntime.DeclarationCollector;
 import org.teavm.backend.javascript.sharedruntime.SharedRuntimeManifest;
 import org.teavm.backend.javascript.spi.GeneratedBy;
 import org.teavm.backend.javascript.spi.Generator;
@@ -153,6 +154,7 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
             "A module cannot both emit and import a shared runtime.";
     private final Set<String> sharedRuntimeClasses = new LinkedHashSet<>();
     private final Set<String> emittedTopLevelAliases = new LinkedHashSet<>();
+    private final Set<String> emittedClassNames = new LinkedHashSet<>();
     private final Set<String> importedAliases = new LinkedHashSet<>();
     private SharedRuntimeManifest importedRuntime;
     private String importedRuntimeModule;
@@ -309,6 +311,18 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
     /** {@return every top-level alias this module declared, which is what its manifest records} */
     public Set<String> getEmittedTopLevelAliases() {
         return Collections.unmodifiableSet(emittedTopLevelAliases);
+    }
+
+    /**
+     * {@return every class this module emitted}
+     *
+     * @implNote The manifest records these rather than the classes the build was ASKED to preserve.
+     *     Preserving a class pulls in whatever it reaches, so a runtime emits far more than it was
+     *     given, and a consumer told only about the requested ones would import an alias of an
+     *     unlisted class while emitting that class itself, declaring the same name twice.
+     */
+    public Set<String> getEmittedClassNames() {
+        return Collections.unmodifiableSet(emittedClassNames);
     }
 
     /**
@@ -582,6 +596,13 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
         // know its own list before this point.
         if (importedRuntime != null) {
             var exported = new HashSet<>(importedRuntime.getAliases());
+            // The runtime module owns the $rt_* functions as well as the classes, and this module
+            // renders none of them, so every one it can reach has to be imported too.
+            for (var name : runtimeRenderer.getTopLevelNames()) {
+                if (exported.contains(name)) {
+                    importedAliases.add(name);
+                }
+            }
             for (var alias : ((DeterministicAliasProvider) aliasProvider).getDeclaredTopLevelAliases()) {
                 if (exported.contains(alias)) {
                     importedAliases.add(alias);
@@ -591,7 +612,18 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
         // Every alias exists only once the frequency estimator has minted it, so a shared runtime
         // can only know what it declares from here on.
         if (!sharedRuntimeClasses.isEmpty()) {
-            emittedTopLevelAliases.addAll(((DeterministicAliasProvider) aliasProvider).getDeclaredTopLevelAliases());
+            // FILTER_ALL, not FILTER_REF: the declaration markers are not references, and filtering
+            // them out leaves the collector unable to tell a declaration from a use.
+            var collector = new DeclarationCollector(naming);
+            runtime.replay(collector, RememberedSource.FILTER_ALL);
+            declarations.replay(collector, RememberedSource.FILTER_ALL);
+            metadata.replay(collector, RememberedSource.FILTER_ALL);
+            runtimeEpilogue.replay(collector, RememberedSource.FILTER_ALL);
+            epilogue.replay(collector, RememberedSource.FILTER_ALL);
+            emittedClassNames.addAll(classes.getClassNames());
+            emittedTopLevelAliases.addAll(collector.getDeclared());
+            // The hand-written runtime parts are raw text, so the collector cannot see them. In this
+            // mode removeUnusedParts is skipped, so every name they declare is present.
             emittedTopLevelAliases.addAll(runtimeRenderer.getTopLevelNames());
             for (var alias : emittedTopLevelAliases) {
                 exports.add(new ExportedDeclaration(w -> w.append(alias), n -> { }, alias));
