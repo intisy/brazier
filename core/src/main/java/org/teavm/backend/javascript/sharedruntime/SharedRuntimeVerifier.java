@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 import org.teavm.backend.javascript.rendering.RuntimeRenderer;
 
@@ -37,16 +38,25 @@ public final class SharedRuntimeVerifier {
     // this one symbol decides whether a bundle carries a class library or imports one.
     private static final String RUNTIME_SIGNATURE = "$rt_seed";
 
-    // A declaration as the backend emits it: an assignment at column zero, or a function statement.
-    // Anything else at column zero, such as the prototype-wiring block or the module epilogue,
-    // declares nothing.
+    // A name the backend minted: a runtime function, or a member alias, which carries the package
+    // initials and the class name and, under deterministic naming, a six-character digest. Nothing a
+    // human writes takes this shape, which is what lets the scans below run at any indentation.
+    private static final String EMITTED = "(\\$rt_[\\w$]+|\\$dbg_[\\w$]+|Long_[\\w$]+|[a-z]{1,6}_[A-Z][\\w$]*)";
+
+    // A declaration as the backend emits it: an assignment, or a function statement. Indentation is
+    // not part of the pattern, because a bundler indents the whole module and the subject here is
+    // the bundle as it ships: measured on one real esbuild output, anchoring at column zero saw 7 of
+    // 294 declarations, so every scan built on it read a correct bundle as empty.
     private static final Pattern DECLARATION = Pattern.compile(
-            "^(?:let |var |const )?([A-Za-z_$][\\w$]*)\\s*=(?!=)|^function ([A-Za-z_$][\\w$]*)\\s*\\(");
+            "^\\s*(?:let |var |const )?" + EMITTED + "\\s*=(?!=)|^\\s*function " + EMITTED + "\\s*\\(",
+            Pattern.MULTILINE);
 
     // A negated class matches newlines, which is what lets one pattern span the wrapped name list
     // the backend emits for a wide import.
     private static final Pattern NAMED_IMPORT = Pattern.compile(
             "^import\\s*\\{([^}]*)\\}\\s*from\\s*\"([^\"]*)\";", Pattern.MULTILINE);
+
+    private static final Pattern EMITTED_NAME = Pattern.compile("\\b" + EMITTED + "\\b");
 
     private SharedRuntimeVerifier() {
     }
@@ -58,7 +68,9 @@ public final class SharedRuntimeVerifier {
         /** The bundle declares a name the runtime also exports. */
         DOUBLED_CLASS,
         /** The bundle imports a name the runtime does not export. */
-        MISSING_EXPORT
+        MISSING_EXPORT,
+        /** The bundle calls a name it neither declares nor imports. */
+        DANGLING_REFERENCE
     }
 
     /** One thing wrong with a consumer bundle. */
@@ -83,21 +95,16 @@ public final class SharedRuntimeVerifier {
     }
 
     /**
-     * Collects the names a bundle declares at its top level.
+     * Collects the emitted names a bundle defines.
      *
      * @param source the bundle's text
-     * @return every declared name, in the order the bundle declares them
+     * @return every defined name, in the order the bundle defines them
      */
     public static Set<String> scanDeclarations(String source) {
         Set<String> declared = new LinkedHashSet<>();
-        for (var line : source.split("\n", -1)) {
-            if (line.isEmpty() || line.charAt(0) == ' ' || line.charAt(0) == '\t') {
-                continue;
-            }
-            var matcher = DECLARATION.matcher(line);
-            if (matcher.find()) {
-                declared.add(matcher.group(1) != null ? matcher.group(1) : matcher.group(2));
-            }
+        var matcher = DECLARATION.matcher(source);
+        while (matcher.find()) {
+            declared.add(matcher.group(1) != null ? matcher.group(1) : matcher.group(2));
         }
         return Collections.unmodifiableSet(declared);
     }
@@ -151,10 +158,14 @@ public final class SharedRuntimeVerifier {
                 findings.add(new Finding(Problem.DOUBLED_CLASS, name));
             }
         }
-        for (var name : scanImports(source, module)) {
+        var imported = scanImports(source, module);
+        for (var name : imported) {
             if (!exported.contains(name)) {
                 findings.add(new Finding(Problem.MISSING_EXPORT, name));
             }
+        }
+        for (var name : danglingReferences(source, declared, imported)) {
+            findings.add(new Finding(Problem.DANGLING_REFERENCE, name));
         }
         return findings;
     }
@@ -180,6 +191,29 @@ public final class SharedRuntimeVerifier {
         return String.join("\n", lines);
     }
 
+    /**
+     * {@return every emitted name the bundle uses without declaring or importing it, sorted}
+     *
+     * @param source the bundle's text
+     * @param declared what {@link #scanDeclarations} found
+     * @param imported what {@link #scanImports} found
+     * @implNote This is the failure that reaches production, because it costs nothing at load time:
+     *     the module resolves, and the call throws the first time it runs. It exists whenever a
+     *     runtime names a class it carries only in part, since the consumer then emits no body for
+     *     the missing member and imports none either.
+     */
+    public static List<String> danglingReferences(String source, Set<String> declared, Set<String> imported) {
+        Set<String> dangling = new TreeSet<>();
+        var matcher = EMITTED_NAME.matcher(source);
+        while (matcher.find()) {
+            var name = matcher.group(1);
+            if (!declared.contains(name) && !imported.contains(name)) {
+                dangling.add(name);
+            }
+        }
+        return new ArrayList<>(dangling);
+    }
+
     private static String describe(Finding finding, String module) {
         switch (finding.getProblem()) {
             case INLINED_RUNTIME:
@@ -188,6 +222,10 @@ public final class SharedRuntimeVerifier {
             case DOUBLED_CLASS:
                 return "declares " + finding.getAlias() + ", which " + module + " also exports, so one "
                         + "class has two identities and instanceof across the boundary returns false.";
+            case DANGLING_REFERENCE:
+                return "calls " + finding.getAlias() + ", which it neither declares nor imports, so the "
+                        + "bundle loads and throws the first time that call runs. Name its class in the "
+                        + "runtime's seed list.";
             default:
                 return "imports " + finding.getAlias() + ", which " + module + " does not export, so the "
                         + "bundle fails at module load.";

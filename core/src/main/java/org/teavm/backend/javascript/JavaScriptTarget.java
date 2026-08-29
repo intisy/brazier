@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import org.teavm.ast.ControlFlowEntry;
 import org.teavm.backend.javascript.codegen.AliasProvider;
@@ -64,6 +65,7 @@ import org.teavm.backend.javascript.rendering.RenderingContext;
 import org.teavm.backend.javascript.rendering.RenderingUtil;
 import org.teavm.backend.javascript.rendering.RuntimeRenderer;
 import org.teavm.backend.javascript.sharedruntime.DeclarationCollector;
+import org.teavm.backend.javascript.sharedruntime.SharedRuntimeCoverage;
 import org.teavm.backend.javascript.sharedruntime.SharedRuntimeManifest;
 import org.teavm.backend.javascript.spi.GeneratedBy;
 import org.teavm.backend.javascript.spi.Generator;
@@ -89,6 +91,7 @@ import org.teavm.interop.Platforms;
 import org.teavm.model.BasicBlock;
 import org.teavm.model.CallLocation;
 import org.teavm.model.ClassHolderTransformer;
+import org.teavm.model.ClassReader;
 import org.teavm.model.ClassReaderSource;
 import org.teavm.model.ElementModifier;
 import org.teavm.model.FieldReference;
@@ -157,6 +160,9 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
     private final Set<String> emittedTopLevelAliases = new LinkedHashSet<>();
     private final Set<String> emittedClassNames = new LinkedHashSet<>();
     private final Set<String> importedAliases = new LinkedHashSet<>();
+    private final Set<String> importedRuntimeClassNames = new HashSet<>();
+    private final Set<String> importedRuntimeAliases = new HashSet<>();
+    private final Map<String, List<String>> runtimeFallbacks = new TreeMap<>();
     private SharedRuntimeManifest importedRuntime;
     private String importedRuntimeModule;
 
@@ -302,6 +308,33 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
         }
         importedRuntime = manifest;
         importedRuntimeModule = moduleSpecifier;
+        importedRuntimeClassNames.addAll(manifest.getClassNames());
+        importedRuntimeAliases.addAll(manifest.getAliases());
+    }
+
+    /**
+     * Fails the build over every class the runtime names but does not wholly carry.
+     *
+     * @implNote An error rather than a warning, because emitting the class here instead is not the
+     *     cheaper option it looks like. {@code $rt_isInstance} opens with
+     *     {@code obj instanceof $rt_objcls()}, and {@code $rt_objcls} is imported, so a second copy
+     *     of a class makes every object built from it fail an instance check against the runtime's
+     *     hierarchy. Measured on the first converted plugin: with {@code java.lang.Object} emitted
+     *     locally, 7 of its 19 tests failed on exactly that. The fix is always to name the class in
+     *     the runtime's seed list, which is why every missing alias is reported rather than counted.
+     */
+    private void reportRuntimeFallbacks() {
+        if (runtimeFallbacks.isEmpty()) {
+            return;
+        }
+        var lines = new ArrayList<String>();
+        for (var fallback : runtimeFallbacks.entrySet()) {
+            lines.add(fallback.getKey() + " (missing " + String.join(" ", fallback.getValue()) + ")");
+        }
+        controller.getDiagnostics().error(null, "The shared runtime names {{c0}} class(es) it does not "
+                + "wholly carry, and a second copy of a class breaks every instance check against the "
+                + "runtime's hierarchy. Add them to the runtime's seed list: "
+                + String.join(", ", lines), runtimeFallbacks.size());
     }
 
     /** {@return the classes this module emits as a shared runtime, empty when it emits none} */
@@ -501,10 +534,21 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
             }
 
             @Override
-            public Set<String> getImportedClasses() {
-                return importedRuntime != null
-                        ? new HashSet<>(importedRuntime.getClassNames())
-                        : Collections.emptySet();
+            public boolean isCarriedByImportedRuntime(String alias) {
+                return importedRuntimeAliases.contains(alias);
+            }
+
+            @Override
+            public boolean isProvidedByImportedRuntime(ClassReader cls) {
+                if (importedRuntime == null || !importedRuntimeClassNames.contains(cls.getName())) {
+                    return false;
+                }
+                var missing = SharedRuntimeCoverage.missingAliases(importedRuntimeAliases, cls);
+                if (missing.isEmpty()) {
+                    return true;
+                }
+                runtimeFallbacks.put(cls.getName(), missing);
+                return false;
             }
         };
         renderingContext.setMinifying(obfuscated);
@@ -596,6 +640,7 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
         // know its own list before this point.
         if (importedRuntime != null) {
             var exported = new HashSet<>(importedRuntime.getAliases());
+            reportRuntimeFallbacks();
             // The runtime module owns the $rt_* functions as well as the classes, and this module
             // renders only the per-module ones, so every other one it can reach has to be imported.
             for (var name : runtimeRenderer.getTopLevelNames()) {
@@ -608,6 +653,23 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
                     importedAliases.add(alias);
                 }
             }
+            // A name claimed verbatim, such as a plugin's marker symbol, is shared state under a
+            // fixed name rather than a member alias, so the runtime owns the single copy.
+            for (var literal : ((DeterministicAliasProvider) aliasProvider).getClaimedLiterals()) {
+                if (exported.contains(literal) && !RuntimeRenderer.PER_MODULE_NAMES.contains(literal)) {
+                    importedAliases.add(literal);
+                }
+            }
+            // A class the runtime carries only partly is emitted here instead, so its aliases are
+            // declared locally even though the runtime exports them too. Importing one would bind
+            // the name twice.
+            var declared = new DeclarationCollector(naming);
+            runtime.replay(declared, RememberedSource.FILTER_ALL);
+            declarations.replay(declared, RememberedSource.FILTER_ALL);
+            metadata.replay(declared, RememberedSource.FILTER_ALL);
+            runtimeEpilogue.replay(declared, RememberedSource.FILTER_ALL);
+            epilogue.replay(declared, RememberedSource.FILTER_ALL);
+            importedAliases.removeAll(declared.getDeclared());
         }
         // Every alias exists only once the frequency estimator has minted it, so a shared runtime
         // can only know what it declares from here on.

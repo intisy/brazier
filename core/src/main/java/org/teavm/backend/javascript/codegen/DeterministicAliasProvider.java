@@ -48,6 +48,7 @@ public class DeterministicAliasProvider implements AliasProvider {
     private final Map<String, String> topLevelOwners = new HashMap<>();
     private final Map<String, String> instanceOwners = new HashMap<>();
     private final Set<String> declaredTopLevel = new LinkedHashSet<>();
+    private final Set<String> claimedLiterals = new LinkedHashSet<>();
 
     public DeterministicAliasProvider(int maxTopLevelNames) {
         this.maxTopLevelNames = maxTopLevelNames;
@@ -55,29 +56,100 @@ public class DeterministicAliasProvider implements AliasProvider {
 
     @Override
     public ScopedName getClassAlias(String className) {
-        return topLevel(DefaultAliasProvider.suggestAliasForClass(className), "class:" + className);
+        return topLevel(DefaultAliasProvider.suggestAliasForClass(className), classIdentity(className));
     }
 
     @Override
     public ScopedName getStaticMethodAlias(MethodReference method) {
-        return topLevel(staticMethodPrefix(method), "staticMethod:" + method);
+        return topLevel(staticMethodPrefix(method), staticMethodIdentity(method));
     }
 
     @Override
     public ScopedName getInitializerAlias(MethodReference method) {
-        return topLevel(staticMethodPrefix(method), "initializer:" + method);
+        return topLevel(staticMethodPrefix(method), initializerIdentity(method));
     }
 
     @Override
     public ScopedName getStaticFieldAlias(FieldReference field) {
-        var prefix = DefaultAliasProvider.suggestAliasForClass(field.getClassName()) + "_" + field.getFieldName();
-        return topLevel(prefix, "staticField:" + field);
+        return topLevel(staticFieldPrefix(field), staticFieldIdentity(field));
     }
 
     @Override
     public ScopedName getClassInitAlias(String className) {
-        var prefix = DefaultAliasProvider.suggestAliasForClass(className) + "_$callClinit";
-        return topLevel(prefix, "clinit:" + className);
+        return topLevel(classInitPrefix(className), classInitIdentity(className));
+    }
+
+    /**
+     * {@return the alias a class receives, without claiming it}
+     *
+     * @param className the class
+     */
+    public static String classAliasOf(String className) {
+        return aliasOf(DefaultAliasProvider.suggestAliasForClass(className), classIdentity(className));
+    }
+
+    /**
+     * {@return the alias a method body receives, without claiming it}
+     *
+     * @param method the method
+     */
+    public static String staticMethodAliasOf(MethodReference method) {
+        return aliasOf(staticMethodPrefix(method), staticMethodIdentity(method));
+    }
+
+    /**
+     * {@return the alias a constructor's allocating wrapper receives, without claiming it}
+     *
+     * @param method the constructor
+     */
+    public static String initializerAliasOf(MethodReference method) {
+        return aliasOf(staticMethodPrefix(method), initializerIdentity(method));
+    }
+
+    /**
+     * {@return the alias a static field receives, without claiming it}
+     *
+     * @param field the field
+     */
+    public static String staticFieldAliasOf(FieldReference field) {
+        return aliasOf(staticFieldPrefix(field), staticFieldIdentity(field));
+    }
+
+    /**
+     * {@return the alias a class initializer guard receives, without claiming it}
+     *
+     * @param className the class
+     */
+    public static String classInitAliasOf(String className) {
+        return aliasOf(classInitPrefix(className), classInitIdentity(className));
+    }
+
+    private static String classIdentity(String className) {
+        return "class:" + className;
+    }
+
+    private static String staticMethodIdentity(MethodReference method) {
+        return "staticMethod:" + method;
+    }
+
+    private static String initializerIdentity(MethodReference method) {
+        return "initializer:" + method;
+    }
+
+    private static String staticFieldIdentity(FieldReference field) {
+        return "staticField:" + field;
+    }
+
+    private static String classInitIdentity(String className) {
+        return "clinit:" + className;
+    }
+
+    private static String staticFieldPrefix(FieldReference field) {
+        return DefaultAliasProvider.suggestAliasForClass(field.getClassName()) + "_" + field.getFieldName();
+    }
+
+    private static String classInitPrefix(String className) {
+        return DefaultAliasProvider.suggestAliasForClass(className) + "_$callClinit";
     }
 
     @Override
@@ -150,6 +222,17 @@ public class DeterministicAliasProvider implements AliasProvider {
     }
 
     /**
+     * {@return every name claimed verbatim, in the order they were claimed}
+     *
+     * @implNote These are the {@code $rt_*} entry points and the markers a plugin emits beside them.
+     *     A consumer references them exactly as the runtime declares them, so it can only tell
+     *     whether to import one by asking what it claimed.
+     */
+    public Set<String> getClaimedLiterals() {
+        return Collections.unmodifiableSet(claimedLiterals);
+    }
+
+    /**
      * {@return every top-level alias derived from a member, in the order they were minted}
      *
      * @implNote Names claimed verbatim are excluded. A reserved global or a runtime function is not
@@ -164,6 +247,7 @@ public class DeterministicAliasProvider implements AliasProvider {
     }
 
     private String claimLiteral(String name) {
+        claimedLiterals.add(name);
         return claim(topLevelOwners, name, null);
     }
 
@@ -180,9 +264,7 @@ public class DeterministicAliasProvider implements AliasProvider {
      *     method runs. Loud is the only acceptable failure.
      */
     private static String claim(Map<String, String> owners, String prefix, String owner) {
-        var alias = owner != null
-                ? DefaultAliasProvider.sanitize(prefix) + "_" + digest(owner)
-                : prefix;
+        var alias = owner != null ? aliasOf(prefix, owner) : prefix;
         var identity = owner != null ? owner : "literal:" + prefix;
         var previous = owners.putIfAbsent(alias, identity);
         if (previous != null && !previous.equals(identity)) {
@@ -190,6 +272,10 @@ public class DeterministicAliasProvider implements AliasProvider {
                     + identity + "'. Deterministic naming must not merge two members.");
         }
         return alias;
+    }
+
+    private static String aliasOf(String prefix, String identity) {
+        return DefaultAliasProvider.sanitize(prefix) + "_" + digest(identity);
     }
 
     private static String digest(String identity) {
