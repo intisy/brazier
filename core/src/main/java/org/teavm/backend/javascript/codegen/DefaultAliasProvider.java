@@ -41,7 +41,7 @@ public class DefaultAliasProvider implements AliasProvider {
         return makeUnique(suggestAliasForClass(cls));
     }
 
-    static String suggestAliasForClass(String cls) {
+    public static String suggestAliasForClass(String cls) {
         StringBuilder alias = new StringBuilder();
         int lastIndex = 0;
         while (true) {
