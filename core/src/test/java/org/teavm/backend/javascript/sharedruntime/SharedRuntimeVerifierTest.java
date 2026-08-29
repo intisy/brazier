@@ -30,19 +30,22 @@ public class SharedRuntimeVerifierTest {
     // whose module specifier lands on its own line.
     private static final String CLEAN_CONSUMER = ""
             + "\"use strict\";\n"
-            + "import { ju_ArrayList__init__1pkqqz, jl_String_uewfaw, $rt_seed } from\n"
+            + "import { ju_ArrayList__init__1pkqqz, jl_String_uewfaw, $rt_seed, $rt_mainStarter } from\n"
             + "\"./runtime.js\";\n"
             + "let $rt_stringPool_instance,\n"
             + "$rt_stringPool = strings => {\n"
             + "    $rt_stringPool_instance = new Array(strings.length);\n"
             + "},\n"
             + "$rt_s = index => $rt_stringPool_instance[index];\n"
+            + "p_ConsumerA_main_p13jxv = args => {\n"
+            + "    ju_ArrayList__init__1pkqqz();\n"
+            + "};\n"
             + "let $rt_export_main = $rt_mainStarter(p_ConsumerA_main_p13jxv);\n";
 
     private static SharedRuntimeManifest runtime() {
         return new SharedRuntimeManifest("0.2.0", Collections.singletonList("java.util.ArrayList"),
                 Arrays.asList("ju_ArrayList", "ju_ArrayList__init__1pkqqz", "jl_String_uewfaw", "$rt_seed",
-                        "$rt_stringPool", "$rt_stringPool_instance", "$rt_s"));
+                        "$rt_stringPool", "$rt_stringPool_instance", "$rt_s", "$rt_mainStarter"));
     }
 
     private static List<SharedRuntimeVerifier.Finding> verify(String source) {
@@ -125,5 +128,41 @@ public class SharedRuntimeVerifierTest {
         var doubled = SharedRuntimeVerifier.report("bundle.js", MODULE,
                 verify(CLEAN_CONSUMER + "function ju_ArrayList() {\n}\n"));
         assertTrue(doubled.contains("instanceof"));
+    }
+
+    @Test
+    public void failsABundleThatCallsAnAliasItNeitherDeclaresNorImports() {
+        // The exact failure the first converted plugin shipped: the runtime named
+        // java.lang.StringBuilder but carried four of its constructors, and the consumer reached a
+        // fifth. Nothing at load time notices, and the call throws the first time it runs.
+        var findings = verify(CLEAN_CONSUMER
+                + "p_ConsumerA_run_a1b2c3 = () => {\n"
+                + "    return jl_StringBuilder__init__tle0ed($rt_s(1));\n"
+                + "};\n");
+
+        assertEquals(1, findings.size());
+        assertEquals(SharedRuntimeVerifier.Problem.DANGLING_REFERENCE, findings.get(0).getProblem());
+        assertEquals("jl_StringBuilder__init__tle0ed", findings.get(0).getAlias());
+    }
+
+    @Test
+    public void countsNeitherTheBundlesOwnCodeNorALocalDeclarationAsDangling() {
+        var findings = verify(CLEAN_CONSUMER
+                + "function helperWrittenByHand(someArgument) {\n"
+                + "    return someArgument.length;\n"
+                + "}\n"
+                + "jl_Local_only_zz9zz9 = () => {\n"
+                + "    return helperWrittenByHand(\"x\");\n"
+                + "};\n");
+
+        assertEquals(Collections.emptyList(), findings);
+    }
+
+    @Test
+    public void namesTheSeedListAsTheFixForADanglingReference() {
+        var report = SharedRuntimeVerifier.report("bundle.js", MODULE,
+                verify(CLEAN_CONSUMER + "let x = jl_StringBuilder__init__tle0ed();\n"));
+
+        assertTrue(report.contains("seed list"));
     }
 }

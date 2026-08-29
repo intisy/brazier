@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.backend.javascript.rendering;
 
 import java.util.Properties;
@@ -40,4 +41,17 @@ public interface RenderingManager extends ServiceRepository {
     Properties getProperties();
 
     String getEntryPoint();
+
+    /**
+     * {@return whether an imported shared runtime already carries this name}
+     *
+     * @param alias a name this module would otherwise declare
+     * @implNote False by default, so a backend that knows nothing of shared runtimes declares
+     *     everything it emits, as it always has. A plugin emitting module-wide state under a fixed
+     *     name asks this before declaring it, because two copies of such state are two answers to
+     *     one question.
+     */
+    default boolean isCarriedByImportedRuntime(String alias) {
+        return false;
+    }
 }

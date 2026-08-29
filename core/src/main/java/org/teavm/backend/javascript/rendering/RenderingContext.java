@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import java.util.function.Predicate;
 import org.teavm.backend.javascript.codegen.NamingStrategy;
 import org.teavm.backend.javascript.codegen.SourceWriter;
@@ -275,12 +274,23 @@ public abstract class RenderingContext {
     public abstract String importModule(String name);
 
     /**
-     * {@return the classes a shared runtime provides, which this module imports rather than emits}
+     * {@return whether an imported shared runtime carries the whole of this class}
      *
-     * @implNote Empty by default, so an ordinary build emits everything it reaches, as it always has.
+     * @param cls the class about to be rendered
+     * @implNote False by default, so an ordinary build emits everything it reaches, as it always has.
      */
-    public Set<String> getImportedClasses() {
-        return Collections.emptySet();
+    public boolean isProvidedByImportedRuntime(ClassReader cls) {
+        return false;
+    }
+
+    /**
+     * {@return whether an imported shared runtime exports this name}
+     *
+     * @param alias a name this module would otherwise declare
+     * @implNote False by default, so an ordinary build declares everything it emits.
+     */
+    public boolean isCarriedByImportedRuntime(String alias) {
+        return false;
     }
 
     @PlatformMarker

@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+// Modified 2026 by the Brazier project (https://github.com/intisy/brazier).
 package org.teavm.jso.impl;
 
 import static org.teavm.jso.impl.AliasCollector.collectMembers;
@@ -62,8 +63,12 @@ class JSAliasRenderer implements RendererListener, MethodContributor {
             return;
         }
 
-        writer.startVariableDeclaration().appendFunction("$rt_jso_marker")
-                .appendGlobal("Symbol").append("('jsoClass')").endDeclaration();
+        // Two symbols would tag one class differently in each module, so whichever module did not
+        // tag an object reads it as not a JavaScript class at all. The runtime owns the one symbol.
+        if (!context.isCarriedByImportedRuntime("$rt_jso_marker")) {
+            writer.startVariableDeclaration().appendFunction("$rt_jso_marker")
+                    .appendGlobal("Symbol").append("('jsoClass')").endDeclaration();
+        }
         writer.append("(()").sameLineWs().append("=>").ws().append("{").softNewLine().indent();
         writer.append("let c;").softNewLine();
         var exportedNamesByClass = new HashMap<String, String>();

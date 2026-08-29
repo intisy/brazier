@@ -37,6 +37,7 @@ import org.teavm.ast.analysis.LocationGraphBuilder;
 import org.teavm.ast.decompilation.DecompilationException;
 import org.teavm.ast.decompilation.Decompiler;
 import org.teavm.backend.javascript.ExportedDeclaration;
+import org.teavm.backend.javascript.codegen.DeterministicAliasProvider;
 import org.teavm.backend.javascript.codegen.SourceWriter;
 import org.teavm.backend.javascript.spi.GeneratedBy;
 import org.teavm.backend.javascript.spi.Generator;
@@ -242,6 +243,11 @@ public class Renderer implements RenderingManager {
         writer.outdent().append("};").newLine();
     }
 
+    @Override
+    public boolean isCarriedByImportedRuntime(String alias) {
+        return context.isCarriedByImportedRuntime(alias);
+    }
+
     public boolean render(ListableClassHolderSource classes, boolean isFriendlyToDebugger) {
         var sequence = new ArrayList<ClassHolder>();
         var visited = new HashSet<String>();
@@ -261,7 +267,8 @@ public class Renderer implements RenderingManager {
         int index = 0;
         var rendered = new ArrayList<ClassHolder>();
         for (var cls : sequence) {
-            if (context.getImportedClasses().contains(cls.getName())) {
+            if (context.isProvidedByImportedRuntime(cls)) {
+                renderPerModuleMethods(cls, decompiler);
                 continue;
             }
             rendered.add(cls);
@@ -374,6 +381,41 @@ public class Renderer implements RenderingManager {
             writer.appendClass(cls.getParent());
         }
         writer.append(")").endDeclaration();
+    }
+
+    /**
+     * Renders the methods of an imported class that no module can import, because their bodies are
+     * made rather than compiled.
+     *
+     * @param cls a class the shared runtime provides
+     * @param decompiler the decompiler to render bodies with
+     * @implNote A native method's body comes from a generator in whichever module reaches it, so a
+     *     runtime cannot carry one: preserving it fails the runtime build with "has no
+     *     implementation". It is per module in the same sense as the string pool, and skipping its
+     *     class whole would leave a call to a name that exists nowhere. Nothing else of the class is
+     *     rendered, so the runtime keeps the single declaration and the one prototype.
+     */
+    private void renderPerModuleMethods(ClassHolder cls, Decompiler decompiler) {
+        writer.emitClass(cls.getName());
+        for (var method : cls.getMethods()) {
+            if (!method.hasModifier(ElementModifier.NATIVE) || !filterMethod(method)) {
+                continue;
+            }
+            // The runtime reached this one on its own, so importing it keeps the single copy.
+            if (context.isCarriedByImportedRuntime(
+                    DeterministicAliasProvider.staticMethodAliasOf(method.getReference()))) {
+                continue;
+            }
+            var isFunction = context.isForcedFunction(method.getReference());
+            if (isFunction) {
+                writer.startFunctionDeclaration();
+            } else {
+                writer.startVariableDeclaration();
+            }
+            renderBody(method, decompiler, isFunction);
+            writer.endDeclaration();
+        }
+        writer.emitClass(null);
     }
 
     private void renderMethodBodies(ClassHolder cls, Decompiler decompiler) {
