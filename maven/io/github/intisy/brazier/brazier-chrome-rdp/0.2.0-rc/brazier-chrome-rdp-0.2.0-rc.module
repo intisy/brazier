@@ -1,0 +1,151 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-chrome-rdp",
+    "version": "0.2.0-rc",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-chrome-rdp-0.2.0-rc.jar",
+          "url": "brazier-chrome-rdp-0.2.0-rc.jar",
+          "size": 61654,
+          "sha512": "f9f82b04fa21bf91409c471af72be47e7527dd3881811f2fec070e70e4c56f5e7da32dad011d489d4eabdf0de34eeb0c01d1ecf9bab02c102c43200281384c73",
+          "sha256": "48c4fb0b26a025c72763112df5dd084bf9b5aea2c357f907830f0b14775a918d",
+          "sha1": "ec58bd622f7dfd8ef3bdf5a5f9b125644359444b",
+          "md5": "dabc3071203c8c7ae67f914b41b52f91"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-core",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "org.eclipse.jetty",
+          "module": "jetty-server",
+          "version": {
+            "requires": "12.1.9"
+          }
+        },
+        {
+          "group": "org.eclipse.jetty.ee10",
+          "module": "jetty-ee10-servlet",
+          "version": {
+            "requires": "12.1.9"
+          }
+        },
+        {
+          "group": "org.eclipse.jetty.ee10.websocket",
+          "module": "jetty-ee10-websocket-jetty-server",
+          "version": {
+            "requires": "12.1.9"
+          }
+        },
+        {
+          "group": "org.slf4j",
+          "module": "slf4j-api",
+          "version": {
+            "requires": "2.0.16"
+          }
+        },
+        {
+          "group": "com.fasterxml.jackson.core",
+          "module": "jackson-databind",
+          "version": {
+            "requires": "2.18.2"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-relocated-libs-hppc",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-chrome-rdp-0.2.0-rc.jar",
+          "url": "brazier-chrome-rdp-0.2.0-rc.jar",
+          "size": 61654,
+          "sha512": "f9f82b04fa21bf91409c471af72be47e7527dd3881811f2fec070e70e4c56f5e7da32dad011d489d4eabdf0de34eeb0c01d1ecf9bab02c102c43200281384c73",
+          "sha256": "48c4fb0b26a025c72763112df5dd084bf9b5aea2c357f907830f0b14775a918d",
+          "sha1": "ec58bd622f7dfd8ef3bdf5a5f9b125644359444b",
+          "md5": "dabc3071203c8c7ae67f914b41b52f91"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-chrome-rdp-0.2.0-rc-sources.jar",
+          "url": "brazier-chrome-rdp-0.2.0-rc-sources.jar",
+          "size": 41476,
+          "sha512": "75d28353ea5ac4d30a1be42122d3ff16b1d1db622b7713ac04dcda064b703b31e9a0465038271319172081a4a04d46f2126c969b0e38273ccd93661465254056",
+          "sha256": "2ac982f5febcfd0be4da338604a7b69de06bb1231a54f0e986c00a95ef11feda",
+          "sha1": "3eb24ae022948ad248c66ab479d239504d031121",
+          "md5": "30dd2df75df63532010f11c6630061fb"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-chrome-rdp-0.2.0-rc-javadoc.jar",
+          "url": "brazier-chrome-rdp-0.2.0-rc-javadoc.jar",
+          "size": 182850,
+          "sha512": "00d6e9932e937a128958713696028afe4736ede78a1dd6612276572ceaff01b71b4da4342be372c660cb17d00a306d9022a60604820a094947f6e2505705762b",
+          "sha256": "7dedef8bb538463a64b3c274966a6eaeab7be5014e2d933116af2fa9c3d965c3",
+          "sha1": "b50b1a456443893d476c79cad547184cb38a7217",
+          "md5": "15a39affd473ad4cd7fe838a04a0bff9"
+        }
+      ]
+    }
+  ]
+}

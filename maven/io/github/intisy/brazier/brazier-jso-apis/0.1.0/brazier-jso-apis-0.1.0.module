@@ -1,0 +1,132 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-jso-apis",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-jso",
+          "version": {
+            "requires": "0.1.0"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-interop",
+          "version": {
+            "requires": "0.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-jso-apis-0.1.0.jar",
+          "url": "brazier-jso-apis-0.1.0.jar",
+          "size": 177990,
+          "sha512": "6f9cc59ea164d9d5234b274c234a91dbcd3e0cd771d99553da4490802b96b97a8f87f3790703aad052dcb54146ca5096a6aca291bfcda9ee7e33665e794d7ff7",
+          "sha256": "6e95ecf47dbd9a86958c746bab806bfe1095f9def1656692f8bde86bac12418c",
+          "sha1": "15ca26f85704e4579f8e116dc6686f1acc9320dc",
+          "md5": "089dcd35d4fe28d0683d709684289971"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-jso",
+          "version": {
+            "requires": "0.1.0"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-interop",
+          "version": {
+            "requires": "0.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-jso-apis-0.1.0.jar",
+          "url": "brazier-jso-apis-0.1.0.jar",
+          "size": 177990,
+          "sha512": "6f9cc59ea164d9d5234b274c234a91dbcd3e0cd771d99553da4490802b96b97a8f87f3790703aad052dcb54146ca5096a6aca291bfcda9ee7e33665e794d7ff7",
+          "sha256": "6e95ecf47dbd9a86958c746bab806bfe1095f9def1656692f8bde86bac12418c",
+          "sha1": "15ca26f85704e4579f8e116dc6686f1acc9320dc",
+          "md5": "089dcd35d4fe28d0683d709684289971"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-jso-apis-0.1.0-sources.jar",
+          "url": "brazier-jso-apis-0.1.0-sources.jar",
+          "size": 209034,
+          "sha512": "26aae4b604ff105be1e93aa04b97f9eeef5a3bd7ae70d5280b9e3185484747c70ed8871d190485860323cbe40d3be5cafc90f6e3e2c6b3337fa2c5d0144dd6e4",
+          "sha256": "eb11a59efe750990a78ca558c9d700552c8d461f096151cf554a8cf8981b0eb9",
+          "sha1": "20316b9866dd6749e910788944882b5250215dff",
+          "md5": "aca209cbdd7989a66649850bc43b9949"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-jso-apis-0.1.0-javadoc.jar",
+          "url": "brazier-jso-apis-0.1.0-javadoc.jar",
+          "size": 1079155,
+          "sha512": "dcdc9af267ed38df0c7ebdaac16764be3ce1cad8aa4bf9b9736fbe3396050a298831f936a27b6db9620cfe68e8c6f9f99fa0e0ae1f2f777711e053bd192a8cc5",
+          "sha256": "3c868dc67bad60f9578c3930d14490ea5eca75e40bc96bb81c3eaf07b588a928",
+          "sha1": "a24ded3b03cc1242d3545f48d4d00fb39e8ece20",
+          "md5": "d907fbad9302bbfb6685d6672a43b9f8"
+        }
+      ]
+    }
+  ]
+}

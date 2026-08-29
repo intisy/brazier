@@ -1,0 +1,100 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-maven-webapp",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-maven-webapp-0.1.0.jar",
+          "url": "brazier-maven-webapp-0.1.0.jar",
+          "size": 4254,
+          "sha512": "69c64ca5189560758db4caf14dfb0a4dba01ecae85b74ed7b2fc0a5de71f0e8a3a2ed0cfce5c63b703814efceab876bc6f57bbc41da2946754e79f2d4913a969",
+          "sha256": "d7e63adc43dc48fcd4f436100cd257c67c744b5920419c6affb99239248a20d6",
+          "sha1": "f6f466d496eab3f60d716891fe23ad9599523be7",
+          "md5": "c39d5635703b6c63fc593bff1140aec2"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-maven-webapp-0.1.0.jar",
+          "url": "brazier-maven-webapp-0.1.0.jar",
+          "size": 4254,
+          "sha512": "69c64ca5189560758db4caf14dfb0a4dba01ecae85b74ed7b2fc0a5de71f0e8a3a2ed0cfce5c63b703814efceab876bc6f57bbc41da2946754e79f2d4913a969",
+          "sha256": "d7e63adc43dc48fcd4f436100cd257c67c744b5920419c6affb99239248a20d6",
+          "sha1": "f6f466d496eab3f60d716891fe23ad9599523be7",
+          "md5": "c39d5635703b6c63fc593bff1140aec2"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-maven-webapp-0.1.0-sources.jar",
+          "url": "brazier-maven-webapp-0.1.0-sources.jar",
+          "size": 4035,
+          "sha512": "1ab8886bc132dfe3cfac6136090196b7a0bcfe55120bc3a3af9565416c0c2ee9b97d13c6763d89a1da7b0e8dc41a03ddbb38b986ee342f257cc4374277eef22f",
+          "sha256": "a6c995cc5b4a45d77269fe698128c2b79d93b97126b8cea7abeba66ce99a7edb",
+          "sha1": "b34b66c2c1ca6436bda70b28c5b3c1540da9fac9",
+          "md5": "857eeac06ba8f32c43a10b23b740cdbd"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-maven-webapp-0.1.0-javadoc.jar",
+          "url": "brazier-maven-webapp-0.1.0-javadoc.jar",
+          "size": 261,
+          "sha512": "1487e5a20c9e4d74f298e07c42e96a61be11b7a768c3fbc199ee138cd68e1fc2267d1cfe3f11f288acc05df755315344d052cc5f6f751f126ab4fe1caa5125ea",
+          "sha256": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3",
+          "sha1": "2ad14aed781c4a73ed4dbb421966d408a0a06686",
+          "md5": "f43436d6bec321290f6af228ad602604"
+        }
+      ]
+    }
+  ]
+}

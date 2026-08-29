@@ -1,0 +1,130 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-gradle-plugin",
+    "version": "0.2.0-rc",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-gradle-plugin-0.2.0-rc.jar",
+          "url": "brazier-gradle-plugin-0.2.0-rc.jar",
+          "size": 91154,
+          "sha512": "893c284e3363c28f8cc657f33ff6f8f0eae069f9f09cf92c718cd671ed00ba3db782ef5165dc3e0d89b23e3a142a703acd6501837d7965de185b2e898346d80b",
+          "sha256": "6a34ebe48dbeaa7f9c457f05bae3ed51040d9453e7b7a488a3f210de1e0254d8",
+          "sha1": "6e12dbfe856c96c00cfd3c262d25c06ff71641e1",
+          "md5": "d1a6b81935af523825321c0f89ff9a23"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-core",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-tooling",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-devserver-client",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-wasm-gc-deobfuscator",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-gradle-plugin-0.2.0-rc.jar",
+          "url": "brazier-gradle-plugin-0.2.0-rc.jar",
+          "size": 91154,
+          "sha512": "893c284e3363c28f8cc657f33ff6f8f0eae069f9f09cf92c718cd671ed00ba3db782ef5165dc3e0d89b23e3a142a703acd6501837d7965de185b2e898346d80b",
+          "sha256": "6a34ebe48dbeaa7f9c457f05bae3ed51040d9453e7b7a488a3f210de1e0254d8",
+          "sha1": "6e12dbfe856c96c00cfd3c262d25c06ff71641e1",
+          "md5": "d1a6b81935af523825321c0f89ff9a23"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-gradle-plugin-0.2.0-rc-sources.jar",
+          "url": "brazier-gradle-plugin-0.2.0-rc-sources.jar",
+          "size": 53679,
+          "sha512": "27a50c4945016daead8147ffe3d68a8d891b2e3924d7933abbc9b5861b827cb3f7195934680b5415c2f0e91eed40e3266bc2540f832573b81b82a00580c7da5a",
+          "sha256": "fd700479beba564e2b84e9840277359c64e3766e03744b8013f859e3954d491e",
+          "sha1": "0ae6d761bff06535ed167ddbc644de85542ca756",
+          "md5": "633189f15be4a925220c0d8d3c6d8882"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-gradle-plugin-0.2.0-rc-javadoc.jar",
+          "url": "brazier-gradle-plugin-0.2.0-rc-javadoc.jar",
+          "size": 226356,
+          "sha512": "4305ebb0d00571e04607063b1ba905695bfb0d714047b9f6e9d882211f0240a8f4484e67084872536507fe49b46b88e9a157dbdb926a95fe52131cf00d045d51",
+          "sha256": "c4d32b989cf2353f0cbdd23266e63b0d7b04d57f8d20d0c665eb60285f69ed97",
+          "sha1": "8406c59bef6636c8751329856776ce79cdec9d8a",
+          "md5": "8632a719182ddc6eb75d0342a14ca9f1"
+        }
+      ]
+    }
+  ]
+}

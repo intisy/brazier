@@ -1,0 +1,116 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-c-incremental",
+    "version": "0.2.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-c-incremental-0.2.0.jar",
+          "url": "brazier-c-incremental-0.2.0.jar",
+          "size": 16215,
+          "sha512": "988fd0db5a1ce62da89249809ec824dbf72b2e18b050ac92be737c93b81bc44bbb0f28a0c2005173aee945a8c0bb4431ab8bb3465440c112b3f4104b98edd26c",
+          "sha256": "f9ac579359f2e6ba1be0e42f023cf875e178869912046ff20a75bc798b179273",
+          "sha1": "f352c43b61aae2a9d2e161149e2fa84535211105",
+          "md5": "a095b02c5e46529b9e69cbe61465f000"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-core",
+          "version": {
+            "requires": "0.2.0"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-tooling",
+          "version": {
+            "requires": "0.2.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-c-incremental-0.2.0.jar",
+          "url": "brazier-c-incremental-0.2.0.jar",
+          "size": 16215,
+          "sha512": "988fd0db5a1ce62da89249809ec824dbf72b2e18b050ac92be737c93b81bc44bbb0f28a0c2005173aee945a8c0bb4431ab8bb3465440c112b3f4104b98edd26c",
+          "sha256": "f9ac579359f2e6ba1be0e42f023cf875e178869912046ff20a75bc798b179273",
+          "sha1": "f352c43b61aae2a9d2e161149e2fa84535211105",
+          "md5": "a095b02c5e46529b9e69cbe61465f000"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-c-incremental-0.2.0-sources.jar",
+          "url": "brazier-c-incremental-0.2.0-sources.jar",
+          "size": 7280,
+          "sha512": "fe542e89411dd51d43946a0d4e73974a79aa343505143fc2f34541f8987147ed5aa8af9ec35f1978a9aa29fd6acd5090ac2fe3fee814423123cc70f7bf8e2221",
+          "sha256": "843d06359278accb987acba77321d235f03e2a207befbe00efdea79ef08c088b",
+          "sha1": "62308965e6af7e958657919774c8548f9bb898da",
+          "md5": "429f73bd50a294c23a8e08be374358b2"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-c-incremental-0.2.0-javadoc.jar",
+          "url": "brazier-c-incremental-0.2.0-javadoc.jar",
+          "size": 86677,
+          "sha512": "aeb5950145ee9320f1787baab5207b5980e100c1143ad0588c8419398af9442123424bdf3f2e2b226f31571fb1d1243bc4545e4b25db9f8652357d4061cfe30d",
+          "sha256": "506feb14cd4fa40fbc23f58f6de6d2eeb3d97758711e9ef00755fa27d482b874",
+          "sha1": "8396983feb6a80c7d1c66f94b2f805d91c0928f2",
+          "md5": "342a2c74f2c43da8ab07db1594d65edd"
+        }
+      ]
+    }
+  ]
+}

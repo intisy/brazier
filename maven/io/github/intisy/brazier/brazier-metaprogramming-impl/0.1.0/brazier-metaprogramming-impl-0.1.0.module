@@ -1,0 +1,116 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-metaprogramming-impl",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-metaprogramming-impl-0.1.0.jar",
+          "url": "brazier-metaprogramming-impl-0.1.0.jar",
+          "size": 126598,
+          "sha512": "dc5272158d4afae7438f9679d69e3499ba72bf880ff21816ebfd26a73bf18bb703a8b07367ba6b0f3672f26bcf770890ee2a089652394e9eec17a76cc77c368e",
+          "sha256": "323ee22d1343ef6bb013dd96a1771d81f3b9772052c575720074f3fbf8a07827",
+          "sha1": "60a5cc3704992536e509e547e20758b49d92d79d",
+          "md5": "f91841c0a51131e92890d24db033e331"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-metaprogramming-api",
+          "version": {
+            "requires": "0.1.0"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-relocated-libs-asm",
+          "version": {
+            "requires": "0.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-metaprogramming-impl-0.1.0.jar",
+          "url": "brazier-metaprogramming-impl-0.1.0.jar",
+          "size": 126598,
+          "sha512": "dc5272158d4afae7438f9679d69e3499ba72bf880ff21816ebfd26a73bf18bb703a8b07367ba6b0f3672f26bcf770890ee2a089652394e9eec17a76cc77c368e",
+          "sha256": "323ee22d1343ef6bb013dd96a1771d81f3b9772052c575720074f3fbf8a07827",
+          "sha1": "60a5cc3704992536e509e547e20758b49d92d79d",
+          "md5": "f91841c0a51131e92890d24db033e331"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-metaprogramming-impl-0.1.0-sources.jar",
+          "url": "brazier-metaprogramming-impl-0.1.0-sources.jar",
+          "size": 59866,
+          "sha512": "a4ec5c321563aa8851872f53a05a3386dff63dc8d890fff0abcd45efac280f8c1cdb4504a41174a5e7bd43e8910c2f1f86c10415b38485d18044976d4f456bf8",
+          "sha256": "ef55b1b1b091b6f038b23430856947ba79b28ff86d3eb0d8cd41cfe218cba42a",
+          "sha1": "cc5705fe9176d10e0165f7069c0493fd97fd7b05",
+          "md5": "e1c4acbcbf1e6e757cf9e9bc5feb2e2c"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-metaprogramming-impl-0.1.0-javadoc.jar",
+          "url": "brazier-metaprogramming-impl-0.1.0-javadoc.jar",
+          "size": 182203,
+          "sha512": "1597a9a1c1da63940fb3ef3213e05c8e616a6012032497b9a213fe4512b72e34cbca43e66aeb283cc867940f1b9253b13b3b30ec65fbb4b491ba77c3aac0b33e",
+          "sha256": "74af64996b561c388e18c4623d65c8ee6c0af5340265513ad79e3772bb414894",
+          "sha1": "7ce500782e9964d2013d433e0676081ea0620f49",
+          "md5": "cbb33860594f9708c16f9909ea0a7302"
+        }
+      ]
+    }
+  ]
+}

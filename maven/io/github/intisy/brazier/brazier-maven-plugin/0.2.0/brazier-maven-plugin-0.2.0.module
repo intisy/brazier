@@ -1,0 +1,153 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-maven-plugin",
+    "version": "0.2.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.apache.maven",
+          "module": "maven-plugin-api",
+          "version": {
+            "requires": "3.5.4"
+          }
+        },
+        {
+          "group": "org.apache.maven.plugin-tools",
+          "module": "maven-plugin-annotations",
+          "version": {
+            "requires": "3.7.1"
+          }
+        },
+        {
+          "group": "org.apache.maven",
+          "module": "maven-artifact",
+          "version": {
+            "requires": "3.5.4"
+          }
+        },
+        {
+          "group": "org.apache.maven",
+          "module": "maven-core",
+          "version": {
+            "requires": "3.5.4"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-maven-plugin-0.2.0.jar",
+          "url": "brazier-maven-plugin-0.2.0.jar",
+          "size": 21230,
+          "sha512": "ada5d1eb0c3a1842f3124179bf995f73037a57f9e7ed94b923d5ffd95c6cbbb32becd2eab22a4b537dfea9e8d972ce61f81445a1d730601be8cc8e99b4c89003",
+          "sha256": "921d1e1821539d867d771c77691d639a2478c73140b77e62253c9136911325e9",
+          "sha1": "8784161ebb109e7182d2ef2e46d6bc2fa761e708",
+          "md5": "d7e39f57e8310d591efb0a960c46010b"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-core",
+          "version": {
+            "requires": "0.2.0"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-tooling",
+          "version": {
+            "requires": "0.2.0"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-wasm-gc-deobfuscator",
+          "version": {
+            "requires": "0.2.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-maven-plugin-0.2.0.jar",
+          "url": "brazier-maven-plugin-0.2.0.jar",
+          "size": 21230,
+          "sha512": "ada5d1eb0c3a1842f3124179bf995f73037a57f9e7ed94b923d5ffd95c6cbbb32becd2eab22a4b537dfea9e8d972ce61f81445a1d730601be8cc8e99b4c89003",
+          "sha256": "921d1e1821539d867d771c77691d639a2478c73140b77e62253c9136911325e9",
+          "sha1": "8784161ebb109e7182d2ef2e46d6bc2fa761e708",
+          "md5": "d7e39f57e8310d591efb0a960c46010b"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-maven-plugin-0.2.0-sources.jar",
+          "url": "brazier-maven-plugin-0.2.0-sources.jar",
+          "size": 7539,
+          "sha512": "fb241fdeaf5aa3160ef8e498193986b3c20a0f3060331f21e781fff5b23724c1cd4a77ce66c71b2ccddcd4979ea2d0ffbe5b4ac1d874b2e145ca90d126408452",
+          "sha256": "415f8d84af32c7e7bd089a5deb085e8370b0b27d631e72c407a94c27a6f5992d",
+          "sha1": "d4f00e6c5ee8786210f1a676b4ad6235d3fdae04",
+          "md5": "918916cd9a3fe010a22e89c147af91f9"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-maven-plugin-0.2.0-javadoc.jar",
+          "url": "brazier-maven-plugin-0.2.0-javadoc.jar",
+          "size": 89964,
+          "sha512": "9659d19f2932d21a777212ed9d0bcf8a88d8e2a0ae2cc2d00e19e2f9e77c2bc64b6496fa411691585ee23e38a37f769425ae2407f53fd3093810f23ec2fdffa9",
+          "sha256": "fa6ede4720e665b455e2026d0150892df2164340a5ac0d4d6b3d109db107de28",
+          "sha1": "ecee4f78968fea3faf3f4cce71113f8c4b149e44",
+          "md5": "74e65f3ee00419ffd08935a36a9f6522"
+        }
+      ]
+    }
+  ]
+}

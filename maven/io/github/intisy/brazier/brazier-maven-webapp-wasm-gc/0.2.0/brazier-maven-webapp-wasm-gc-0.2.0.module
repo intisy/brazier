@@ -1,0 +1,100 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-maven-webapp-wasm-gc",
+    "version": "0.2.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-maven-webapp-wasm-gc-0.2.0.jar",
+          "url": "brazier-maven-webapp-wasm-gc-0.2.0.jar",
+          "size": 4050,
+          "sha512": "21d2ac5562230e7fe6c97df5f83ba4526e7d5c6209c2c0ac796c83cc913df86e1e0a88116ddd0b502ada26dd53f4b1611892643a714b5e86d60b9ce800540293",
+          "sha256": "c55b177ba978e3c01a4641c9e216852aba5fdacb48d936a65bd6b169f1467e14",
+          "sha1": "a87d0fb1f3fe71c16c419a581a4c42b7585941b5",
+          "md5": "3e52c70c8e41650266d2a6b6e4a611e0"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-maven-webapp-wasm-gc-0.2.0.jar",
+          "url": "brazier-maven-webapp-wasm-gc-0.2.0.jar",
+          "size": 4050,
+          "sha512": "21d2ac5562230e7fe6c97df5f83ba4526e7d5c6209c2c0ac796c83cc913df86e1e0a88116ddd0b502ada26dd53f4b1611892643a714b5e86d60b9ce800540293",
+          "sha256": "c55b177ba978e3c01a4641c9e216852aba5fdacb48d936a65bd6b169f1467e14",
+          "sha1": "a87d0fb1f3fe71c16c419a581a4c42b7585941b5",
+          "md5": "3e52c70c8e41650266d2a6b6e4a611e0"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-maven-webapp-wasm-gc-0.2.0-sources.jar",
+          "url": "brazier-maven-webapp-wasm-gc-0.2.0-sources.jar",
+          "size": 3863,
+          "sha512": "a1df54c54a515e541087246de42683578b14de3756077ce273c875f10f9eb9ce0c81c459357a09ac8e0d290ae0cf7fb757295a7c6e162d1243648192b73e39bc",
+          "sha256": "9de86453d4c1fad36786dcebf2ee531d65f8af7baaa991bd60357059cf2912c7",
+          "sha1": "121ef63f4b56d1d95bbb0faa23ee139b2f38ae53",
+          "md5": "caa60debfa6fe4401c38464bb2f9373b"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-maven-webapp-wasm-gc-0.2.0-javadoc.jar",
+          "url": "brazier-maven-webapp-wasm-gc-0.2.0-javadoc.jar",
+          "size": 261,
+          "sha512": "1487e5a20c9e4d74f298e07c42e96a61be11b7a768c3fbc199ee138cd68e1fc2267d1cfe3f11f288acc05df755315344d052cc5f6f751f126ab4fe1caa5125ea",
+          "sha256": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3",
+          "sha1": "2ad14aed781c4a73ed4dbb421966d408a0a06686",
+          "md5": "f43436d6bec321290f6af228ad602604"
+        }
+      ]
+    }
+  ]
+}

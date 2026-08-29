@@ -1,0 +1,125 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-relocated-libs-asm-commons",
+    "version": "0.2.0-rc",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-commons",
+          "version": {
+            "requires": "9.8"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-commons-0.2.0-rc.jar",
+          "url": "brazier-relocated-libs-asm-commons-0.2.0-rc.jar",
+          "size": 73317,
+          "sha512": "ae7778eca94ee7f683c333da50ee42d667af710d8ae918c488224183b59022377eac5cdafcba1713d1dc2aac154eb7fb254ae6de5771c70f0bd03c42488808e8",
+          "sha256": "2fe69bb5e086548cf08744db153270140f5cf631aa6ffdbbff98e85910d8c731",
+          "sha1": "1b0ab4f14699147dc15b49891e40a9240b6bd343",
+          "md5": "4c035c31f1deea1ae9fb6fd6e4516e04"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-relocated-libs-asm",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-relocated-libs-asm-tree",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-commons-0.2.0-rc.jar",
+          "url": "brazier-relocated-libs-asm-commons-0.2.0-rc.jar",
+          "size": 73317,
+          "sha512": "ae7778eca94ee7f683c333da50ee42d667af710d8ae918c488224183b59022377eac5cdafcba1713d1dc2aac154eb7fb254ae6de5771c70f0bd03c42488808e8",
+          "sha256": "2fe69bb5e086548cf08744db153270140f5cf631aa6ffdbbff98e85910d8c731",
+          "sha1": "1b0ab4f14699147dc15b49891e40a9240b6bd343",
+          "md5": "4c035c31f1deea1ae9fb6fd6e4516e04"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-commons-0.2.0-rc-sources.jar",
+          "url": "brazier-relocated-libs-asm-commons-0.2.0-rc-sources.jar",
+          "size": 261,
+          "sha512": "1487e5a20c9e4d74f298e07c42e96a61be11b7a768c3fbc199ee138cd68e1fc2267d1cfe3f11f288acc05df755315344d052cc5f6f751f126ab4fe1caa5125ea",
+          "sha256": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3",
+          "sha1": "2ad14aed781c4a73ed4dbb421966d408a0a06686",
+          "md5": "f43436d6bec321290f6af228ad602604"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-commons-0.2.0-rc-javadoc.jar",
+          "url": "brazier-relocated-libs-asm-commons-0.2.0-rc-javadoc.jar",
+          "size": 261,
+          "sha512": "1487e5a20c9e4d74f298e07c42e96a61be11b7a768c3fbc199ee138cd68e1fc2267d1cfe3f11f288acc05df755315344d052cc5f6f751f126ab4fe1caa5125ea",
+          "sha256": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3",
+          "sha1": "2ad14aed781c4a73ed4dbb421966d408a0a06686",
+          "md5": "f43436d6bec321290f6af228ad602604"
+        }
+      ]
+    }
+  ]
+}

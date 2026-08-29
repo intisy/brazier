@@ -1,0 +1,116 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-c-incremental",
+    "version": "0.2.0-rc",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-c-incremental-0.2.0-rc.jar",
+          "url": "brazier-c-incremental-0.2.0-rc.jar",
+          "size": 16215,
+          "sha512": "988fd0db5a1ce62da89249809ec824dbf72b2e18b050ac92be737c93b81bc44bbb0f28a0c2005173aee945a8c0bb4431ab8bb3465440c112b3f4104b98edd26c",
+          "sha256": "f9ac579359f2e6ba1be0e42f023cf875e178869912046ff20a75bc798b179273",
+          "sha1": "f352c43b61aae2a9d2e161149e2fa84535211105",
+          "md5": "a095b02c5e46529b9e69cbe61465f000"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-core",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-tooling",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-c-incremental-0.2.0-rc.jar",
+          "url": "brazier-c-incremental-0.2.0-rc.jar",
+          "size": 16215,
+          "sha512": "988fd0db5a1ce62da89249809ec824dbf72b2e18b050ac92be737c93b81bc44bbb0f28a0c2005173aee945a8c0bb4431ab8bb3465440c112b3f4104b98edd26c",
+          "sha256": "f9ac579359f2e6ba1be0e42f023cf875e178869912046ff20a75bc798b179273",
+          "sha1": "f352c43b61aae2a9d2e161149e2fa84535211105",
+          "md5": "a095b02c5e46529b9e69cbe61465f000"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-c-incremental-0.2.0-rc-sources.jar",
+          "url": "brazier-c-incremental-0.2.0-rc-sources.jar",
+          "size": 7280,
+          "sha512": "fe542e89411dd51d43946a0d4e73974a79aa343505143fc2f34541f8987147ed5aa8af9ec35f1978a9aa29fd6acd5090ac2fe3fee814423123cc70f7bf8e2221",
+          "sha256": "843d06359278accb987acba77321d235f03e2a207befbe00efdea79ef08c088b",
+          "sha1": "62308965e6af7e958657919774c8548f9bb898da",
+          "md5": "429f73bd50a294c23a8e08be374358b2"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-c-incremental-0.2.0-rc-javadoc.jar",
+          "url": "brazier-c-incremental-0.2.0-rc-javadoc.jar",
+          "size": 86698,
+          "sha512": "95eeaa25f299d2e2ab5c06d1734fe1dc62009748f08ff4e52916296d92b308ac260608d8db64d51a295dba6c7143b77db27eb7175379811bb10aec38963c6141",
+          "sha256": "60daad94450e0dd3ea854d69aa46bafc72cdbeacd60ee3e0e190d0dfbcf6513d",
+          "sha1": "1c2c6923cb341fd308ff3a768eb08ef7f7a1043c",
+          "md5": "f8335b2e54a92f2f703ebcf4b7dec089"
+        }
+      ]
+    }
+  ]
+}

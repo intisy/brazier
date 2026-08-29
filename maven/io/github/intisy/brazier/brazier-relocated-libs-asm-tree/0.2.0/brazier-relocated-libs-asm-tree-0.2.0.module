@@ -1,0 +1,118 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-relocated-libs-asm-tree",
+    "version": "0.2.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-tree",
+          "version": {
+            "requires": "9.8"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-tree-0.2.0.jar",
+          "url": "brazier-relocated-libs-asm-tree-0.2.0.jar",
+          "size": 51822,
+          "sha512": "c12286cdbfed60d59a23285c07e16e4505d2af269d3cac4bfaf6b207b4549f68e946ef5beb69506188e16a2bd551d06ef0d3c751240f17a58dd8eeb692af44f1",
+          "sha256": "8d9f8ba157311576a5a270c90a5009ecd290334799558020fb73087812b64f0c",
+          "sha1": "c8c4322d26512ed8d7d6a6f004b2c03ed701c9f5",
+          "md5": "067c7606e2f5c6fb2bc2e59718db3ae8"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-relocated-libs-asm",
+          "version": {
+            "requires": "0.2.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-tree-0.2.0.jar",
+          "url": "brazier-relocated-libs-asm-tree-0.2.0.jar",
+          "size": 51822,
+          "sha512": "c12286cdbfed60d59a23285c07e16e4505d2af269d3cac4bfaf6b207b4549f68e946ef5beb69506188e16a2bd551d06ef0d3c751240f17a58dd8eeb692af44f1",
+          "sha256": "8d9f8ba157311576a5a270c90a5009ecd290334799558020fb73087812b64f0c",
+          "sha1": "c8c4322d26512ed8d7d6a6f004b2c03ed701c9f5",
+          "md5": "067c7606e2f5c6fb2bc2e59718db3ae8"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-tree-0.2.0-sources.jar",
+          "url": "brazier-relocated-libs-asm-tree-0.2.0-sources.jar",
+          "size": 261,
+          "sha512": "1487e5a20c9e4d74f298e07c42e96a61be11b7a768c3fbc199ee138cd68e1fc2267d1cfe3f11f288acc05df755315344d052cc5f6f751f126ab4fe1caa5125ea",
+          "sha256": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3",
+          "sha1": "2ad14aed781c4a73ed4dbb421966d408a0a06686",
+          "md5": "f43436d6bec321290f6af228ad602604"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-tree-0.2.0-javadoc.jar",
+          "url": "brazier-relocated-libs-asm-tree-0.2.0-javadoc.jar",
+          "size": 261,
+          "sha512": "1487e5a20c9e4d74f298e07c42e96a61be11b7a768c3fbc199ee138cd68e1fc2267d1cfe3f11f288acc05df755315344d052cc5f6f751f126ab4fe1caa5125ea",
+          "sha256": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3",
+          "sha1": "2ad14aed781c4a73ed4dbb421966d408a0a06686",
+          "md5": "f43436d6bec321290f6af228ad602604"
+        }
+      ]
+    }
+  ]
+}

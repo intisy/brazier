@@ -1,0 +1,118 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-tooling",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-core",
+          "version": {
+            "requires": "0.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-tooling-0.1.0.jar",
+          "url": "brazier-tooling-0.1.0.jar",
+          "size": 68338,
+          "sha512": "4e54c48e447691f14200c7898ce3a425d90f79e1122e6e55b65cef2b8feb6d4795e0b8a86a2a53708288170ee7375888afd4950e68c3b9ca139dcea30595add8",
+          "sha256": "4a77fd5ead94fb926835e02cac4e2ea2f17854627526920d2e73b1fdbd677b97",
+          "sha1": "a9048c013c503bbc645a6e7b36680987e9b93d55",
+          "md5": "22b754ec78bfebaf63121a6f938aa7d5"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-core",
+          "version": {
+            "requires": "0.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-tooling-0.1.0.jar",
+          "url": "brazier-tooling-0.1.0.jar",
+          "size": 68338,
+          "sha512": "4e54c48e447691f14200c7898ce3a425d90f79e1122e6e55b65cef2b8feb6d4795e0b8a86a2a53708288170ee7375888afd4950e68c3b9ca139dcea30595add8",
+          "sha256": "4a77fd5ead94fb926835e02cac4e2ea2f17854627526920d2e73b1fdbd677b97",
+          "sha1": "a9048c013c503bbc645a6e7b36680987e9b93d55",
+          "md5": "22b754ec78bfebaf63121a6f938aa7d5"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-tooling-0.1.0-sources.jar",
+          "url": "brazier-tooling-0.1.0-sources.jar",
+          "size": 39701,
+          "sha512": "2ecbe82a1d2bf25d85a41b19ad1ee94f8b6246eb24b026b26f605bdc37af38587e4c805c090ff827f4a972d0862764d341187852ea859d73a6997076be59ece6",
+          "sha256": "e90942d8923f09fd49d53dec6fe00ebf56734945e388ef6e04a37de7e2f79c31",
+          "sha1": "eae13ff40944406c8c10da784466e7ed237b5a6b",
+          "md5": "37887be277588176acc04734c0160a29"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-tooling-0.1.0-javadoc.jar",
+          "url": "brazier-tooling-0.1.0-javadoc.jar",
+          "size": 194115,
+          "sha512": "144cc6f4c65e4e0a3b1a395f948f628896a7514f841cc5c078f76c1190fa481e5eb6574b474ce788a464fc2c6b057c3c878f7db0463844acc53a6d5ba0d3aec3",
+          "sha256": "742985864e7a0c62cca7ff3e352867cbe229734ae25957bae9439d753e0bfed8",
+          "sha1": "6c0d17d6f10a0a9142b9ec14bd9bac3741121f37",
+          "md5": "74f88d8b368454551b7daf5f61b93369"
+        }
+      ]
+    }
+  ]
+}

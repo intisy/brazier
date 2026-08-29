@@ -1,0 +1,123 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-jso-impl",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-jso-impl-0.1.0.jar",
+          "url": "brazier-jso-impl-0.1.0.jar",
+          "size": 195404,
+          "sha512": "ef4223291ab55c6b606ba7e0b7011db83b58ba268985f86eb62207fcd30a82ed75d8de265ef38aee981606f99ef0fadee239e1613bb045d701a86cf3a3776f36",
+          "sha256": "a0b54f2201b7f1a6be43cbf44a592dfffc5f88c73612d440fa5119ceba97c690",
+          "sha1": "c1a0e552e5ef59d53662b18c3c07df1d488a735d",
+          "md5": "66795350df018ad9cff86f0a3a1afcb2"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-jso",
+          "version": {
+            "requires": "0.1.0"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-jso-apis",
+          "version": {
+            "requires": "0.1.0"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-relocated-libs-rhino",
+          "version": {
+            "requires": "0.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-jso-impl-0.1.0.jar",
+          "url": "brazier-jso-impl-0.1.0.jar",
+          "size": 195404,
+          "sha512": "ef4223291ab55c6b606ba7e0b7011db83b58ba268985f86eb62207fcd30a82ed75d8de265ef38aee981606f99ef0fadee239e1613bb045d701a86cf3a3776f36",
+          "sha256": "a0b54f2201b7f1a6be43cbf44a592dfffc5f88c73612d440fa5119ceba97c690",
+          "sha1": "c1a0e552e5ef59d53662b18c3c07df1d488a735d",
+          "md5": "66795350df018ad9cff86f0a3a1afcb2"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-jso-impl-0.1.0-sources.jar",
+          "url": "brazier-jso-impl-0.1.0-sources.jar",
+          "size": 102955,
+          "sha512": "1f8c075ce51b49e30321b2bcdef5cd3bc6df9a33851f9c8c82b266fe9d7fa49c164ec98592aa7ff764de6d472f306686fdcc477000c9305ba682b1c2ee6e2f25",
+          "sha256": "7482d7216feb86ba6a0fef91bac63586b8757fcd8260580bb36f15a7cd266e23",
+          "sha1": "29a8c13806d384344aef4453a26aa3072bd4c4ce",
+          "md5": "256599b5fae71e2207f6724f5cf69eef"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-jso-impl-0.1.0-javadoc.jar",
+          "url": "brazier-jso-impl-0.1.0-javadoc.jar",
+          "size": 182140,
+          "sha512": "8b7e7f7661eb5c06102e4a72d040111a7f1fa6e4815279dbb65a75153ab6975fc537747834450d8cda3e251201f3e3b68f3b7b465352c13f3c61aaef849de7c9",
+          "sha256": "da767118e883df0bf898992ca43346a407abb9dc5458fce5f79d15fa90d6e403",
+          "sha1": "47c90db9803f9345630e4401b2ae6374f0da7ff2",
+          "md5": "52073d2ead477da8514b4c4e3be4b68a"
+        }
+      ]
+    }
+  ]
+}

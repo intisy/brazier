@@ -1,0 +1,132 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-relocated-libs-asm-util",
+    "version": "0.2.0-rc",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-util",
+          "version": {
+            "requires": "9.8"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-util-0.2.0-rc.jar",
+          "url": "brazier-relocated-libs-asm-util-0.2.0-rc.jar",
+          "size": 94295,
+          "sha512": "b8c46a717fb99d37f7aea584f63437aaf0ecceffb32cf95a9fcbefc35c34612d0b7ce5f2f047829a8addce824de504ac8806cbb09c810df51a510a27a1524091",
+          "sha256": "1a93cd6ff98c80fb5787409ab664360d6647dc289349a9379b209840992cad66",
+          "sha1": "b469bee8da030b299df2b54fa4ae8200d6a80314",
+          "md5": "f2983ff517119e8a193e189850707eb7"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-relocated-libs-asm",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-relocated-libs-asm-tree",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-relocated-libs-asm-analysis",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-util-0.2.0-rc.jar",
+          "url": "brazier-relocated-libs-asm-util-0.2.0-rc.jar",
+          "size": 94295,
+          "sha512": "b8c46a717fb99d37f7aea584f63437aaf0ecceffb32cf95a9fcbefc35c34612d0b7ce5f2f047829a8addce824de504ac8806cbb09c810df51a510a27a1524091",
+          "sha256": "1a93cd6ff98c80fb5787409ab664360d6647dc289349a9379b209840992cad66",
+          "sha1": "b469bee8da030b299df2b54fa4ae8200d6a80314",
+          "md5": "f2983ff517119e8a193e189850707eb7"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-util-0.2.0-rc-sources.jar",
+          "url": "brazier-relocated-libs-asm-util-0.2.0-rc-sources.jar",
+          "size": 261,
+          "sha512": "1487e5a20c9e4d74f298e07c42e96a61be11b7a768c3fbc199ee138cd68e1fc2267d1cfe3f11f288acc05df755315344d052cc5f6f751f126ab4fe1caa5125ea",
+          "sha256": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3",
+          "sha1": "2ad14aed781c4a73ed4dbb421966d408a0a06686",
+          "md5": "f43436d6bec321290f6af228ad602604"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-relocated-libs-asm-util-0.2.0-rc-javadoc.jar",
+          "url": "brazier-relocated-libs-asm-util-0.2.0-rc-javadoc.jar",
+          "size": 261,
+          "sha512": "1487e5a20c9e4d74f298e07c42e96a61be11b7a768c3fbc199ee138cd68e1fc2267d1cfe3f11f288acc05df755315344d052cc5f6f751f126ab4fe1caa5125ea",
+          "sha256": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3",
+          "sha1": "2ad14aed781c4a73ed4dbb421966d408a0a06686",
+          "md5": "f43436d6bec321290f6af228ad602604"
+        }
+      ]
+    }
+  ]
+}

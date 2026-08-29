@@ -1,0 +1,130 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-devserver-runner",
+    "version": "0.2.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-devserver-runner-0.2.0.jar",
+          "url": "brazier-devserver-runner-0.2.0.jar",
+          "size": 15228,
+          "sha512": "8aa6125dbc5146e66ca9da2b1abfb34a702ffb71b46426406a37b31e69edc012ff896c87c0dcd1bfb121131fafbdad98d5a55753b361d84a3e69b97ab5f1db7c",
+          "sha256": "a8da0caaf134b4bf415651147bbbb67d58b2584197a6aaa3fec24deb57f8ecf7",
+          "sha1": "31124247117ff8f60ad6d9558b6971e472bdc337",
+          "md5": "cbc5dbca57b736192e0ec2e7c3cd93d0"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-tooling",
+          "version": {
+            "requires": "0.2.0"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-devserver",
+          "version": {
+            "requires": "0.2.0"
+          }
+        },
+        {
+          "group": "commons-cli",
+          "module": "commons-cli",
+          "version": {
+            "requires": "1.10.0"
+          }
+        },
+        {
+          "group": "org.slf4j",
+          "module": "slf4j-api",
+          "version": {
+            "requires": "2.0.16"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-devserver-runner-0.2.0.jar",
+          "url": "brazier-devserver-runner-0.2.0.jar",
+          "size": 15228,
+          "sha512": "8aa6125dbc5146e66ca9da2b1abfb34a702ffb71b46426406a37b31e69edc012ff896c87c0dcd1bfb121131fafbdad98d5a55753b361d84a3e69b97ab5f1db7c",
+          "sha256": "a8da0caaf134b4bf415651147bbbb67d58b2584197a6aaa3fec24deb57f8ecf7",
+          "sha1": "31124247117ff8f60ad6d9558b6971e472bdc337",
+          "md5": "cbc5dbca57b736192e0ec2e7c3cd93d0"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-devserver-runner-0.2.0-sources.jar",
+          "url": "brazier-devserver-runner-0.2.0-sources.jar",
+          "size": 9019,
+          "sha512": "783419e081212eec935724700ecb52ca9689a61c983748c1b3d8b619fad4ab21a4c5546b69b1e94fec4637135cc39b40cff6cdc08820dbd63ffeae1e5fa057ad",
+          "sha256": "a93723bbc77c81e462876ff161b4c2a6318e58238d4dc6e0b891523b6ae989f5",
+          "sha1": "58d99cb77743e33e0612dafc6ab0d7db455e2d27",
+          "md5": "b8d24142d5fd7eccb11ace22c15087ca"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-devserver-runner-0.2.0-javadoc.jar",
+          "url": "brazier-devserver-runner-0.2.0-javadoc.jar",
+          "size": 91298,
+          "sha512": "1296fa814d7f73fd6cec2935c29fc6954a7589f079095bd4dd23df870603856048c512f0c9b85261c22cce774e11c87aa5b8a17aa8c12a9bda09d1b923713461",
+          "sha256": "2f61a5138457ba71ae8c58f77b7e22281e9ad643d4158187058f8be3da476bf0",
+          "sha1": "1b7836fa4d74eba84bfc119f393d1641925fd4be",
+          "md5": "cb32c3bf41e68e7318120fa8b29d9db4"
+        }
+      ]
+    }
+  ]
+}

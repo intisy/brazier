@@ -1,0 +1,100 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-extension-spi-util",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-extension-spi-util-0.1.0.jar",
+          "url": "brazier-extension-spi-util-0.1.0.jar",
+          "size": 1847,
+          "sha512": "58eb194f2bad73c2bc60e2926b990c7d92d198285ed48a0dbe793863ec537334b0ef753cab45d83eaa2ff4e757f44ff145b97f3edac7d37a0a5f860b363285d7",
+          "sha256": "68f708b335f5d8e7e08d993ac2c7ed9965058d5ae0497e0de40365bf894c5ed9",
+          "sha1": "d15156a02f0f9d5b1e001c28ec83f5542287463b",
+          "md5": "838ee65e5088c959a86f087624bff690"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-extension-spi-util-0.1.0.jar",
+          "url": "brazier-extension-spi-util-0.1.0.jar",
+          "size": 1847,
+          "sha512": "58eb194f2bad73c2bc60e2926b990c7d92d198285ed48a0dbe793863ec537334b0ef753cab45d83eaa2ff4e757f44ff145b97f3edac7d37a0a5f860b363285d7",
+          "sha256": "68f708b335f5d8e7e08d993ac2c7ed9965058d5ae0497e0de40365bf894c5ed9",
+          "sha1": "d15156a02f0f9d5b1e001c28ec83f5542287463b",
+          "md5": "838ee65e5088c959a86f087624bff690"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-extension-spi-util-0.1.0-sources.jar",
+          "url": "brazier-extension-spi-util-0.1.0-sources.jar",
+          "size": 1690,
+          "sha512": "3700ca615310c9f6a117871041dd24bef0ae7989bd62454c0b1b97edfbb1273f23a69bc2d3d37e923536ae5ab2905687973f057f38762c47bea354edab6e1fab",
+          "sha256": "ce8dbf7827ec6901d29318e58fe2a3aa3ee52673dfc289ed5035b4c70394d8d5",
+          "sha1": "d6e8ec4b5e0e99e128adbcaf2606f5a28e8ee682",
+          "md5": "4f0e61c390f8f6f6d099980e9a463ffb"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-extension-spi-util-0.1.0-javadoc.jar",
+          "url": "brazier-extension-spi-util-0.1.0-javadoc.jar",
+          "size": 79826,
+          "sha512": "e6c7543d8fa4655a428e950b16044e995945c897f3f2960c8be8c1c6349080307e4786dcfc1c60a0cb83da99cf9a965258ae69e009e3d437e3cb434acc1f98f0",
+          "sha256": "25cf7d817623aee9fb1bbed43641c8054fed2df1b988ecf19b04276573621a32",
+          "sha1": "85ba03017c36f5684da85b61549d7d7e210228e1",
+          "md5": "234087e6e91b91a4fe18e83eea509e01"
+        }
+      ]
+    }
+  ]
+}

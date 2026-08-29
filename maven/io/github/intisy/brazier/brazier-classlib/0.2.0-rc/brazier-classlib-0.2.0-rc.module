@@ -1,0 +1,209 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-classlib",
+    "version": "0.2.0-rc",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-core",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-platform",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-jso-apis",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-jso-impl",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-metaprogramming-impl",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "com.jcraft",
+          "module": "jzlib",
+          "version": {
+            "requires": "1.1.3"
+          }
+        },
+        {
+          "group": "joda-time",
+          "module": "joda-time",
+          "version": {
+            "requires": "2.12.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-classlib-0.2.0-rc.jar",
+          "url": "brazier-classlib-0.2.0-rc.jar",
+          "size": 17720251,
+          "sha512": "ab9362ded104199da83d1fb271f9528b3ab0bce08814f31247f2e1ec51d0993989329fcacc7150da70d126b686abd44c11a8d12fe610b09cfa7d8519746beaf1",
+          "sha256": "e36c8daff487b8af1b414e538baf59257c44f559b11bc1985bcb4b3bac029ca2",
+          "sha1": "8397e5df9ceabae374ad1ba3cefdd98fdc091a05",
+          "md5": "a45b21f51d13b8035748ffe088d7932f"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-extension-spi",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-core",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-platform",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-jso-apis",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-jso-impl",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-metaprogramming-impl",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "com.jcraft",
+          "module": "jzlib",
+          "version": {
+            "requires": "1.1.3"
+          }
+        },
+        {
+          "group": "joda-time",
+          "module": "joda-time",
+          "version": {
+            "requires": "2.12.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-classlib-0.2.0-rc.jar",
+          "url": "brazier-classlib-0.2.0-rc.jar",
+          "size": 17720251,
+          "sha512": "ab9362ded104199da83d1fb271f9528b3ab0bce08814f31247f2e1ec51d0993989329fcacc7150da70d126b686abd44c11a8d12fe610b09cfa7d8519746beaf1",
+          "sha256": "e36c8daff487b8af1b414e538baf59257c44f559b11bc1985bcb4b3bac029ca2",
+          "sha1": "8397e5df9ceabae374ad1ba3cefdd98fdc091a05",
+          "md5": "a45b21f51d13b8035748ffe088d7932f"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-classlib-0.2.0-rc-sources.jar",
+          "url": "brazier-classlib-0.2.0-rc-sources.jar",
+          "size": 1797021,
+          "sha512": "ab14fc583edcae68b3c88df0ed0b095127c31a7be64d5b87183dc4efac259bd852040d0210d020eb51e18e2273e34cc2871c397b99a9310a1c1d25505fedd3d3",
+          "sha256": "6784aa5a89bc2f2e247d0ced83c45c32d4101fb1f26da1f31f487ad4801931dc",
+          "sha1": "4fb00b1a28df7c3c1a55d2e38b4b6d16aa108c5e",
+          "md5": "2fdec329b8bfc5ffdbd73c7ee1a2b2bc"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-classlib-0.2.0-rc-javadoc.jar",
+          "url": "brazier-classlib-0.2.0-rc-javadoc.jar",
+          "size": 3692899,
+          "sha512": "b958556964fb8f9181090f4e206535eb31e3e4a51aa14802bbc85e8aea24b9a099f0f93615e325c4baeebc9df1657efcf37f8c8d3621678bad8b1376175de0d3",
+          "sha256": "0661707f427066fd2b61373b443867ffcccad14a922a274298b21dcedaf46fe4",
+          "sha1": "bb084ec5183290d1de4857101cdf8655a8f9dbd7",
+          "md5": "f945d4e98f78b1d11b2b5ec1fb66c218"
+        }
+      ]
+    }
+  ]
+}

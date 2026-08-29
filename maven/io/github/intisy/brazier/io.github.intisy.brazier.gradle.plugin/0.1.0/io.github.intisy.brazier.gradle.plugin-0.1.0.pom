@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.github.intisy.brazier</groupId>
+  <artifactId>io.github.intisy.brazier.gradle.plugin</artifactId>
+  <version>0.1.0</version>
+  <packaging>pom</packaging>
+  <name>Brazier Gradle plugin</name>
+  <description>Brazier Gradle plugin</description>
+  <url>https://github.com/intisy/brazier</url>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>konsoletyper</id>
+      <name>Alexey Andreev</name>
+      <email>konsoletyper@gmail.com</email>
+      <timezone>Europe/Berlin</timezone>
+    </developer>
+    <developer>
+      <id>intisy</id>
+      <name>Finn Birich</name>
+      <email>finn@birich.de</email>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git@github.com:intisy/brazier.git</connection>
+    <url>https://github.com/intisy/brazier</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>io.github.intisy.brazier</groupId>
+      <artifactId>brazier-gradle-plugin</artifactId>
+      <version>0.1.0</version>
+    </dependency>
+  </dependencies>
+</project>

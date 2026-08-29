@@ -1,0 +1,100 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-jso",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-jso-0.1.0.jar",
+          "url": "brazier-jso-0.1.0.jar",
+          "size": 8448,
+          "sha512": "4f86c94b101c998860ac1f4d4b04a8e2c3bd244ef7b4975191e7e72c3a7b7c73acb08d082af3fc3386296bfd60d918c3988d0fce65f5b83825afef028085e439",
+          "sha256": "1a018ebd1ab31875c3ed58a3831a025d34ac103332fcf52bd4d64c0fe901ac1f",
+          "sha1": "d0c48457354415f58a42d7dc7d2db35e9f23dfad",
+          "md5": "b33dc65e95ed9e20669b7e1a318692ae"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-jso-0.1.0.jar",
+          "url": "brazier-jso-0.1.0.jar",
+          "size": 8448,
+          "sha512": "4f86c94b101c998860ac1f4d4b04a8e2c3bd244ef7b4975191e7e72c3a7b7c73acb08d082af3fc3386296bfd60d918c3988d0fce65f5b83825afef028085e439",
+          "sha256": "1a018ebd1ab31875c3ed58a3831a025d34ac103332fcf52bd4d64c0fe901ac1f",
+          "sha1": "d0c48457354415f58a42d7dc7d2db35e9f23dfad",
+          "md5": "b33dc65e95ed9e20669b7e1a318692ae"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-jso-0.1.0-sources.jar",
+          "url": "brazier-jso-0.1.0-sources.jar",
+          "size": 16043,
+          "sha512": "d350955f127d813ee3ea2b21f6fa7587a3e0e1528d6c1efe5a33c018a47cc312a59c24e46abd48113a62f3cf7c15c335f04e5a42b347dbd459a740a6a4e0dbc4",
+          "sha256": "a12304812ff0e8f4e8f7e3d2725abc828f911d1da1c54aebc8746ae4986aad80",
+          "sha1": "6766990f779e0d6e1d904651fcc8faf2ff642448",
+          "md5": "59b042be9a15e2d8ff42fdf7a6838681"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-jso-0.1.0-javadoc.jar",
+          "url": "brazier-jso-0.1.0-javadoc.jar",
+          "size": 117789,
+          "sha512": "d8dd3815a257a77a3945408d190f215e04d351bfe0b7817e4fe0b6ed67cdc54f78ab5cf2c7544c135a3788d49f608321bfaa2cdf091da9d87367fd961fffbf65",
+          "sha256": "bfe02366760ede0487211bc2d72979e2dd4387a469966a5c91c85bc989ebaa39",
+          "sha1": "e108349d5f6ebc87e3d3780bcbef972bdedeca8f",
+          "md5": "41594fe722ef171bb92737e5512866c8"
+        }
+      ]
+    }
+  ]
+}

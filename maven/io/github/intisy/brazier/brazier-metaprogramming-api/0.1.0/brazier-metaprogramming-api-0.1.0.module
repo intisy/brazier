@@ -1,0 +1,118 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-metaprogramming-api",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-extension-apis",
+          "version": {
+            "requires": "0.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-metaprogramming-api-0.1.0.jar",
+          "url": "brazier-metaprogramming-api-0.1.0.jar",
+          "size": 13898,
+          "sha512": "4bd7e709e9a0fcfe50740161f790b67b8654ee5712393e41dbb0ec9bc741fddb909d2242fa6ee85fd5a307306b3525f5fa7fbf57bcab997e6f39cfd94ad8d827",
+          "sha256": "0708f48e7c5a6c99a59650900b82444df8e5779248986c764bb1d79b874b19a3",
+          "sha1": "cb70d28037674b3c9f19196b64f04cf0a146095f",
+          "md5": "5cbd88fbe86db303974e8b92914901eb"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-extension-apis",
+          "version": {
+            "requires": "0.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-metaprogramming-api-0.1.0.jar",
+          "url": "brazier-metaprogramming-api-0.1.0.jar",
+          "size": 13898,
+          "sha512": "4bd7e709e9a0fcfe50740161f790b67b8654ee5712393e41dbb0ec9bc741fddb909d2242fa6ee85fd5a307306b3525f5fa7fbf57bcab997e6f39cfd94ad8d827",
+          "sha256": "0708f48e7c5a6c99a59650900b82444df8e5779248986c764bb1d79b874b19a3",
+          "sha1": "cb70d28037674b3c9f19196b64f04cf0a146095f",
+          "md5": "5cbd88fbe86db303974e8b92914901eb"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-metaprogramming-api-0.1.0-sources.jar",
+          "url": "brazier-metaprogramming-api-0.1.0-sources.jar",
+          "size": 18251,
+          "sha512": "07a227260dd29a8dcb2d5269ce3a1bef12598d5c2a0c48b2b578f273194d4a842c740ad3d4a9c6cccef8fb7da59cad90cc4042cf8748f0ce186d5fc04a136d90",
+          "sha256": "a1a41d67f9a45c6f761ebd29f7eaa7844c87fc8ba8b0f1a0f43700e0238804e5",
+          "sha1": "00e869583c691157f10d8352d4def44b80996367",
+          "md5": "4be40c5e69785d3f6ebbe6736f355841"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-metaprogramming-api-0.1.0-javadoc.jar",
+          "url": "brazier-metaprogramming-api-0.1.0-javadoc.jar",
+          "size": 145388,
+          "sha512": "fc13156555427717835793434977dffa14aac74c5f6aee5418b3c13f543193b8d211d560efc474cf6bb3212d77cc773bd19e4db8f3f606626d659d3eb4c48384",
+          "sha256": "f99cc3fd148af669442cb56ab549b9b7c461bdd5350e53b7b3f08fb623bdeda7",
+          "sha1": "a0e15f6e039522aa3be3730689c191f18d4f48f9",
+          "md5": "17e6b0ffebe2aedf6204e679686e72fa"
+        }
+      ]
+    }
+  ]
+}

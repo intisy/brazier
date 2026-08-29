@@ -1,0 +1,100 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-wasm-gc-deobfuscator",
+    "version": "0.2.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-wasm-gc-deobfuscator-0.2.0.jar",
+          "url": "brazier-wasm-gc-deobfuscator-0.2.0.jar",
+          "size": 19477,
+          "sha512": "39f11254f19a653f31e1c31495ff70f0eb640262a32b87b8a88ab6edd87b20f88161472d7503050a89d0de82b77ffd7f122aa52d3a0b5a66b6ea928bb094cc9c",
+          "sha256": "017f942a9d5d6d9c529f670771e61a67497dd27143b736d5e8877e99fd3d394e",
+          "sha1": "85ccf16a4ea21d035396f6cccfebe73065d5c7b1",
+          "md5": "34502f2d1fec30c93d68cd51e2a3d193"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-wasm-gc-deobfuscator-0.2.0.jar",
+          "url": "brazier-wasm-gc-deobfuscator-0.2.0.jar",
+          "size": 19477,
+          "sha512": "39f11254f19a653f31e1c31495ff70f0eb640262a32b87b8a88ab6edd87b20f88161472d7503050a89d0de82b77ffd7f122aa52d3a0b5a66b6ea928bb094cc9c",
+          "sha256": "017f942a9d5d6d9c529f670771e61a67497dd27143b736d5e8877e99fd3d394e",
+          "sha1": "85ccf16a4ea21d035396f6cccfebe73065d5c7b1",
+          "md5": "34502f2d1fec30c93d68cd51e2a3d193"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-wasm-gc-deobfuscator-0.2.0-sources.jar",
+          "url": "brazier-wasm-gc-deobfuscator-0.2.0-sources.jar",
+          "size": 19365,
+          "sha512": "902162563d524ee082bf2e19f2fc01663d81d6b602181521fd4c879bf7b6e9ee516e32e4e9ca7bbdc9cc75ea01227a161501550e8ff7af11b9f50c71efc9a3ee",
+          "sha256": "63e9a4bfb62d2979d1ffea692b92f0da482ead551df1afa83f4e5d127743afc8",
+          "sha1": "344b2d88aca86905d55b200e199a1b84e04cba8b",
+          "md5": "221bc4f3d122ee421466f6adea8709ee"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-wasm-gc-deobfuscator-0.2.0-javadoc.jar",
+          "url": "brazier-wasm-gc-deobfuscator-0.2.0-javadoc.jar",
+          "size": 19365,
+          "sha512": "902162563d524ee082bf2e19f2fc01663d81d6b602181521fd4c879bf7b6e9ee516e32e4e9ca7bbdc9cc75ea01227a161501550e8ff7af11b9f50c71efc9a3ee",
+          "sha256": "63e9a4bfb62d2979d1ffea692b92f0da482ead551df1afa83f4e5d127743afc8",
+          "sha1": "344b2d88aca86905d55b200e199a1b84e04cba8b",
+          "md5": "221bc4f3d122ee421466f6adea8709ee"
+        }
+      ]
+    }
+  ]
+}

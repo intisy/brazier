@@ -1,0 +1,151 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-browser-runner",
+    "version": "0.2.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-browser-runner-0.2.0.jar",
+          "url": "brazier-browser-runner-0.2.0.jar",
+          "size": 48377,
+          "sha512": "a64d2bfa64f2341e9b83ce7ff26b455381657d88d2dccfd08c2de6938416a5812e3bf885271578b984d627da3669e8a5d2d3fabfc74e840d5a705ceaff5d30d3",
+          "sha256": "a0521a63cf62ec78f3d9772b70a7331271cbc69fc78a6ad63c24c0389def452c",
+          "sha1": "dbda6522cb1f451fc8c85288defa383c488f3420",
+          "md5": "dc86d2ee4e531e3ca72e3c79a5e33fc1"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.fasterxml.jackson.core",
+          "module": "jackson-annotations",
+          "version": {
+            "requires": "2.18.2"
+          }
+        },
+        {
+          "group": "com.fasterxml.jackson.core",
+          "module": "jackson-databind",
+          "version": {
+            "requires": "2.18.2"
+          }
+        },
+        {
+          "group": "jakarta.servlet",
+          "module": "jakarta.servlet-api",
+          "version": {
+            "requires": "6.1.0"
+          }
+        },
+        {
+          "group": "org.eclipse.jetty",
+          "module": "jetty-server",
+          "version": {
+            "requires": "12.1.9"
+          }
+        },
+        {
+          "group": "org.eclipse.jetty.ee10",
+          "module": "jetty-ee10-servlet",
+          "version": {
+            "requires": "12.1.9"
+          }
+        },
+        {
+          "group": "org.eclipse.jetty.ee10.websocket",
+          "module": "jetty-ee10-websocket-jetty-server",
+          "version": {
+            "requires": "12.1.9"
+          }
+        },
+        {
+          "group": "org.eclipse.jetty.websocket",
+          "module": "jetty-websocket-jetty-client",
+          "version": {
+            "requires": "12.1.9"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "brazier-browser-runner-0.2.0.jar",
+          "url": "brazier-browser-runner-0.2.0.jar",
+          "size": 48377,
+          "sha512": "a64d2bfa64f2341e9b83ce7ff26b455381657d88d2dccfd08c2de6938416a5812e3bf885271578b984d627da3669e8a5d2d3fabfc74e840d5a705ceaff5d30d3",
+          "sha256": "a0521a63cf62ec78f3d9772b70a7331271cbc69fc78a6ad63c24c0389def452c",
+          "sha1": "dbda6522cb1f451fc8c85288defa383c488f3420",
+          "md5": "dc86d2ee4e531e3ca72e3c79a5e33fc1"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-browser-runner-0.2.0-sources.jar",
+          "url": "brazier-browser-runner-0.2.0-sources.jar",
+          "size": 13078,
+          "sha512": "64e3ddd88e63594cf09c0068a2e25706e4bd3b0d403ce604960b4e1d155b4164146a7b3b1f8f83d47cd0d9f6054c114a542d43c9187a863afa18e6a5f9d52291",
+          "sha256": "deb12b9f49403b4b38f0adeac49f4f2116e3a2c829b725a53b8b125055c3f838",
+          "sha1": "591d96167ec2a9a9154d89dcacefc54b69bb3395",
+          "md5": "b084b3d7cd7739b9cefdcc7f01d6bdb9"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-browser-runner-0.2.0-javadoc.jar",
+          "url": "brazier-browser-runner-0.2.0-javadoc.jar",
+          "size": 94753,
+          "sha512": "32ab79b3e59b56ebf37bb293da8ddcb97b44c8ec8c68f381f78d74c278b23ab21ab3eeac53d18d8b6feaecb02c805f5169915be4f3a686cc8dba14df59b5b798",
+          "sha256": "615fbac8c0164c0ded10f0eb359c406a450e0b9731d4cbdf2df4e82eecfee4ae",
+          "sha1": "76c58c2d00723491e1eaca63deba09d992e11512",
+          "md5": "d467d93ccf0f0e9176a2d23f79136bb6"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-extension-annotation-processor",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-extension-annotation-processor-0.1.0.jar",
+          "url": "brazier-extension-annotation-processor-0.1.0.jar",
+          "size": 4431,
+          "sha512": "b4d6e50bd83bb58c9afa001afbd289c55a2b8d38ff9fee793a003b7ef4ed4185c7fb2d80aa6e6cf019805cc8dbdf095899fc00fd0507b1f39881d4e8a2389eaf",
+          "sha256": "f63ffadab6669f4a96d600c67c1ae620a361094367b121a9da2dc278cd8d42e4",
+          "sha1": "012027787f7a0c31955ce6684fbe83cb3052fc52",
+          "md5": "456a61065e9d9a3ee36bae6dd4665149"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-extension-annotation-processor-0.1.0.jar",
+          "url": "brazier-extension-annotation-processor-0.1.0.jar",
+          "size": 4431,
+          "sha512": "b4d6e50bd83bb58c9afa001afbd289c55a2b8d38ff9fee793a003b7ef4ed4185c7fb2d80aa6e6cf019805cc8dbdf095899fc00fd0507b1f39881d4e8a2389eaf",
+          "sha256": "f63ffadab6669f4a96d600c67c1ae620a361094367b121a9da2dc278cd8d42e4",
+          "sha1": "012027787f7a0c31955ce6684fbe83cb3052fc52",
+          "md5": "456a61065e9d9a3ee36bae6dd4665149"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-extension-annotation-processor-0.1.0-sources.jar",
+          "url": "brazier-extension-annotation-processor-0.1.0-sources.jar",
+          "size": 2561,
+          "sha512": "21082710bb8f885ccd95e46a4f7a02c8dc10b3e329178baedfacc7c1f05db5e90dc6f45d2c4e927331bb29f93b950bfedd88058d6efd95a15810e84604c9cb0a",
+          "sha256": "9f94e412cd2db193edfd377447eba1b203e2db5f15162db16400d9dcf6a24c0c",
+          "sha1": "15bee3b06881cd41e300cb9bb710126c0dc96aed",
+          "md5": "9f7883ced3ffa9d841484c7ee8a997ef"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-extension-annotation-processor-0.1.0-javadoc.jar",
+          "url": "brazier-extension-annotation-processor-0.1.0-javadoc.jar",
+          "size": 80954,
+          "sha512": "316f405251ee6a516d6fbfc8e697a4f9dd768c5c9203413e9f756c7d4d25fef3e32747fb207eb30fb8463bc4317da28379c4f2fbfdd2700a1b13993ff637d4ee",
+          "sha256": "bcd28746007b04953d49645edeaab2f21fd23fb71bffe9f2ead57791f9240988",
+          "sha1": "e2e6e74468478250ade1cd33d0f5f1fcc55eafff",
+          "md5": "f592bdd54bb144b2f9b9a1e00a77942c"
+        }
+      ]
+    }
+  ]
+}

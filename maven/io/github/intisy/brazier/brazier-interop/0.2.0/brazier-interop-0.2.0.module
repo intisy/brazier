@@ -1,0 +1,100 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "brazier-interop",
+    "version": "0.2.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "brazier-interop-0.2.0.jar",
+          "url": "brazier-interop-0.2.0.jar",
+          "size": 12645,
+          "sha512": "e19a1ff9dfb0a6cc61c2e82315e11e86568b8b802e3d948613e77a97d1c367ac6c7502ca48890b9482eb98f527a22720241c64a1feda4c7be9372dd62ea2d053",
+          "sha256": "c0dcb4ffd87634d8d08ce1d068acdd6e6dcde95a5939f22c6e7580af21185daf",
+          "sha1": "1f31d3c7adaebd86fa8f3f98f7330b7343bf4079",
+          "md5": "4fb2d6deff605b270d3c70a8ea437232"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-interop-0.2.0.jar",
+          "url": "brazier-interop-0.2.0.jar",
+          "size": 12645,
+          "sha512": "e19a1ff9dfb0a6cc61c2e82315e11e86568b8b802e3d948613e77a97d1c367ac6c7502ca48890b9482eb98f527a22720241c64a1feda4c7be9372dd62ea2d053",
+          "sha256": "c0dcb4ffd87634d8d08ce1d068acdd6e6dcde95a5939f22c6e7580af21185daf",
+          "sha1": "1f31d3c7adaebd86fa8f3f98f7330b7343bf4079",
+          "md5": "4fb2d6deff605b270d3c70a8ea437232"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-interop-0.2.0-sources.jar",
+          "url": "brazier-interop-0.2.0-sources.jar",
+          "size": 17902,
+          "sha512": "8450ca3062fbcf51a4c2a24a6859a3b97d20564d909edfc0c94d542e06ff294b6caf17965806a2929e1abbb60cf0c45a1e30f00f4d00ad324f4a530a28078346",
+          "sha256": "5dff7691aa71c1475c16152da96a4e31023bb605d0a5ca16423323723814005b",
+          "sha1": "691387365e0ce865b92bfd3b7eb952fc8f98f327",
+          "md5": "535f5b8893213b8f9ae81c58bb961d6e"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "brazier-interop-0.2.0-javadoc.jar",
+          "url": "brazier-interop-0.2.0-javadoc.jar",
+          "size": 137130,
+          "sha512": "e1102903d071aecea7a8c5c9a1fb79cf34b0490bd93e6826788589df26ad953b13f06d91a1803d722e1baf30738d8ac6071dba5e349a92264d774536460e7d5c",
+          "sha256": "ca0767900b0e98792ba610a931aa27259c3bf79b73fce31b4409bf66a6b61d89",
+          "sha1": "fbac8587575ad1104619b9d87a997a13929f577b",
+          "md5": "26e9d6fc86dbdcd9d04799e136441fff"
+        }
+      ]
+    }
+  ]
+}

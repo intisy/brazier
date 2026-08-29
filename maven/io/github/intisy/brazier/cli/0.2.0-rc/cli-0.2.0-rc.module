@@ -1,0 +1,165 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.intisy.brazier",
+    "module": "cli",
+    "version": "0.2.0-rc",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "cli-0.2.0-rc.jar",
+          "url": "cli-0.2.0-rc.jar",
+          "size": 18026,
+          "sha512": "22615f8d263fb4df325f3b654c72fa2346d7623585c512bdd9fe47bde43291e4326abd6cb2c359b3126039a8043671ef03ef8183eb4910289488f652a005dd29",
+          "sha256": "e0552de919d3c62b04e6e565b4c9fef20a133900da866543afc5d08ede511287",
+          "sha1": "68cf3ed5e672636b8c9341692665e155e838f5cc",
+          "md5": "51aa01bf4b8f31c6385d9725998d0490"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-tooling",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-c-incremental",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "commons-cli",
+          "module": "commons-cli",
+          "version": {
+            "requires": "1.10.0"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-classlib",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-metaprogramming-impl",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        },
+        {
+          "group": "io.github.intisy.brazier",
+          "module": "brazier-jso-impl",
+          "version": {
+            "requires": "0.2.0-rc"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "cli-0.2.0-rc.jar",
+          "url": "cli-0.2.0-rc.jar",
+          "size": 18026,
+          "sha512": "22615f8d263fb4df325f3b654c72fa2346d7623585c512bdd9fe47bde43291e4326abd6cb2c359b3126039a8043671ef03ef8183eb4910289488f652a005dd29",
+          "sha256": "e0552de919d3c62b04e6e565b4c9fef20a133900da866543afc5d08ede511287",
+          "sha1": "68cf3ed5e672636b8c9341692665e155e838f5cc",
+          "md5": "51aa01bf4b8f31c6385d9725998d0490"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "cli-0.2.0-rc-sources.jar",
+          "url": "cli-0.2.0-rc-sources.jar",
+          "size": 7956,
+          "sha512": "74debbf5def36063a42a07deddea575a7b37c01f2f053b0bd715e25ed117fb11cb798408fbb1c532a77b1e67ed80e3f357d29f68ea875c55741dc25bdd5bb6ce",
+          "sha256": "a589cfd10754adc8df2fe6c5ed936bc70cc53a2545597c17774c77abee27f86e",
+          "sha1": "967d63a8ecb741efa373df35777e71c39a1f0f22",
+          "md5": "211180d71582c4e5604b0e9fa25154b1"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "cli-0.2.0-rc-javadoc.jar",
+          "url": "cli-0.2.0-rc-javadoc.jar",
+          "size": 85247,
+          "sha512": "c0b6a951e9bd1f8aa8a1ed5c298d756b1165b9106aebd18972f18aefff68cfcf43487561b71f0dff0af5e94b2d626ed2a32caef4a4b4e5033bd89de672a82746",
+          "sha256": "6784b17ed340f222b0cc6fd5b8c28cb8aad74cadea43a54219570dd6692a7fed",
+          "sha1": "17125de87f253bcb83e42482fa90fed67496b6cb",
+          "md5": "c50f2522a8519cd6ef293476bd421f9f"
+        }
+      ]
+    },
+    {
+      "name": "shadowRuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "shadowed",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "cli-0.2.0-rc-all.jar",
+          "url": "cli-0.2.0-rc-all.jar",
+          "size": 25599895,
+          "sha512": "7e2801ac49a1cc41e6023cbbd5431eea1197179f6faadf781ee465e669358ad897303950075af4bd9362e7abf3cb3a76db0cb89f9d0aeb7c65993f80c4e82189",
+          "sha256": "ed7bcbfa4826da7799bd5788881ad3e44eec2c8686e73d537e1526cc8c2dedcf",
+          "sha1": "460b3800e1a2aa4781d50080506246740611fb3e",
+          "md5": "c51d7e594afbd76126bc60c2629c28bc"
+        }
+      ]
+    }
+  ]
+}
