@@ -19,6 +19,7 @@ package org.teavm.gradle.api;
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import org.gradle.api.Action;
+import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Nested;
 
@@ -40,6 +41,8 @@ public interface TeaVMJSConfiguration extends TeaVMWebConfiguration {
     Property<Boolean> getDeterministicNames();
 
     Property<String> getSharedRuntimeClassesFile();
+
+    ConfigurableFileCollection getSharedRuntimeFromDependencies();
 
     Property<String> getSharedRuntimeManifest();
 

@@ -16,13 +16,10 @@
 package org.teavm.gradle.tasks;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
-import java.util.zip.ZipFile;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.file.RegularFileProperty;
@@ -30,6 +27,7 @@ import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
+import org.teavm.backend.javascript.sharedruntime.JarClassNames;
 import org.teavm.backend.javascript.sharedruntime.SharedClassResolver;
 
 /**
@@ -65,7 +63,7 @@ public abstract class ResolveSharedClassesTask extends DefaultTask {
             }
         }
 
-        var result = SharedClassResolver.resolve(wanted, providedClassNames());
+        var result = SharedClassResolver.resolve(wanted, JarClassNames.read(getClasspath()));
 
         // Written with an explicit newline rather than the platform's: a Windows-written list gets a
         // trailing carriage return on every class name, which then matches nothing downstream.
@@ -80,26 +78,5 @@ public abstract class ResolveSharedClassesTask extends DefaultTask {
             getLogger().lifecycle("No class on the classpath abbreviates to these {}, so they are left out: {}",
                     result.getUnresolved().size(), String.join(", ", result.getUnresolved()));
         }
-    }
-
-    private List<String> providedClassNames() {
-        var names = new TreeSet<String>();
-        for (var file : getClasspath()) {
-            if (!file.isFile() || !file.getName().endsWith(".jar")) {
-                continue;
-            }
-            try (var jar = new ZipFile(file)) {
-                var entries = jar.entries();
-                while (entries.hasMoreElements()) {
-                    var name = entries.nextElement().getName();
-                    if (name.endsWith(".class")) {
-                        names.add(name.substring(0, name.length() - ".class".length()).replace('/', '.'));
-                    }
-                }
-            } catch (IOException e) {
-                throw new UncheckedIOException("Could not read " + file, e);
-            }
-        }
-        return new ArrayList<>(names);
     }
 }
