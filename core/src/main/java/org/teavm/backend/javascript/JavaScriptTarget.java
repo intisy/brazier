@@ -127,6 +127,7 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
     private static final NumberFormat STATS_PERCENT_FORMAT = new DecimalFormat("0.000 %");
     private static final MethodReference CURRENT_THREAD = new MethodReference(Thread.class,
             "currentThread", Thread.class);
+    private static final String MAIN_EXPORT_ALIAS = "$rt_export_main";
 
     private TeaVMTargetController controller;
     private boolean obfuscated = true;
@@ -628,6 +629,9 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
             // leaving them out of the manifest is what makes importing one a gate failure rather
             // than silent state corruption.
             emittedTopLevelAliases.removeAll(RuntimeRenderer.PER_MODULE_NAMES);
+            // A module's entry export names its OWN main, so the runtime's names the runtime's.
+            // Offering it would let a consumer bind the wrong function under a name it also declares.
+            emittedTopLevelAliases.remove(MAIN_EXPORT_ALIAS);
             for (var alias : emittedTopLevelAliases) {
                 exports.add(new ExportedDeclaration(w -> w.append(alias), n -> { }, alias));
             }
@@ -656,7 +660,7 @@ public class JavaScriptTarget implements TeaVMTarget, TeaVMJavaScriptHost {
     }
 
     private void emitMainMethod(ClassReaderSource classes, SourceWriter writer) {
-        var alias = "$rt_export_main";
+        var alias = MAIN_EXPORT_ALIAS;
         var ref = new MethodReference(controller.getEntryPoint(), TeaVM.MAIN_METHOD_DESC);
         var mainMethod = classes.resolve(ref);
         var hasMainMethod = false;
